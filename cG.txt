@@ -1,0 +1,4 @@
+camera roaming + sky box + display text + anti-aliasing//张吉祺
+simple lighting and shading + complex lighting + stencil Test//张星
+Texture mapping + model import and mesh viewing + skeletal animation + 织物模拟//姚雪辉
+shadow mapping +  particle system + Collision Detection* + fluid simulation //朱逸渠
