@@ -1,0 +1,8 @@
+finalProject/Debug
+finalProject/helloworld.sln
+finalProject/helloworld/Debug
+finalProject/helloworld/glad.c
+finalProject/helloworld/*.vcxproj
+finalProject/helloworld/*.vcxproj.filters
+finalProject/helloworld/*.vcxproj.user
+.vs
