@@ -21,6 +21,9 @@
     <ClCompile Include="glad.c">
       <Filter>头文件</Filter>
     </ClCompile>
+    <ClCompile Include="Shadow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="1.model_loading.fs">
@@ -29,5 +32,10 @@
     <None Include="1.model_loading.vs">
       <Filter>源文件</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shadow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

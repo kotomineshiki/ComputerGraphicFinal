@@ -152,10 +152,14 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="model_loading.cpp" />
+    <ClCompile Include="Shadow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="1.model_loading.fs" />
     <None Include="1.model_loading.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shadow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
