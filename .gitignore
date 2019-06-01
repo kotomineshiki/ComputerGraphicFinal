@@ -1,6 +1,7 @@
 # finalProject/Debug
 # finalProject/helloworld.sln
 # finalProject/helloworld/Debug
+finalProject/Include/learnopengl/root_directory.h
 # finalProject/helloworld/glad.c
 # finalProject/helloworld/*.vcxproj
 # finalProject/helloworld/*.vcxproj.filters
