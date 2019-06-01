@@ -88,7 +88,11 @@ int main()
 	//Model ourModel(FileSystem::getPath("resources/objects/palm/Palm_01.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/castle/eastern ancient casttle.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/fish/fish.obj"));
-	Model ourModel(FileSystem::getPath("resources/objects/fish/fish.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
+	Model ourModel(FileSystem::getPath("resources/objects/test/10054_Whale_v2_L3.obj"));
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
