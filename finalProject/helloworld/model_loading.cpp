@@ -140,7 +140,7 @@ int main()
 
         ourShader.setMat4("model", model);
 		ourShader.setInt("texture_diffuse1", 0);
-		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+		glm::vec3 lightPos(5.0f, 5.0f, 0.0f);
 		ourShader.setVec3("lightPos", lightPos);
 		ourShader.setVec3("viewPos", camera.Position);
 
