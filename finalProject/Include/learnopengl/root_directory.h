@@ -1,1 +1,1 @@
-const char * logl_root = "D:/courseMaterial/juniorDown/computer graphics/finalProject/helloworld/";
+const char * logl_root = "D:/courseMaterial/juniorDown/ComputerGraphicFinal/finalProject/helloworld/";

@@ -83,9 +83,13 @@ int main()
 
     // load models
     // -----------
-    Model ourModel(FileSystem::getPath("resources/objects/nanosuit/nanosuit.obj"));
+    //Model ourModel(FileSystem::getPath("resources/objects/nanosuit/nanosuit.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/rose/rose.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/palm/Palm_01.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/castle/eastern ancient casttle.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/fish/fish.obj"));
+	Model ourModel(FileSystem::getPath("resources/objects/fish/fish.obj"));
 
-    
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -105,7 +109,7 @@ int main()
 
         // render
         // ------
-        glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // don't forget to enable shader before setting uniforms
