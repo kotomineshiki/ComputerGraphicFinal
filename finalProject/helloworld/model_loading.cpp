@@ -113,7 +113,7 @@ int main()
 
         // render
         // ------
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // don't forget to enable shader before setting uniforms
@@ -143,6 +143,11 @@ int main()
 		}
 
         ourShader.setMat4("model", model);
+		ourShader.setInt("texture_diffuse1", 0);
+		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+		ourShader.setVec3("lightPos", lightPos);
+		ourShader.setVec3("viewPos", camera.Position);
+
         ourModel.Draw(ourShader);
 
 
