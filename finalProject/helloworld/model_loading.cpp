@@ -22,7 +22,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 100.0f, 100.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -83,18 +83,21 @@ int main()
 
     // load models
     // -----------
-    //Model ourModel(FileSystem::getPath("resources/objects/nanosuit/nanosuit.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/rose/rose.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/palm/Palm_01.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/castle/eastern ancient casttle.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/fish/fish.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/test/10054_Whale_v2_L3.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/shark/source/thanatos.3ds"));
-	Model ourModel(FileSystem::getPath("resources/objects/coralReef3/source/model.obj"));
+	Model rose(FileSystem::getPath("resources/objects/rose/rose.obj"));
+	Model palm(FileSystem::getPath("resources/objects/palm/Palm_01.obj"));
+	//Model castle(FileSystem::getPath("resources/objects/castle/eastern ancient casttle.obj"));
+	Model fish(FileSystem::getPath("resources/objects/fish/fish.obj"));
+	Model fish2(FileSystem::getPath("resources/objects/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"));
+	Model fish3(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj"));
+	Model fish4(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
+	//Model frog(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
+	Model whale(FileSystem::getPath("resources/objects/whale/10054_Whale_v2_L3.obj"));
+	//Model coralReef(FileSystem::getPath("resources/objects/coralReef/source/model.obj"));
+	//Model coralReef2(FileSystem::getPath("resources/objects/coralReef2/source/model.obj"));
+	//Model coralReef3(FileSystem::getPath("resources/objects/coralReef3/source/model.obj"));
+	//Model plant(FileSystem::getPath("resources/objects/plant/model.obj"));
+	//Model seaDragon(FileSystem::getPath("resources/objects/seaDragon/source/model.obj"));
+	//Model turtle(FileSystem::getPath("resources/objects/turtle/model.obj"));
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -115,28 +118,70 @@ int main()
 
         // render
         // ------
-<<<<<<< HEAD
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-=======
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
->>>>>>> b6d4b56235d0d74513f050dfeead9587002f4781
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // don't forget to enable shader before setting uniforms
         ourShader.use();
 
         // view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
         glm::mat4 view = camera.GetViewMatrix();
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
+		ourShader.setInt("texture_diffuse1", 0);
+		glm::vec3 lightPos(0.0f, 0.0f, 5.0f);
+		ourShader.setVec3("lightPos", lightPos);
+		ourShader.setVec3("viewPos", camera.Position);
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		
-		float scaleFactor = abs(sin((float)glfwGetTime()));
+		ourShader.setMat4("model", model);
+		rose.Draw(ourShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+		ourShader.setMat4("model", model);
+		palm.Draw(ourShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-2.0f, 15.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));	// it's a bit too big for our scene, so scale it down
+		ourShader.setMat4("model", model);
+		fish.Draw(ourShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 18.0f, -20.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		ourShader.setMat4("model", model);
+		fish2.Draw(ourShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(20.0f, 30.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		ourShader.setMat4("model", model);
+		fish3.Draw(ourShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-50.0f, 30.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		ourShader.setMat4("model", model);
+		fish4.Draw(ourShader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-50.0f, 180.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		ourShader.setMat4("model", model);
+		whale.Draw(ourShader);
+
+		/*float scaleFactor = abs(sin((float)glfwGetTime()));
 		float transX = sin((float)glfwGetTime()) * 10.0f;
 		if (isLPressed) {
 			model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
@@ -146,16 +191,7 @@ int main()
 		}
 		if (isKPressed) {
 			model = glm::translate(model, glm::vec3(transX, 0.0f, 0.0f));
-		}
-
-        ourShader.setMat4("model", model);
-		ourShader.setInt("texture_diffuse1", 0);
-		glm::vec3 lightPos(0.0f, 0.0f, 5.0f);
-		ourShader.setVec3("lightPos", lightPos);
-		ourShader.setVec3("viewPos", camera.Position);
-
-        ourModel.Draw(ourShader);
-
+		}*/
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -177,13 +213,13 @@ void processInput(GLFWwindow *window)
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboard(FORWARD, deltaTime);
+        camera.ProcessKeyboard(FORWARD, deltaTime*10.0f);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboard(BACKWARD, deltaTime);
+        camera.ProcessKeyboard(BACKWARD, deltaTime*10.0f);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboard(LEFT, deltaTime);
+        camera.ProcessKeyboard(LEFT, deltaTime*10.0f);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(RIGHT, deltaTime);
+        camera.ProcessKeyboard(RIGHT, deltaTime*10.0f);
 	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
 		isJPressed = !isJPressed;
 	}
