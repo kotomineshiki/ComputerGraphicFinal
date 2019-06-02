@@ -92,8 +92,9 @@ int main()
 	//Model ourModel(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
-	Model ourModel(FileSystem::getPath("resources/objects/test/10054_Whale_v2_L3.obj"));
-
+	//Model ourModel(FileSystem::getPath("resources/objects/turtle/10042_Sea_Turtle_V2_iterations-2.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/city/Organodron City.obj"));
+	Model ourModel(FileSystem::getPath("resources/objects/test/Organodron City.obj"));
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -113,7 +114,7 @@ int main()
 
         // render
         // ------
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // don't forget to enable shader before setting uniforms
