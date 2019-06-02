@@ -115,7 +115,11 @@ int main()
 
         // render
         // ------
+<<<<<<< HEAD
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+=======
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+>>>>>>> b6d4b56235d0d74513f050dfeead9587002f4781
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // don't forget to enable shader before setting uniforms
