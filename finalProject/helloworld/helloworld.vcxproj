@@ -159,6 +159,7 @@
     <None Include="1.model_loading.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shadow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -11,7 +11,7 @@
 #include <learnopengl/model.h>
 
 #include <iostream>
-
+#include"SceneManager.h"
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -72,33 +72,8 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
-    // configure global opengl state
-    // -----------------------------
     glEnable(GL_DEPTH_TEST);
-
-    // build and compile shaders
-    // -------------------------
-    Shader ourShader("1.model_loading.vs", "1.model_loading.fs");
-
-    // load models
-    // -----------
-	Model rose(FileSystem::getPath("resources/objects/rose/rose.obj"));
-	Model palm(FileSystem::getPath("resources/objects/palm/Palm_01.obj"));
-	//Model castle(FileSystem::getPath("resources/objects/castle/eastern ancient casttle.obj"));
-	Model fish(FileSystem::getPath("resources/objects/fish/fish.obj"));
-	Model fish2(FileSystem::getPath("resources/objects/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"));
-	Model fish3(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj"));
-	Model fish4(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
-	//Model frog(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
-	Model whale(FileSystem::getPath("resources/objects/whale/10054_Whale_v2_L3.obj"));
-	//Model coralReef(FileSystem::getPath("resources/objects/coralReef/source/model.obj"));
-	//Model coralReef2(FileSystem::getPath("resources/objects/coralReef2/source/model.obj"));
-	//Model coralReef3(FileSystem::getPath("resources/objects/coralReef3/source/model.obj"));
-	//Model plant(FileSystem::getPath("resources/objects/plant/model.obj"));
-	//Model seaDragon(FileSystem::getPath("resources/objects/seaDragon/source/model.obj"));
-	//Model turtle(FileSystem::getPath("resources/objects/turtle/model.obj"));
-
+	SceneManager myScene(&camera);//这个是场景管理器
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -121,77 +96,9 @@ int main()
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // don't forget to enable shader before setting uniforms
-        ourShader.use();
 
-        // view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
-        glm::mat4 view = camera.GetViewMatrix();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
-		ourShader.setInt("texture_diffuse1", 0);
-		glm::vec3 lightPos(0.0f, 0.0f, 5.0f);
-		ourShader.setVec3("lightPos", lightPos);
-		ourShader.setVec3("viewPos", camera.Position);
-
-        // render the loaded model
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		ourShader.setMat4("model", model);
-		rose.Draw(ourShader);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-		ourShader.setMat4("model", model);
-		palm.Draw(ourShader);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-2.0f, 15.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));	// it's a bit too big for our scene, so scale it down
-		ourShader.setMat4("model", model);
-		fish.Draw(ourShader);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 18.0f, -20.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		ourShader.setMat4("model", model);
-		fish2.Draw(ourShader);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(20.0f, 30.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		ourShader.setMat4("model", model);
-		fish3.Draw(ourShader);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-50.0f, 30.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		ourShader.setMat4("model", model);
-		fish4.Draw(ourShader);
-
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-50.0f, 180.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		ourShader.setMat4("model", model);
-		whale.Draw(ourShader);
-
-		/*float scaleFactor = abs(sin((float)glfwGetTime()));
-		float transX = sin((float)glfwGetTime()) * 10.0f;
-		if (isLPressed) {
-			model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
-		}
-		if (isJPressed) {
-			model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		}
-		if (isKPressed) {
-			model = glm::translate(model, glm::vec3(transX, 0.0f, 0.0f));
-		}*/
+        //渲染场景中的所有模型
+		myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
