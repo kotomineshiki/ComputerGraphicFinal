@@ -21,6 +21,8 @@ public:
 	Model whale;
 	Camera* camera;
 	Shader shader1;
+	//Shader shadowShader;
+
 	SceneManager(Camera* input) : rose(FileSystem::getPath("resources/objects/rose/rose.obj")),
 		palm(FileSystem::getPath("resources/objects/palm/Palm_01.obj")),
 		fish(FileSystem::getPath("resources/objects/fish/fish.obj")),
