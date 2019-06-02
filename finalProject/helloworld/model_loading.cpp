@@ -31,9 +31,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-bool isJPressed = false;
-bool isKPressed = false;
-bool isLPressed = false;
 
 int main()
 {
@@ -93,9 +90,10 @@ int main()
 	//Model ourModel(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/turtle/10042_Sea_Turtle_V2_iterations-2.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/city/Organodron City.obj"));
+	Model ourModel(FileSystem::getPath("resources/objects/city/Organodron City.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/landscape/Ocean.obj"));
-	Model ourModel(FileSystem::getPath("resources/objects/test/Ocean.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/test/DOLPHIN.obj"));
+
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -132,17 +130,6 @@ int main()
         model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 		
-		float scaleFactor = abs(sin((float)glfwGetTime()));
-		float transX = sin((float)glfwGetTime()) * 10.0f;
-		if (isLPressed) {
-			model = glm::scale(model, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
-		}
-		if (isJPressed) {
-			model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		}
-		if (isKPressed) {
-			model = glm::translate(model, glm::vec3(transX, 0.0f, 0.0f));
-		}
 
         ourShader.setMat4("model", model);
 		ourShader.setInt("texture_diffuse1", 0);
@@ -180,15 +167,6 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-		isJPressed = !isJPressed;
-	}
-	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
-		isKPressed = !isKPressed;
-	}
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
-		isLPressed = !isLPressed;
-	}
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
