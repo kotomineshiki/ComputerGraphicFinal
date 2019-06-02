@@ -94,7 +94,8 @@ int main()
 	//Model ourModel(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/turtle/10042_Sea_Turtle_V2_iterations-2.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/city/Organodron City.obj"));
-	Model ourModel(FileSystem::getPath("resources/objects/test/Organodron City.obj"));
+	//Model ourModel(FileSystem::getPath("resources/objects/landscape/Ocean.obj"));
+	Model ourModel(FileSystem::getPath("resources/objects/test/Ocean.obj"));
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
