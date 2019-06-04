@@ -79,6 +79,7 @@ int main()
 
     // render loop
     // -----------
+	myScene.InitParticle();//初始化粒子
     while (!glfwWindowShouldClose(window))
     {
         // per-frame time logic
@@ -95,8 +96,8 @@ int main()
         // ------
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
+		Transform debugTransform;
+		myScene.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);
         //渲染场景中的所有模型
 		myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
 

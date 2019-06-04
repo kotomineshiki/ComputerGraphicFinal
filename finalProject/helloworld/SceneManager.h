@@ -10,6 +10,7 @@
 #include <learnopengl/shader_m.h>
 #include <learnopengl/camera.h>
 #include <learnopengl/model.h>
+#include"ParticleGenerator.h"
 class SceneManager{
 public:
 	Model rose;
@@ -21,8 +22,34 @@ public:
 	Model whale;
 	Camera* camera;
 	Shader shader1;
+	Shader particleShader;
+	Texture2D particleTexture;
+	std::shared_ptr<ParticleGenerator> temptation;
 	//Shader shadowShader;
-
+	Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha)//从资源中读入texture
+	{
+		// Create Texture object
+		Texture2D texture;
+		if (alpha) {
+			texture.Internal_Format = GL_RGBA;
+			texture.Image_Format = GL_RGBA;
+		}
+		int nrComponents;
+		// Load image
+		int width, height;
+		unsigned char *image = stbi_load(file, &width, &height, &nrComponents, 0);
+		GLenum format;
+		switch (nrComponents) {
+		case 1:format = GL_RED; break;
+		case 3:format = GL_RGB; break;
+		case 4:format = GL_RGBA; break;
+		}
+		// Now generate texture
+		texture.Generate(width, height, image, format);
+		// And finally free image data
+		stbi_image_free(image);
+		return texture;
+	}
 	SceneManager(Camera* input) : rose(FileSystem::getPath("resources/objects/rose/rose.obj")),
 		palm(FileSystem::getPath("resources/objects/palm/Palm_01.obj")),
 		fish(FileSystem::getPath("resources/objects/fish/fish.obj")),
@@ -30,9 +57,11 @@ public:
 		fish3(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj")),
 		fish4(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj")),
 		whale(FileSystem::getPath("resources/objects/whale/10054_Whale_v2_L3.obj")),
-		shader1("1.model_loading.vs", "1.model_loading.fs")
+		shader1("1.model_loading.vs", "1.model_loading.fs"),
+		particleShader("Particle.vs","Particle.fs")
 	{//初始化这个场景
 		camera = input;
+		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//获取粒子效果所使用的贴图
 	}
 
 	void DrawRose() {
@@ -117,6 +146,17 @@ public:
 		DrawFish3();
 		DrawFish4();
 		DrawWhale();
+		temptation->Draw();
+	}
+	void InitParticle() {
+		temptation = std::make_shared<ParticleGenerator>(//初始化
+			particleShader,
+			particleTexture,
+			800,
+			30,
+			5.0f,
+			1.0 / 5.0f
+			);
 	}
 };
 

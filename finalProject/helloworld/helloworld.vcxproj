@@ -152,15 +152,20 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="model_loading.cpp" />
+    <ClCompile Include="ParticleGenerator.cpp" />
     <ClCompile Include="Shadow.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="1.model_loading.fs" />
     <None Include="1.model_loading.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shadow.h" />
+    <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
