@@ -11,7 +11,7 @@
 #include <learnopengl/model.h>
 
 #include <iostream>
-
+#include"SceneManager.h"
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -22,7 +22,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 100.0f, 100.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -69,9 +69,6 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
-    // configure global opengl state
-    // -----------------------------
     glEnable(GL_DEPTH_TEST);
 
     // build and compile shaders
@@ -92,13 +89,14 @@ int main()
 	//Model ourModel(FileSystem::getPath("resources/objects/turtle/10042_Sea_Turtle_V2_iterations-2.obj"));
 	Model ourModel(FileSystem::getPath("resources/objects/city/Organodron City.obj"));
 	//Model ourModel(FileSystem::getPath("resources/objects/landscape/Ocean.obj"));
-	//Model ourModel(FileSystem::getPath("resources/objects/test/DOLPHIN.obj"));
 
+	SceneManager myScene(&camera);//这个是场景管理器
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // render loop
     // -----------
+	myScene.InitParticle();//初始化粒子
     while (!glfwWindowShouldClose(window))
     {
         // per-frame time logic
@@ -113,7 +111,8 @@ int main()
 
         // render
         // ------
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        //glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // don't forget to enable shader before setting uniforms
@@ -139,6 +138,10 @@ int main()
 
         ourModel.Draw(ourShader);
 
+		Transform debugTransform;
+		myScene.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);
+        //渲染场景中的所有模型
+		myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -160,13 +163,14 @@ void processInput(GLFWwindow *window)
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboard(FORWARD, deltaTime);
+        camera.ProcessKeyboard(FORWARD, deltaTime*10.0f);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboard(BACKWARD, deltaTime);
+        camera.ProcessKeyboard(BACKWARD, deltaTime*10.0f);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboard(LEFT, deltaTime);
+        camera.ProcessKeyboard(LEFT, deltaTime*10.0f);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(RIGHT, deltaTime);
+
+		camera.ProcessKeyboard(RIGHT, deltaTime*10.0f);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
