@@ -15,6 +15,8 @@
 #include  <stdlib.h>    
 #include  <time.h> 
 
+#include"SceneManager.h"
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -34,9 +36,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-bool isJPressed = false;
-bool isKPressed = false;
-bool isLPressed = false;
 
 int main()
 {
@@ -75,9 +74,6 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
-    // configure global opengl state
-    // -----------------------------
     glEnable(GL_DEPTH_TEST);
 
     // build and compile shaders
@@ -103,11 +99,15 @@ int main()
 	Model seaDragon(FileSystem::getPath("resources/objects/seaDragon/source/model.obj"));
 	Model turtle(FileSystem::getPath("resources/objects/turtle/model.obj"));
 
+
+	
+
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // render loop
     // -----------
+
 	srand((unsigned)time(NULL));
 	float randomCoorX[50], randomCoorY[50], randomCoorZ[50];
 	for (int i = 0; i < 50; i++) {
@@ -115,6 +115,11 @@ int main()
 		randomCoorY[i] = rand() / double(RAND_MAX)*100.0f;
 		randomCoorZ[i] = rand() / double(RAND_MAX)*100.0f;
 	}
+
+	SceneManager myScene(&camera);//这个是场景管理器
+
+	myScene.InitParticle();//初始化粒子
+
     while (!glfwWindowShouldClose(window))
     {
         // per-frame time logic
@@ -129,7 +134,8 @@ int main()
 
         // render
         // ------
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        //glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // don't forget to enable shader before setting uniforms
@@ -140,13 +146,9 @@ int main()
         glm::mat4 view = camera.GetViewMatrix();
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
-		ourShader.setInt("texture_diffuse1", 0);
-		glm::vec3 lightPos(0.0f, 0.0f, 5.0f);
-		ourShader.setVec3("lightPos", lightPos);
-		ourShader.setVec3("viewPos", camera.Position);
 
         // render the loaded model
-        glm::mat4 model = glm::mat4(1.0f);
+        /*glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
 		model = glm::scale(model, glm::vec3(500.0f, 500.0f, 500.0f));	// it's a bit too big for our scene, so scale it down
 		ourShader.setMat4("model", model);
@@ -266,7 +268,25 @@ int main()
 		model = glm::translate(model, glm::vec3(-50.0f, 100.0f, 520.0f)); // translate it down so it's at the center of the scene
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
 		ourShader.setMat4("model", model);
-		seaDragon.Draw(ourShader);
+		seaDragon.Draw(ourShader);*/
+        
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+		
+
+        ourShader.setMat4("model", model);
+		ourShader.setInt("texture_diffuse1", 0);
+		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+		ourShader.setVec3("lightPos", lightPos);
+		ourShader.setVec3("viewPos", camera.Position);
+
+        city.Draw(ourShader);
+
+		Transform debugTransform;
+		myScene.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);
+        //渲染场景中的所有模型
+		myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -284,7 +304,6 @@ void processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         camera.ProcessKeyboard(FORWARD, deltaTime*30.0f);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -292,16 +311,7 @@ void processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         camera.ProcessKeyboard(LEFT, deltaTime*30.0f);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(RIGHT, deltaTime*30.0f);
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-		isJPressed = !isJPressed;
-	}
-	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
-		isKPressed = !isKPressed;
-	}
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
-		isLPressed = !isLPressed;
-	}
+		camera.ProcessKeyboard(RIGHT, deltaTime*30.0f);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
