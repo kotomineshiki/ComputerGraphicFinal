@@ -13,7 +13,7 @@
 #include <iostream>
 
 #include  <stdlib.h>    
-#include  <time.h> 
+#include  <time.h>
 
 #include"SceneManager.h"
 
@@ -82,23 +82,22 @@ int main()
 
     // load models
     // -----------
-	//Model rose(FileSystem::getPath("resources/objects/rose/rose.obj"));
-	Model palm(FileSystem::getPath("resources/objects/palm/Palm_01.obj"));
-	//Model castle(FileSystem::getPath("resources/objects/castle/eastern ancient casttle.obj"));
-	Model city(FileSystem::getPath("resources/objects/city/Organodron City.obj"));
-	Model landscape(FileSystem::getPath("resources/objects/landscape/Ocean.obj"));
-	Model fish(FileSystem::getPath("resources/objects/fish/fish.obj"));
-	Model fish2(FileSystem::getPath("resources/objects/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"));
-	Model fish3(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj"));
-	Model fish4(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
-	//Model frog(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
-	Model whale(FileSystem::getPath("resources/objects/whale/10054_Whale_v2_L3.obj"));
-	Model coralReef(FileSystem::getPath("resources/objects/coralReef/source/model.obj"));
-	Model coralReef2(FileSystem::getPath("resources/objects/coralReef2/source/model.obj"));
-	Model coralReef3(FileSystem::getPath("resources/objects/coralReef3/source/model.obj"));
-	Model seaDragon(FileSystem::getPath("resources/objects/seaDragon/source/model.obj"));
-	Model turtle(FileSystem::getPath("resources/objects/turtle/model.obj"));
-
+	////Model rose(FileSystem::getPath("resources/objects/rose/rose.obj"));
+	//Model palm(FileSystem::getPath("resources/objects/palm/Palm_01.obj"));
+	////Model castle(FileSystem::getPath("resources/objects/castle/eastern ancient casttle.obj"));
+	//Model city(FileSystem::getPath("resources/objects/city/Organodron City.obj"));
+	//Model landscape(FileSystem::getPath("resources/objects/landscape/Ocean.obj"));
+	//Model fish(FileSystem::getPath("resources/objects/fish/fish.obj"));
+	//Model fish2(FileSystem::getPath("resources/objects/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"));
+	//Model fish3(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj"));
+	//Model fish4(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
+	////Model frog(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
+	//Model whale(FileSystem::getPath("resources/objects/whale/10054_Whale_v2_L3.obj"));
+	//Model coralReef(FileSystem::getPath("resources/objects/coralReef/source/model.obj"));
+	//Model coralReef2(FileSystem::getPath("resources/objects/coralReef2/source/model.obj"));
+	//Model coralReef3(FileSystem::getPath("resources/objects/coralReef3/source/model.obj"));
+	//Model seaDragon(FileSystem::getPath("resources/objects/seaDragon/source/model.obj"));
+	//Model turtle(FileSystem::getPath("resources/objects/turtle/model.obj"));
 
 	
 
@@ -281,7 +280,7 @@ int main()
 		ourShader.setVec3("lightPos", lightPos);
 		ourShader.setVec3("viewPos", camera.Position);
 
-        city.Draw(ourShader);
+        //city.Draw(ourShader);
 
 		Transform debugTransform;
 		myScene.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);

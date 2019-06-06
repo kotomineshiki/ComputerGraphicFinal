@@ -1,15 +1,6 @@
 #version 330 core
 out vec4 FragColor;
 
-//in vec2 TexCoords;
-
-//uniform sampler2D texture_diffuse1;
-
-//void main()
-//{    
-//    FragColor = texture(texture_diffuse1, TexCoords);
-//}
-
 in VS_OUT {
     vec3 FragPos;
     vec3 Normal;
@@ -39,3 +30,4 @@ void main()
     vec3 specular = vec3(0.3) * spec; // assuming bright white light color
     FragColor = vec4(ambient + diffuse + specular, 1.0);
 }
+
