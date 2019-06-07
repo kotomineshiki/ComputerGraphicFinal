@@ -16,7 +16,7 @@
 #include  <time.h>
 
 #include"SceneManager.h"
-#include"Skybox.h"
+//#include"Skybox.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -118,7 +118,7 @@ int main()
 
 	myScene.InitParticle();//初始化粒子
 
-	Skybox skybox; //天空盒
+//	Skybox skybox; //天空盒
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -274,7 +274,7 @@ int main()
 		//渲染场景中的所有模型
 		myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
 		
-		skybox.Draw(projection, view);
+	//	skybox.Draw(projection, view);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
