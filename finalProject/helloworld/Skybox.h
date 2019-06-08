@@ -1,9 +1,8 @@
-#ifndef SKYBOX_H
-#define SKYBOX_H
+#pragma once
 
 #include <glad/glad.h>
 
-#include <stb_image.h>
+//#include <stb_image.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -23,11 +22,12 @@ public:
     Skybox() :
     // build and compile shaders
     // -------------------------
-    skyboxShader("6.1.skybox.vs", "6.1.skybox.fs")
+    skyboxShader("Skybox.vs", "Skybox.fs")
     {
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
-        float skyboxVertices[] = {
+        float skyboxVertices[] = 
+		{
             // positions          
             -1.0f,  1.0f, -1.0f,
             -1.0f, -1.0f, -1.0f,
@@ -92,14 +92,15 @@ public:
             FileSystem::getPath("resources/textures/skybox/front.jpg"),
             FileSystem::getPath("resources/textures/skybox/back.jpg")
         };
-        unsigned int cubemapTexture = loadCubemap(faces);
+        cubemapTexture = loadCubemap(faces);
 
         // shader configuration
         // --------------------
         skyboxShader.use();
         skyboxShader.setInt("skybox", 0);
     }
-	void drawSkybox(glm::mat4 projection, glm::mat4 view){
+	void Draw(glm::mat4 projection, glm::mat4 view)
+	{
         // draw skybox as last
 		glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 		skyboxShader.use();
@@ -117,6 +118,7 @@ public:
 private:
     Shader skyboxShader;
     unsigned int skyboxVAO, skyboxVBO;
+    unsigned int cubemapTexture;
 };
 
 // loads a cubemap texture from 6 individual texture faces
@@ -157,5 +159,3 @@ unsigned int loadCubemap(vector<std::string> faces)
 
 	return textureID;
 }
-
-#endif
