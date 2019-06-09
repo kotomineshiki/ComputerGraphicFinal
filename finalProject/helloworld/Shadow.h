@@ -24,9 +24,9 @@
 //	unsigned int woodTexture;
 //	unsigned int depthMapFBO;
 //	unsigned int depthMap;
-//	Shadow() :shader("3.1.3.shadow_mapping.vs", "3.1.3.shadow_mapping.fs"),
-//		simpleDepthShader("3.1.3.shadow_mapping_depth.vs", "3.1.3.shadow_mapping_depth.fs"),
-//		debugDepthQuad("3.1.3.debug_quad.vs", "3.1.3.debug_quad_depth.fs"),
+//	Shadow() :shader("shadow_mapping.vs", "shadow_mapping.fs"),
+//		simpleDepthShader("shadow_mapping_depth.vs", "shadow_mapping_depth.fs"),
+//		debugDepthQuad("debug_quad.vs", "debug_quad_depth.fs"),
 //		lightPos(-4.0f, 4.0f, -1.0f) {
 //
 //		// configure depth map FBO

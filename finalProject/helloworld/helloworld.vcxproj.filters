@@ -38,21 +38,33 @@
     <None Include="1.model_loading.vs">
       <Filter>源文件</Filter>
     </None>
+    <None Include="shadow_mapping.vs" />
+    <None Include="shadow_mapping.fs" />
+    <None Include="shadow_mapping_depth.vs" />
+    <None Include="shadow_mapping_depth.fs" />
+    <None Include="debug_quad.vs" />
+    <None Include="debug_quad_depth.fs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shadow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleGenerator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleGenerator.h">
+    <ClInclude Include="Skybox.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
