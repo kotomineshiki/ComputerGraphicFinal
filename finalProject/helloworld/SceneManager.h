@@ -152,7 +152,7 @@ public:
 		temptation = std::make_shared<ParticleGenerator>(//≥ı ºªØ
 			particleShader,
 			particleTexture,
-			800,
+			5,
 			camera,
 			30,
 			5.0f,

@@ -28,7 +28,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-Camera camera(glm::vec3(0.0f, 100.0f, 1000.0f));
+Camera camera(glm::vec3(0.0f, 100.0f, 100.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -266,7 +266,7 @@ int main()
 		ourShader.setVec3("viewPos", camera.Position);
 
 
-		city.Draw(ourShader);
+		//city.Draw(ourShader);
 
 
 		Transform debugTransform;
