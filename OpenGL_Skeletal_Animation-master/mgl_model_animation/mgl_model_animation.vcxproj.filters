@@ -83,8 +83,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
-=======
     <ClInclude Include="ParticleGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -94,7 +92,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
->>>>>>> 62727c2b3fc3c974ba8189486100e18d12ed5033
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>

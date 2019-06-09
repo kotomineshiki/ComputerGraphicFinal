@@ -138,10 +138,7 @@
     <ClInclude Include="math_3d.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
-<<<<<<< HEAD
-=======
     <ClInclude Include="ParticleGenerator.h" />
->>>>>>> 62727c2b3fc3c974ba8189486100e18d12ed5033
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="SkinnedMesh.h" />
