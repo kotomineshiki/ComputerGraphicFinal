@@ -120,11 +120,11 @@ int model_skeletal_animation()
 		simpleShader.setMat4("model", model);
 		landscape.Draw(simpleShader);
 
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-110.0f, -10.0f, -100.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-		simpleShader.setMat4("model", model);
-		city.Draw(simpleShader);
+		//model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+		//simpleShader.setMat4("model", model);
+		//city.Draw(simpleShader);
 
 		//model = glm::mat4(1.0f);
 		//model = glm::translate(model, glm::vec3(225.0f, -30.0f, 230.0f)); // translate it down so it's at the center of the scene
@@ -140,12 +140,12 @@ int model_skeletal_animation()
 		//simpleShader.setMat4("model", model);
 		//coralReef2.Draw(simpleShader);
 
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		simpleShader.setMat4("model", model);
-		coralReef3.Draw(simpleShader);
+		//model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));	// it's a bit too big for our scene, so scale it down
+		//model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//simpleShader.setMat4("model", model);
+		//coralReef3.Draw(simpleShader);
 
 		//SkinnedShader.use();
 		//GLuint m_boneLocation[MAX_BONES];

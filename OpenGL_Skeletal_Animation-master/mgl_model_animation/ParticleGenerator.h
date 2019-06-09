@@ -1,13 +1,13 @@
 #pragma once
 #include <vector>
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <ctime>
-#include <learnopengl/shader_m.h>
 #include"Texture2D.h"
 #include"Transform.h"
-#include<learnopengl/camera.h>
+#include "shader.h"
+#include "camera.h"
 struct Particle {
 	glm::vec3 Position, Velocity;
 	glm::vec4 Color;
