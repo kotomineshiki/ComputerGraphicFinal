@@ -122,10 +122,10 @@
     <ClCompile Include="compileheaderscpp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math_3d.cpp" />
-    <ClCompile Include="model_frame_auto_animation.cpp" />
-    <ClCompile Include="model_skeletal_animation.cpp" />
-    <ClCompile Include="model_loading.cpp" />
     <ClCompile Include="model_frame_animation.cpp" />
+    <ClCompile Include="model_frame_auto_animation.cpp" />
+    <ClCompile Include="model_loading.cpp" />
+    <ClCompile Include="model_skeletal_animation.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
