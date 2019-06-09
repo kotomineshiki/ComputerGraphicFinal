@@ -167,12 +167,9 @@
     <None Include="shadow_mapping_depth.vs" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <ClInclude Include="GameObject.h" />
-=======
     <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="SceneManager.h" />
->>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Texture2D.h" />
