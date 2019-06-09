@@ -32,15 +32,30 @@
     <None Include="1.model_loading.vs">
       <Filter>源文件</Filter>
     </None>
-    <None Include="shadow_mapping.vs" />
-    <None Include="shadow_mapping.fs" />
-    <None Include="shadow_mapping_depth.vs" />
-    <None Include="shadow_mapping_depth.fs" />
-    <None Include="debug_quad.vs" />
-    <None Include="debug_quad_depth.fs" />
+    <None Include="debug_quad.vs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="debug_quad_depth.fs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shadow_mapping.fs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shadow_mapping_depth.fs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shadow_mapping.vs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="shadow_mapping_depth.vs">
+      <Filter>源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shadow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
