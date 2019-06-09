@@ -138,6 +138,7 @@
     <ClInclude Include="math_3d.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="stb_image.h" />
