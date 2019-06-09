@@ -357,11 +357,10 @@
 #include  <time.h>
 #include "GameObject.h"
 
-<<<<<<< HEAD
-=======
+
 #include"SceneManager.h"
 //#include"Skybox.h"
->>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -374,12 +373,9 @@ void RenderQuad();
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-// camera
-<<<<<<< HEAD
+
 Camera camera(glm::vec3(-5.0f, 2.0f, 10.0f));
-=======
-Camera camera(glm::vec3(0.0f, 100.0f, 100.0f));
->>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
+
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
