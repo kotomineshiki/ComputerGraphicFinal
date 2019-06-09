@@ -8,11 +8,16 @@
 #include <vector>
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
-enum Camera_Movement {
+enum Camera_Movement
+{
     FORWARD,
     BACKWARD,
     LEFT,
-    RIGHT
+    RIGHT,
+	TURN_UP,
+	TURN_DOWN,
+	TURN_LEFT,
+	TURN_RIGHT
 };
 
 // Default camera values
@@ -78,6 +83,14 @@ public:
             Position -= Right * velocity;
         if (direction == RIGHT)
             Position += Right * velocity;
+		if (direction == TURN_UP)
+			ProcessMouseMovement(0, 5);
+		if (direction == TURN_DOWN)
+			ProcessMouseMovement(0, -5);
+		if (direction == TURN_LEFT)
+			ProcessMouseMovement(-10, 0);
+		if (direction == TURN_RIGHT)
+			ProcessMouseMovement(10, 0);
     }
 
     // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.

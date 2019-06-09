@@ -357,6 +357,11 @@
 #include  <time.h>
 #include "GameObject.h"
 
+<<<<<<< HEAD
+=======
+#include"SceneManager.h"
+//#include"Skybox.h"
+>>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -370,7 +375,11 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
+<<<<<<< HEAD
 Camera camera(glm::vec3(-5.0f, 2.0f, 10.0f));
+=======
+Camera camera(glm::vec3(0.0f, 100.0f, 100.0f));
+>>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -522,7 +531,11 @@ int main()
 
 	//myScene.InitParticle();//初始化粒子
 
+<<<<<<< HEAD
 	//Skybox skybox; //天空盒
+=======
+//	Skybox skybox; //天空盒
+>>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
 
 	GameObject obj1(false, glm::vec3(-5.0f, 2.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.1f), 5.0f, 0.0f, 180.0f);
 	GameObject obj2(false, glm::vec3(-5.0f, 2.0f, 50.0f), glm::vec3(8.0f, 8.0f, 8.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -0.1f), 5.0f, 0.0f, 180.0f);
@@ -725,13 +738,26 @@ int main()
 
 		//city.Draw(ourShader);
 
+<<<<<<< HEAD
+=======
+		//city.Draw(ourShader);
+>>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
 
 		//Transform debugTransform;
 		//myScene.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);
 		////渲染场景中的所有模型
 		//myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
 
+<<<<<<< HEAD
 		//skybox.drawSkybox(projection, view);
+=======
+		Transform debugTransform;
+		myScene.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);
+		//渲染场景中的所有模型
+		myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
+		
+	//	skybox.Draw(projection, view);
+>>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -757,6 +783,14 @@ void processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(LEFT, deltaTime*30.0f);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime*30.0f);
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		camera.ProcessKeyboard(TURN_UP, 0);
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		camera.ProcessKeyboard(TURN_DOWN, 0);
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		camera.ProcessKeyboard(TURN_LEFT, 0);
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		camera.ProcessKeyboard(TURN_RIGHT, 0);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
