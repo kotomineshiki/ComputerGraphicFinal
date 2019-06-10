@@ -11,7 +11,7 @@
 #include "util.h";
 #include "SkinnedMesh.h"
 #include "GameObject.h"
-
+#include "SceneManager.h"
 #include <iostream>
 #include <filesystem>
 namespace fs = std::experimental::filesystem;
@@ -61,13 +61,13 @@ int model_skeletal_animation()
 	{
 		cout << "glew error";
 	}
-	Shader simpleShader("1.model_loading.vs", "1.model_loading.fs");
+	//Shader simpleShader("1.model_loading.vs", "1.model_loading.fs");
 	//Model nanosuit("resources/Models/nanosuit/nanosuit.obj");
     //Model rose("resources/Models/rose/rose.obj");
 	//Model palm("resources/Models/palm/Palm_01.obj");
 	//Model castle("resources/Models/castle/eastern ancient casttle.obj");
-	Model city("resources/Models/city/Organodron City.obj");
-	Model landscape("resources/Models/landscape/Ocean.obj");
+	/*Model city("resources/Models/city/Organodron City.obj");
+	Model landscape("resources/Models/landscape/Ocean.obj");*/
 	//Model fish("resources/Models/fish/fish.obj");
 	//Model fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj");
 	//Model fish3("resources/Models/fish3/12265_Fish_v1_L2.obj");
@@ -76,7 +76,7 @@ int model_skeletal_animation()
 	//Model whale("resources/Models/whale/10054_Whale_v2_L3.obj");
 	//Model coralReef("resources/Models/coralReef/source/model.obj");
 	//Model coralReef2("resources/Models/coralReef2/source/model.obj");
-	Model coralReef3("resources/Models/coralReef3/source/model.obj");
+	//Model coralReef3("resources/Models/coralReef3/source/model.obj");
 	//Model seaDragon("resources/Models/seaDragon/source/model.obj");
 	//Model turtle("resources/Models/turtle/model.obj");
 	
@@ -89,7 +89,9 @@ int model_skeletal_animation()
 	glm::mat4 model(1.0f);
 
 	Shader SkinnedShader("skinning.vs", "skinning2");
-
+	SceneManager sceneManager(&camera);
+	sceneManager.InitShaders();
+	
 	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//静态小精灵
 	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");守卫,人脸是倒立的,该资源可以不用
 	
@@ -107,18 +109,20 @@ int model_skeletal_animation()
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		simpleShader.use();
+		sceneManager.DrawElements();
 
-		glm::mat4 projectionTest = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3000.0f);
-		glm::mat4 viewTest = camera.GetViewMatrix();
-		simpleShader.setMat4("projection", projectionTest);
-		simpleShader.setMat4("view", viewTest);
+		//simpleShader.use();
 
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(250.0f, 250.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
-		simpleShader.setMat4("model", model);
-		landscape.Draw(simpleShader);
+		//glm::mat4 projectionTest = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3000.0f);
+		//glm::mat4 viewTest = camera.GetViewMatrix();
+		//simpleShader.setMat4("projection", projectionTest);
+		//simpleShader.setMat4("view", viewTest);
+
+		//model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(250.0f, 250.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+		//simpleShader.setMat4("model", model);
+		//landscape.Draw(simpleShader);
 
 		//model = glm::mat4(1.0f);
 		//model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
