@@ -10,6 +10,7 @@
 #include "model.h"
 #include "util.h";
 #include "SkinnedMesh.h"
+#include "GameObject.h"
 
 #include <iostream>
 #include <filesystem>
@@ -60,20 +61,35 @@ int model_skeletal_animation()
 	{
 		cout << "glew error";
 	}
-	Shader ourShaderTest("1.model_loading.vs", "1.model_loading.fs");
-	Model ourModelTest("resources/Models/nanosuit/nanosuit.obj"); 
+	Shader simpleShader("1.model_loading.vs", "1.model_loading.fs");
+	//Model nanosuit("resources/Models/nanosuit/nanosuit.obj");
+    //Model rose("resources/Models/rose/rose.obj");
+	//Model palm("resources/Models/palm/Palm_01.obj");
+	//Model castle("resources/Models/castle/eastern ancient casttle.obj");
+	Model city("resources/Models/city/Organodron City.obj");
+	Model landscape("resources/Models/landscape/Ocean.obj");
+	//Model fish("resources/Models/fish/fish.obj");
+	//Model fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj");
+	//Model fish3("resources/Models/fish3/12265_Fish_v1_L2.obj");
+	//Model fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj");
+	//Model frog("resources/Models/frog/20436_Frog_v1 textured.obj");
+	//Model whale("resources/Models/whale/10054_Whale_v2_L3.obj");
+	//Model coralReef("resources/Models/coralReef/source/model.obj");
+	//Model coralReef2("resources/Models/coralReef2/source/model.obj");
+	Model coralReef3("resources/Models/coralReef3/source/model.obj");
+	//Model seaDragon("resources/Models/seaDragon/source/model.obj");
+	//Model turtle("resources/Models/turtle/model.obj");
 	
-	glm::mat4 modelTest(1.0f);
-	modelTest = glm::scale(modelTest, glm::vec3(0.8f, 0.8f, 0.8f));
-	modelTest = glm::translate(modelTest, glm::vec3(0.0f, 0.0f, 0.0f));
-
-	Shader ourShader("skinning.vs", "skinning2");
-
-	SkinnedMesh ourModel;
 	
-	ourModel.LoadMesh("resources/Models/running/model.dae");//人物跑步动画
-	//ourModel.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");//鸟人动画
-	//ourModel.LoadMesh("resources/Models/test/chicken/1.fbx");小鸡动画
+	//SkinnedMesh running, harpyCat, chicken;
+	//running.LoadMesh("resources/Models/running/model.dae");//人物跑步动画
+	//harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");//鸟人动画
+	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//小鸡动画
+
+	glm::mat4 model(1.0f);
+
+	Shader SkinnedShader("skinning.vs", "skinning2");
+
 	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//静态小精灵
 	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");守卫,人脸是倒立的,该资源可以不用
 	
@@ -90,51 +106,78 @@ int model_skeletal_animation()
 
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		ourShaderTest.use();
+		
+		simpleShader.use();
 
-		glm::mat4 projectionTest = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 projectionTest = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3000.0f);
 		glm::mat4 viewTest = camera.GetViewMatrix();
-		ourShaderTest.setMat4("projection", projectionTest);
-		ourShaderTest.setMat4("view", viewTest);
-		modelTest = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-		ourShaderTest.setMat4("model", modelTest);
-		ourModelTest.Draw(ourShaderTest);
+		simpleShader.setMat4("projection", projectionTest);
+		simpleShader.setMat4("view", viewTest);
 
-		ourShader.use();
-		GLuint m_boneLocation[MAX_BONES];
-		for (unsigned int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(m_boneLocation); i++) {
-			char Name[128];
-			memset(Name, 0, sizeof(Name));
-			SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(250.0f, 250.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+		simpleShader.setMat4("model", model);
+		landscape.Draw(simpleShader);
 
-			m_boneLocation[i] = glGetUniformLocation(ourShader.ID, Name);
-		}
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-110.0f, -10.0f, -100.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+		simpleShader.setMat4("model", model);
+		city.Draw(simpleShader);
 
-		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
-		vector<Matrix4f> Transforms;
-
-		ourModel.BoneTransform(RunningTime, Transforms);
-
-		for (uint i = 0; i < Transforms.size(); i++) {
-			//m_pEffect->SetBoneTransform(i, Transforms[i]);
-			glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
-		}
-
-
-
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 model(1.0f);
-		//model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
-		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
+		//model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(225.0f, -30.0f, 230.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
 		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		ourShader.setMat4("projection", projection);
-		ourShader.setMat4("view", view);
-		ourShader.setMat4("model", model);
+		//simpleShader.setMat4("model", model);
+		//coralReef.Draw(simpleShader);
 
+		//model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//simpleShader.setMat4("model", model);
+		//coralReef2.Draw(simpleShader);
 
-		ourModel.Render();
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		simpleShader.setMat4("model", model);
+		coralReef3.Draw(simpleShader);
+
+		//SkinnedShader.use();
+		//GLuint m_boneLocation[MAX_BONES];
+		//for (unsigned int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(m_boneLocation); i++) {
+		//	char Name[128];
+		//	memset(Name, 0, sizeof(Name));
+		//	SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
+
+		//	m_boneLocation[i] = glGetUniformLocation(SkinnedShader.ID, Name);
+		//}
+
+		//float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
+		//vector<Matrix4f> Transforms;
+
+		//harpyCat.BoneTransform(RunningTime, Transforms);
+
+		//for (uint i = 0; i < Transforms.size(); i++) {
+		//	//m_pEffect->SetBoneTransform(i, Transforms[i]);
+		//	glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
+		//}
+
+		//glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3000.0f);
+		//glm::mat4 view = camera.GetViewMatrix();
+		//glm::mat4 model(1.0f);
+		////model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		//model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
+		////model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//SkinnedShader.setMat4("projection", projection);
+		//SkinnedShader.setMat4("view", view);
+		//SkinnedShader.setMat4("model", model);
+		//harpyCat.Render();
 		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
