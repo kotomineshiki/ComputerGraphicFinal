@@ -35,7 +35,27 @@ public:
 	//when two objects have collided, the lock is set to true to avoid detecting multiple collision; when they are far away from each other. the lock will be set to false.
 	bool lock;
 
-	GameObject(bool Stuck, glm::vec3 Pos, glm::vec3 Scale, glm::vec3 RotateAxis, glm::vec3 Velocity, float Radius, float RadiansForward, float RadiansBack) : isStuck(Stuck), position(Pos), scale(Scale), rotateAxis(RotateAxis), velocity(Velocity), radius(Radius), radiansForward(RadiansForward), radiansBack(RadiansBack), For_Back(1), isCollided(false), lock(false) {}
+	GameObject() {}
+	GameObject(bool Stuck, glm::vec3 Pos, glm::vec3 Scale, glm::vec3 RotateAxis, 
+		glm::vec3 Velocity, float Radius, float RadiansForward, float RadiansBack) : isStuck(Stuck), 
+		position(Pos), scale(Scale), rotateAxis(RotateAxis), velocity(Velocity), radius(Radius), 
+		radiansForward(RadiansForward), radiansBack(RadiansBack), For_Back(1), isCollided(false), lock(false) {}
+	
+	void setObject(bool Stuck, glm::vec3 Pos, glm::vec3 Scale, glm::vec3 RotateAxis,
+		glm::vec3 Velocity, float Radius, float RadiansForward, float RadiansBack) {
+		this->isStuck = Stuck;
+		this->position = Pos;
+		this->scale = Scale;
+		this->rotateAxis = RotateAxis;
+		this->velocity = Velocity;
+		this->radius = Radius;
+		this->radiansForward = RadiansForward;
+		this->radiansBack = RadiansBack;
+		this->For_Back = 1;
+		this->isCollided = false;
+		this->lock = false;
+	}
+
 	bool static DetectCollision(GameObject &one, GameObject &two) {
 		glm::vec3 difference = one.position - two.position;
 		if (glm::length(difference) < one.radius + two.radius) {
@@ -47,7 +67,7 @@ public:
 		//if the object can move
 		if (!this->isStuck) {
 			//if the object has collided with other object or reach the boundary of the map
-			if ((isCollided && !lock) || this->position.x <= -100.0f || this->position.x >= 100.0f || this->position.z <= -100.0f || this->position.z >= 100.0f)
+			if ((isCollided && !lock) || this->position.x - this->radius <= -500.0f || this->position.x + this->radius >= 500.0f || this->position.z - this->radius <= -350.0f || this->position.z + this->radius >= 500.0f)
 			{
 				this->velocity = -this->velocity;
 				this->For_Back = -this->For_Back;
