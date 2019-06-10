@@ -317,8 +317,8 @@ public:
 		shader1.setMat4("view", view);
 		shader1.setInt("texture_diffuse1", 0);
 		glm::vec3 lightPos(0.0f, 0.0f, 5.0f);
-		shader1.setVec3("lightPos", lightPos);
-		shader1.setVec3("viewPos", camera->Position);
+	//	shader1.setVec3("lightPos", lightPos);
+	//	shader1.setVec3("viewPos", camera->Position);
 	}
 	void DrawElements() {//严格来说函数指针似乎更好
 		InitShaders();
@@ -336,7 +336,7 @@ public:
 		DrawSeaDragon();
 		DrawTurtle();
 		DrawWhale();
-		//temptation->Draw();
+		temptation->Draw();
 	}
 	void InitParticle() {
 		temptation = std::make_shared<ParticleGenerator>(//初始化
