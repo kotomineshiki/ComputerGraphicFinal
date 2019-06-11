@@ -109,5 +109,7 @@
     <None Include="1.model_loading.fs">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="stencilTest.vs" />
+    <None Include="stencilTest.fs" />
   </ItemGroup>
 </Project>

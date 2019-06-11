@@ -154,6 +154,8 @@
     <None Include="1.model_loading.vs" />
     <None Include="skinning.vs" />
     <None Include="skinning2" />
+    <None Include="stencilTest.fs" />
+    <None Include="stencilTest.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
