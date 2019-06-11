@@ -324,14 +324,14 @@ public:
 		DrawFish3();
 		DrawFish4();*/
 		//DrawCity();
-		DrawLandscape();
+		//DrawLandscape();
 		//DrawCoralReef();
 		//DrawCoralReef2();
 		//DrawCoralReef3();
 		//DrawSeaDragon();
 		//DrawTurtle();
 		DrawWhale();
-		//temptation->Draw();
+		temptation->Draw();
 	}
 	void InitParticle() {
 		temptation = std::make_shared<ParticleGenerator>(//≥ı ºªØ

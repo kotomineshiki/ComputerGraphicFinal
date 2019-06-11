@@ -97,7 +97,7 @@ int model_skeletal_animation()
 	float m_startTime = glfwGetTime();
 	SceneManager sceneManager(&camera);
 	glEnable(GL_DEPTH_TEST);
-
+	sceneManager.InitParticle();
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -108,7 +108,9 @@ int model_skeletal_animation()
 
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
+		Transform debugTransform;
+		sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//更新粒子信息
 		sceneManager.DrawElements();
 
 		//simpleShader.use();

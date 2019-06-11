@@ -26,8 +26,8 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 		p.Life -= dt; // reduce life
 		if (p.Life > 0.0f)
 		{	// particle is alive, thus update
-			GLfloat k = 1;//粘滞阻力
-			glm::vec3 acce = p.Velocity*k + glm::vec3(0,-10,0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
+			GLfloat k = 10;//粘滞阻力系数
+			glm::vec3 acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0,10,0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
 			p.scale = pow(double(23/(10*(100.0-p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
 
 
@@ -35,7 +35,7 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 			p.Position += p.Velocity * dt;
 
 
-			p.Color.a -= dt * a_atten;
+		//	p.Color.a -= dt * a_atten;
 		//	std::cout << "life" << p.Life << " " << p.Velocity.x << " " << p.Velocity.y << " " << p.Velocity.z << std::endl;
 		}
 	}
@@ -80,7 +80,7 @@ void ParticleGenerator::Draw()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 	}
-	std::cout << "***DFSDFSDF****" << std::endl;
+	std::cout << "***DFSDFSDF****" <<particles.size()<< std::endl;
 	glBindVertexArray(0);
 	glUseProgram(0);
 	// Don't forget to reset to default blending mode
@@ -187,7 +187,7 @@ GLuint ParticleGenerator::firstUnusedParticle()
 	for (GLuint i = 0; i < this->amount; ++i) {
 		if (this->particles[i].Life <= 0.0f) {
 		//	lastUsedParticle = i;
-			return i;
+			return i;//这个粒子需要被更新
 		}
 	}
 	// Otherwise, do a linear search，在Last之后未找到有被杀死的粒子
