@@ -26,7 +26,15 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 		p.Life -= dt; // reduce life
 		if (p.Life > 0.0f)
 		{	// particle is alive, thus update
-			p.Position -= p.Velocity * dt;
+			GLfloat k = 1;//粘滞阻力
+			glm::vec3 acce = p.Velocity*k + glm::vec3(0,-10,0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
+			p.scale = pow(double(23/(10*(100.0-p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
+
+
+			p.Velocity += acce * dt;//动力学方程
+			p.Position += p.Velocity * dt;
+
+
 			p.Color.a -= dt * a_atten;
 		//	std::cout << "life" << p.Life << " " << p.Velocity.x << " " << p.Velocity.y << " " << p.Velocity.z << std::endl;
 		}
@@ -210,6 +218,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 //	particle.Position = object.Position + random + offset;
 	particle.Life = life;
 	particle.Velocity = glm::vec3(random1 , random2 , random3 );
+
 	//particle.Velocity = glm::vec3(1.0f, 1.0f, 1.0f);
 /*	if (way == 1) {
 		particle.Velocity = object.Velocity * 0.2f;

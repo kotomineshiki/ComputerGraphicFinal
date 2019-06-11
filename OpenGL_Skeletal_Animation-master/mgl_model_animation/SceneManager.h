@@ -332,7 +332,7 @@ public:
 		//DrawSeaDragon();
 		//DrawTurtle();
 		DrawWhale();
-		//temptation->Draw();
+		temptation->Draw();
 	}
 	void InitParticle() {
 		temptation = std::make_shared<ParticleGenerator>(//≥ı ºªØ
