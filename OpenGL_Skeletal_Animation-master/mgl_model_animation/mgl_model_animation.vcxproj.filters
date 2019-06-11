@@ -109,5 +109,15 @@
     <None Include="1.model_loading.fs">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="stencilTest.vs" />
+    <None Include="stencilTest.fs" />
+    <None Include="debug_quad.vs" />
+    <None Include="debug_quad_depth.fs" />
+    <None Include="shadow_mapping.fs" />
+    <None Include="shadow_mapping.vs" />
+    <None Include="shadow_mapping_depth.fs" />
+    <None Include="shadow_mapping_depth.vs" />
+    <None Include="shadow_mapping_dynamic.vs" />
+    <None Include="shadow_mapping_dynamic.fs" />
   </ItemGroup>
 </Project>

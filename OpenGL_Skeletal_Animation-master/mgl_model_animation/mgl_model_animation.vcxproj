@@ -152,8 +152,18 @@
   <ItemGroup>
     <None Include="1.model_loading.fs" />
     <None Include="1.model_loading.vs" />
+    <None Include="debug_quad.vs" />
+    <None Include="debug_quad_depth.fs" />
+    <None Include="shadow_mapping.fs" />
+    <None Include="shadow_mapping.vs" />
+    <None Include="shadow_mapping_depth.fs" />
+    <None Include="shadow_mapping_depth.vs" />
+    <None Include="shadow_mapping_dynamic.fs" />
+    <None Include="shadow_mapping_dynamic.vs" />
     <None Include="skinning.vs" />
     <None Include="skinning2" />
+    <None Include="stencilTest.fs" />
+    <None Include="stencilTest.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
