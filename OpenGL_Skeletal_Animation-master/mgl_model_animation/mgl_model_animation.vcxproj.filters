@@ -117,5 +117,7 @@
     <None Include="shadow_mapping.vs" />
     <None Include="shadow_mapping_depth.fs" />
     <None Include="shadow_mapping_depth.vs" />
+    <None Include="shadow_mapping_dynamic.vs" />
+    <None Include="shadow_mapping_dynamic.fs" />
   </ItemGroup>
 </Project>
