@@ -16,7 +16,7 @@
 #include "GameObject.h"
 #include <time.h>
 #include <stdlib.h>
-
+#include"Wave.h"
 class SceneManager{
 public:
 	/*Model palm;
@@ -33,7 +33,7 @@ public:
 
 	//Model seaDragon;
 	//Model turtle;
-
+	Wave testWave;
 	GameObject fishObj[50];
 	GameObject fishObj2[50];
 	GameObject fishObj3[50];
@@ -51,6 +51,7 @@ public:
 	Shader particleShader;
 	Shader stencilShader;
 	Shader shadowShader;
+	Shader waveShader;
 	Shader shadowDepthShader;
 	Shader shadowDebugShader;
 	Shader dynamicShadowShader;
@@ -104,6 +105,7 @@ public:
 		turtle("resources/Models/turtle/model.obj"),*/
 		shader1("1.model_loading.vs", "1.model_loading.fs"),
 		shader2("skinning.vs", "skinning2"),
+		waveShader("wave.vs","wave.fs"),
 		particleShader("Particle.vs", "Particle.fs"),
 		stencilShader("stencilTest.vs", "stencilTest.fs"),
 		shadowShader("shadow_mapping.vs", "shadow_mapping.fs"),
@@ -287,6 +289,9 @@ public:
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+		double time = glfwGetTime();
+		std::cout << time << endl;
+		shader.setFloat("time", time);
 		shader.setMat4("model", model);
 		landscape.Draw(shader);
 	}
@@ -439,7 +444,7 @@ public:
 		//DrawFish3(shadowDepthShader);
 		//DrawFish4(shadowDepthShader);
 		//DrawCity(shadowDepthShader);
-		DrawLandscape(shadowDepthShader);
+	//	DrawLandscape(shadowDepthShader);
 		//DrawCoralReef(shadowDepthShader);
 		//DrawCoralReef2(shadowDepthShader);
 		//DrawCoralReef3(shadowDepthShader);
@@ -455,15 +460,16 @@ public:
 		//DrawFish3(shadowShader);
 		//DrawFish4(shadowShader);
 		//DrawCity(shadowShader);
-		DrawLandscape(shadowShader);
+		//DrawLandscape(waveShader);
 		//DrawCoralReef(shadowShader);
 		//DrawCoralReef2(shadowShader);
 		//DrawCoralReef3(shadowShader);
 		//DrawSeaDragon(shadowShader);
 		//DrawTurtle(shadowShader);
-
+		testWave.Update();
+		testWave.DrawLandscape(shadowShader);
 		InitShaders3();
-		DrawWhale(dynamicShadowShader);
+	//	DrawWhale(dynamicShadowShader);
 
 		float near_plane = 0.1f, far_plane = 3000.0f;
 		shadowDebugShader.use();

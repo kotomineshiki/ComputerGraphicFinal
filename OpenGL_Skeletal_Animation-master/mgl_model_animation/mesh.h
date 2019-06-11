@@ -59,6 +59,7 @@ public:
 	// render the mesh
 	void Draw(Shader shader)
 	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		// bind appropriate textures
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
