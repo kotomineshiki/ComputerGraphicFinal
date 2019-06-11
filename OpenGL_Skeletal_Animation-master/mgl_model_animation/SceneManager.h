@@ -30,19 +30,20 @@ public:
 	//Model coralReef;
 	///*Model coralReef2;
 	//Model coralReef3;*/
+
 	//Model seaDragon;
 	//Model turtle;
 
-	GameObject fishObj[50];
-	GameObject fishObj2[50];
-	GameObject fishObj3[50];
-	GameObject fishObj4[50];
-	GameObject cityObj;
-	GameObject coralReefObj;
-	GameObject coralReefObj2;
-	GameObject coralReefObj3;
-	GameObject seaDragonObj;
-	GameObject turtleObj;
+	//GameObject fishObj[50];
+	//GameObject fishObj2[50];
+	//GameObject fishObj3[50];
+	//GameObject fishObj4[50];
+	//GameObject cityObj;
+	//GameObject coralReefObj;
+	//GameObject coralReefObj2;
+	//GameObject coralReefObj3;
+	//GameObject seaDragonObj;
+	//GameObject turtleObj;
 
 	Camera* camera;
 	Shader shader1;
@@ -112,7 +113,7 @@ public:
 		z[2] = 280.0f;
 		m_startTime = glfwGetTime();
 
-		for (int i = 0; i < 50; i++) {
+		/*for (int i = 0; i < 50; i++) {
 			fishObj[i].setObject(false, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i]), glm::vec3(2.5f, 2.5f, 2.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 2.5f, 0.0f, 180.0f);
 			fishObj2[i].setObject(false, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i]), glm::vec3(6.0f, 6.0f, 6.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.5f), 6.0f, 0.0f, 180.0f);
 			fishObj3[i].setObject(false, glm::vec3(200.0f + randomCoorX[i], 200.0f + randomCoorY[i], 250.0f + randomCoorZ[i]), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(-1.5f, 0.0f, 0.0f), 0.5f, 0.0f, 180.0f);
@@ -126,7 +127,7 @@ public:
 
 		seaDragonObj.setObject(false, glm::vec3(-100.0f, 100.0f, 290.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 10.0f, 0.0f, 180.0f);
 		turtleObj.setObject(false, glm::vec3(100.0f, 30.0f, 250.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 10.0f, 0.0f, 180.0f);
-	}
+	*/}
 
 	//void DrawRose() {
 	//	glm::mat4 model = glm::mat4(1.0f);
@@ -248,7 +249,6 @@ public:
 	//	city.Draw(shader1);
 	//}
 	void DrawLandscape() {
-		shader1.use();
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down

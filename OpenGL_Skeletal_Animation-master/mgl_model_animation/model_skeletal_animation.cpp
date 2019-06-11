@@ -89,15 +89,15 @@ int model_skeletal_animation()
 	//glm::mat4 model(1.0f);
 
 	//Shader SkinnedShader("skinning.vs", "skinning2");
-	SceneManager sceneManager(&camera);
-	sceneManager.InitShaders();
 	
 	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//静态小精灵
 	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");守卫,人脸是倒立的,该资源可以不用
 	
 	static const uint MAX_BONES = 100;
 	float m_startTime = glfwGetTime();
+	SceneManager sceneManager(&camera);
 	glEnable(GL_DEPTH_TEST);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
