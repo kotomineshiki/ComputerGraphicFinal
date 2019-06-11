@@ -239,13 +239,13 @@ public:
 	//}
 	void DrawWhale(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::mat4(1.0f);
-		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(150.0f, 100.0f, 100.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-		//model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
+		//model = glm::mat4(1.0f);
+		//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(150.0f, 100.0f, 100.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
 		shader.setMat4("model", model);
 		whale.Render();
 	}
@@ -445,7 +445,7 @@ public:
 		//DrawCoralReef3(shadowDepthShader);
 		//DrawSeaDragon(shadowDepthShader);
 		//DrawTurtle(shadowDepthShader);
-		//DrawWhale(shadowDepthShader);
+		DrawWhale(shadowDepthShader);
 
 		InitShaders2();
 
