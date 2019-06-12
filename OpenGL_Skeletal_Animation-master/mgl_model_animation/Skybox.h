@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <shader.h>
+#include "shader.h"
 #include <iostream>
 
 unsigned int loadCubemap(vector<std::string> faces);

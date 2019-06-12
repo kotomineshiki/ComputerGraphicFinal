@@ -12,8 +12,6 @@
 #include "SkinnedMesh.h"
 #include "GameObject.h"
 #include "SceneManager.h"
-#include "Text.h"
-#include"Skybox.h"
 #include <iostream>
 #include <filesystem>
 namespace fs = std::experimental::filesystem;
@@ -107,13 +105,6 @@ int model_skeletal_animation()
 	glEnable(GL_DEPTH_TEST);
 	//sceneManager.InitParticle();
 
-	// Initialize text
-	Text text;
-	Shader shaderText("Text.vs", "Text.fs");
-	text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
-	
-	Skybox skybox;
-
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -162,10 +153,6 @@ int model_skeletal_animation()
 		//SkinnedShader.setMat4("view", view);
 		//SkinnedShader.setMat4("model", model);
 		//harpyCat.Render();
-		
-		skybox.Draw(projection, view);
-		// text effect, should be rendered at last
-		text.drawSample(shaderText, SCR_WIDTH, SCR_HEIGHT);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

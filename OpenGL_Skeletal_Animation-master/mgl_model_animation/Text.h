@@ -22,7 +22,7 @@ public:
 	void drawCommand(Shader shaderText);
 	void drawEnd1(Shader shaderText, float screenwith, float screenheight);
 	void drawEnd2(Shader shaderText, float screenwith, float screenheight);
-
+	void drawSample(Shader shaderText, float screenwith, float screenheight);
 private:
 
 	struct Character {

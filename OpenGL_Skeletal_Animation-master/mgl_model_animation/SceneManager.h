@@ -11,6 +11,8 @@
 #include"model.h"
 #include"ParticleGenerator.h"
 #include "GameObject.h"
+#include "Skybox.h"
+#include "Text.h"
 #include <time.h>
 #include <stdlib.h>
 
@@ -65,6 +67,9 @@ public:
 	const unsigned int SCR_HEIGHT = 600;
 	float near_plane = -500.0f, far_plane = 500.0f;
 	glm::vec3 lightPos;
+	Text text;
+	Shader shaderText;
+	Skybox skybox;
 	Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha)//����Դ�ж���texture
 	{
 		// Create Texture object
@@ -173,6 +178,10 @@ public:
 		dynamicShadowShader.setInt("shadowMap", 1);
 
 		lightPos = glm::vec3(-110.0f, 200.0f, -200.0f);
+
+		// Initialize text
+		Shader shaderText("Text.vs", "Text.fs");
+		text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
 	}
 
 	//void DrawPalm(const Shader &shader) {
@@ -395,6 +404,8 @@ public:
 		shadowShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+		skybox.Draw(projection, view);
 	}
 	void InitShaders3() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -511,6 +522,8 @@ public:
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		
+		// text effect, should be rendered at last
+		text.drawSample(shaderText, SCR_WIDTH, SCR_HEIGHT);
 		//temptation->Draw();
 	}
 	void InitParticle() {
