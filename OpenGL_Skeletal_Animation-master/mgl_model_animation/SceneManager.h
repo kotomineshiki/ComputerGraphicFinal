@@ -180,7 +180,7 @@ public:
 		lightPos = glm::vec3(-110.0f, 200.0f, -200.0f);
 
 		// Initialize text
-		Shader shaderText("Text.vs", "Text.fs");
+		shaderText("Text.vs", "Text.fs");
 		text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
 	}
 
