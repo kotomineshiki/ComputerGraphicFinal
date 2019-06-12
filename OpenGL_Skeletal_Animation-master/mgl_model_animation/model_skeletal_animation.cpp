@@ -54,7 +54,7 @@ int model_skeletal_animation()
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
@@ -112,48 +112,9 @@ int model_skeletal_animation()
 		
 
 		Transform debugTransform;
-		sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//更新粒子信息
+		//sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//更新粒子信息
 		sceneManager.DrawElements();
 
-		//simpleShader.use();
-
-		//glm::mat4 projectionTest = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3000.0f);
-		//glm::mat4 viewTest = camera.GetViewMatrix();
-		//simpleShader.setMat4("projection", projectionTest);
-		//simpleShader.setMat4("view", viewTest);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(250.0f, 250.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
-		//simpleShader.setMat4("model", model);
-		//landscape.Draw(simpleShader);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-		//simpleShader.setMat4("model", model);
-		//city.Draw(simpleShader);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(225.0f, -30.0f, 230.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//simpleShader.setMat4("model", model);
-		//coralReef.Draw(simpleShader);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//simpleShader.setMat4("model", model);
-		//coralReef2.Draw(simpleShader);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));	// it's a bit too big for our scene, so scale it down
-		//model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//simpleShader.setMat4("model", model);
-		//coralReef3.Draw(simpleShader);
 
 		//SkinnedShader.use();
 		//GLuint m_boneLocation[MAX_BONES];
