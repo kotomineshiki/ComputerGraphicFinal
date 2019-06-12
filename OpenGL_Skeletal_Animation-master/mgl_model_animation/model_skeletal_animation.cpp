@@ -83,7 +83,7 @@ int model_skeletal_animation()
 	
 	//SkinnedMesh running, harpyCat, chicken;
 	//running.LoadMesh("resources/Models/running/model.dae");//人物跑步动画
-	//harpyCat.LoadMesh("resources/Models/Humpback whale/5.fbx");//鸟人动画
+	//harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");//鸟人动画
 	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//小鸡动画
 
 	//glm::mat4 model(1.0f);
@@ -139,15 +139,44 @@ int model_skeletal_animation()
 		//glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3000.0f);
 		//glm::mat4 view = camera.GetViewMatrix();
 		//glm::mat4 model(1.0f);
-		//model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		////model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
 		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		//model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		////model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		//SkinnedShader.setMat4("projection", projection);
 		//SkinnedShader.setMat4("view", view);
 		//SkinnedShader.setMat4("model", model);
 		//harpyCat.Render();
-		
+
+		//GLuint m_boneLocation1[MAX_BONES];
+		//for (unsigned int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(m_boneLocation); i++) {
+		//	char Name[128];
+		//	memset(Name, 0, sizeof(Name));
+		//	SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
+
+		//	m_boneLocation[i] = glGetUniformLocation(SkinnedShader.ID, Name);
+		//}
+
+		//RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
+		//vector<Matrix4f> Transforms1;
+
+		//running.BoneTransform(RunningTime, Transforms1);
+
+		//for (uint i = 0; i < Transforms1.size(); i++) {
+		//	//m_pEffect->SetBoneTransform(i, Transforms[i]);
+		//	glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms1[i]);
+		//}
+		//
+		//model = glm::mat4(1.0f);
+		////model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		//model = glm::translate(model, glm::vec3(10.0f, -1.0f, 0.0f));
+		////model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//SkinnedShader.setMat4("projection", projection);
+		//SkinnedShader.setMat4("view", view);
+		//SkinnedShader.setMat4("model", model);
+		//running.Render();
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

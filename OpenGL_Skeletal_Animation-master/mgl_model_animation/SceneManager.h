@@ -112,7 +112,7 @@ public:
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs")
 	{//初始化这个场景
-		//whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
+		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
 		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//获取粒子效果所使用的贴图
@@ -241,19 +241,36 @@ public:
 	//		fish4.Draw(shader);
 	//	}
 	//}
-	//void DrawWhale(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	model = glm::mat4(1.0f);
-	//	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//	//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
-	//	//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-	//	model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//	model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
-	//	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
-	//	shader.setMat4("model", model);
-	//	whale.Render();
-	//}
+	void DrawWhale(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::mat4(1.0f);
+		//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		whale.Render();
+	}
 	void DrawHarpyCat(const Shader &shader) {
+		GLuint m_boneLocation[MAX_BONES];
+		for (unsigned int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(m_boneLocation); i++) {
+			char Name[128];
+			memset(Name, 0, sizeof(Name));
+			SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
+
+			m_boneLocation[i] = glGetUniformLocation(shader.ID, Name);
+		}
+		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
+		vector<Matrix4f> Transforms;
+		harpyCat.BoneTransform(RunningTime, Transforms);
+
+		for (uint i = 0; i < Transforms.size(); i++) {
+			//m_pEffect->SetBoneTransform(i, Transforms[i]);
+			glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
+		}
+
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::mat4(1.0f);
 		//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -425,12 +442,11 @@ public:
 
 			m_boneLocation[i] = glGetUniformLocation(dynamicShadowShader.ID, Name);
 		}
-
 		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
 		vector<Matrix4f> Transforms;
 
 		whale.BoneTransform(RunningTime, Transforms);
-		harpyCat.BoneTransform(RunningTime, Transforms);
+		//harpyCat.BoneTransform(RunningTime, Transforms);
 
 		for (uint i = 0; i < Transforms.size(); i++) {
 			//m_pEffect->SetBoneTransform(i, Transforms[i]);
@@ -449,12 +465,11 @@ public:
 
 			m_boneLocation[i] = glGetUniformLocation(shadowDepthShaderDynamic.ID, Name);
 		}
-
 		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
 		vector<Matrix4f> Transforms;
 
 		whale.BoneTransform(RunningTime, Transforms);
-		harpyCat.BoneTransform(RunningTime, Transforms);
+		//harpyCat.BoneTransform(RunningTime, Transforms);
 
 		for (uint i = 0; i < Transforms.size(); i++) {
 			//m_pEffect->SetBoneTransform(i, Transforms[i]);
@@ -478,8 +493,11 @@ public:
 
 		
 		InitDynamicDepthShader();
-		//DrawWhale(shadowDepthShaderDynamic);
+		DrawWhale(shadowDepthShaderDynamic);
+
 		DrawHarpyCat(shadowDepthShaderDynamic);
+		
+		
 
 		InitShaders2();
 
@@ -497,9 +515,10 @@ public:
 		DrawTurtle(shadowShader);*/
 
 		InitShaders3();
-		//DrawWhale(dynamicShadowShader);
-		DrawHarpyCat(dynamicShadowShader);
+		DrawWhale(dynamicShadowShader);
 		
+		DrawHarpyCat(dynamicShadowShader);
+
 		shadowDebugShader.use();
 		shadowDebugShader.setFloat("near_plane", near_plane);
 		shadowDebugShader.setFloat("far_plane", far_plane);
