@@ -32,6 +32,8 @@ extern float lastX;
 extern float lastY;
 extern bool firstMouse;
 
+Camera* GameObject::camera_ptr = &camera;
+
 // timing
 extern float deltaTime;
 extern float lastFrame;
@@ -42,6 +44,9 @@ int model_skeletal_animation()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	// Anti aliasing
+	glfwWindowHint(GLFW_SAMPLES, 4);
+	glEnable(GL_MULTISAMPLE);
 
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
@@ -54,7 +59,7 @@ int model_skeletal_animation()
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
@@ -82,23 +87,24 @@ int model_skeletal_animation()
 	
 	
 	//SkinnedMesh running, harpyCat, chicken;
-	//running.LoadMesh("resources/Models/running/model.dae");//ÈËÎïÅÜ²½¶¯»­
-	//harpyCat.LoadMesh("resources/Models/Humpback whale/5.fbx");//ÄñÈË¶¯»­
-	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//Ð¡¼¦¶¯»­
+	//running.LoadMesh("resources/Models/running/model.dae");//ï¿½ï¿½ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½ï¿½
+	//harpyCat.LoadMesh("resources/Models/Humpback whale/5.fbx");//ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
+	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	//glm::mat4 model(1.0f);
 
 	//Shader SkinnedShader("skinning.vs", "skinning2");
 	
-	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//¾²Ì¬Ð¡¾«Áé
-	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");ÊØÎÀ,ÈËÁ³ÊÇµ¹Á¢µÄ,¸Ã×ÊÔ´¿ÉÒÔ²»ÓÃ
+	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//ï¿½ï¿½Ì¬Ð¡ï¿½ï¿½ï¿½ï¿½
+	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½
 	
 	//stencil Test
 	static const uint MAX_BONES = 100;
 	float m_startTime = glfwGetTime();
 	SceneManager sceneManager(&camera);
 	glEnable(GL_DEPTH_TEST);
-	sceneManager.InitParticle();
+	//sceneManager.InitParticle();
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -111,49 +117,10 @@ int model_skeletal_animation()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 
-		Transform debugTransform;
-		sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//¸üÐÂÁ£×ÓÐÅÏ¢
+		//Transform debugTransform;
+		//sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		sceneManager.DrawElements();
 
-		//simpleShader.use();
-
-		//glm::mat4 projectionTest = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3000.0f);
-		//glm::mat4 viewTest = camera.GetViewMatrix();
-		//simpleShader.setMat4("projection", projectionTest);
-		//simpleShader.setMat4("view", viewTest);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(250.0f, 250.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
-		//simpleShader.setMat4("model", model);
-		//landscape.Draw(simpleShader);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-		//simpleShader.setMat4("model", model);
-		//city.Draw(simpleShader);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(225.0f, -30.0f, 230.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//simpleShader.setMat4("model", model);
-		//coralReef.Draw(simpleShader);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//simpleShader.setMat4("model", model);
-		//coralReef2.Draw(simpleShader);
-
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));	// it's a bit too big for our scene, so scale it down
-		//model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//simpleShader.setMat4("model", model);
-		//coralReef3.Draw(simpleShader);
 
 		//SkinnedShader.use();
 		//GLuint m_boneLocation[MAX_BONES];
@@ -171,7 +138,7 @@ int model_skeletal_animation()
 		//harpyCat.BoneTransform(RunningTime, Transforms);
 
 		//for (uint i = 0; i < Transforms.size(); i++) {
-		//	m_pEffect->SetBoneTransform(i, Transforms[i]);
+		//	//m_pEffect->SetBoneTransform(i, Transforms[i]);
 		//	glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
 		//}
 
@@ -186,7 +153,7 @@ int model_skeletal_animation()
 		//SkinnedShader.setMat4("view", view);
 		//SkinnedShader.setMat4("model", model);
 		//harpyCat.Render();
-		
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

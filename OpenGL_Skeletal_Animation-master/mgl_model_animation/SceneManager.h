@@ -6,14 +6,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-//#include <learnopengl/filesystem.h>
-
 #include"camera.h"
 #include"shader.h"
 #include"model.h"
 #include"ParticleGenerator.h"
 #include "GameObject.h"
+#include "Skybox.h"
+#include "Text.h"
 #include <time.h>
 #include <stdlib.h>
 #include"Wave.h"
@@ -25,15 +24,21 @@ public:
 	Model fish3;
 	Model fish4;*/
 	SkinnedMesh whale;
+	SkinnedMesh harpyCat;
 	//Model city;
-	Model landscape;
-	//Model coralReef;
-	/*Model coralReef2;
-	Model coralReef3;*/
+//	Model landscape;
+	/*Model coralReef;
+	Model coralReef2;
+	Model coralReef3;
 
 	//Model seaDragon;
 	//Model turtle;
 	Wave testWave;
+
+	Model seaDragon;
+	Model turtle;*/
+
+
 	GameObject fishObj[50];
 	GameObject fishObj2[50];
 	GameObject fishObj3[50];
@@ -53,6 +58,7 @@ public:
 	Shader shadowShader;
 	Shader waveShader;
 	Shader shadowDepthShader;
+	Shader shadowDepthShaderDynamic;
 	Shader shadowDebugShader;
 	Shader dynamicShadowShader;
 	Texture2D particleTexture;
@@ -65,8 +71,12 @@ public:
 	unsigned int depthMap;
 	const unsigned int SCR_WIDTH = 800;
 	const unsigned int SCR_HEIGHT = 600;
-	//Shader shadowShader;
-	Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha)//´Ó×ÊÔ´ÖÐ¶ÁÈëtexture
+	float near_plane = -500.0f, far_plane = 500.0f;
+	glm::vec3 lightPos;
+	Text text;
+	Shader shaderText;
+	Skybox skybox;
+	Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha)//ï¿½ï¿½ï¿½ï¿½Ô´ï¿½Ð¶ï¿½ï¿½ï¿½texture
 	{
 		// Create Texture object
 		Texture2D texture;
@@ -91,15 +101,15 @@ public:
 		return texture;
 	}
 	SceneManager(Camera* input) :
-		/*palm("resources/Models/palm/Palm_01.obj"),
-		fish("resources/Models/fish/fish.obj"),
-		fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"),
-		fish3("resources/Models/fish3/12265_Fish_v1_L2.obj"),
-		fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"),*/
+		//palm("resources/Models/palm/Palm_01.obj"),
+		//fish("resources/Models/fish/fish.obj"),
+		//fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"),
+		//fish3("resources/Models/fish3/12265_Fish_v1_L2.obj"),
+		//fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"),
 		//city("resources/Models/city/Organodron City.obj"),
 		landscape("resources/Models/landscape/Ocean.obj"),
-		//coralReef("resources/Models/coralReef/source/model.obj"),
-		/*coralReef2("resources/Models/coralReef2/source/model.obj"),
+		/*coralReef("resources/Models/coralReef/source/model.obj"),
+		coralReef2("resources/Models/coralReef2/source/model.obj"),
 		coralReef3("resources/Models/coralReef3/source/model.obj"),
 		seaDragon("resources/Models/seaDragon/source/model.obj"),
 		turtle("resources/Models/turtle/model.obj"),*/
@@ -110,12 +120,15 @@ public:
 		stencilShader("stencilTest.vs", "stencilTest.fs"),
 		shadowShader("shadow_mapping.vs", "shadow_mapping.fs"),
 		shadowDepthShader("shadow_mapping_depth.vs", "shadow_mapping_depth.fs"),
+		shadowDepthShaderDynamic("shadow_mapping_depth_dynamic.vs", "shadow_mapping_depth.fs"),
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
-		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs")
-	{//³õÊ¼»¯Õâ¸ö³¡¾°
-		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
+		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs"),
+		shaderText("Text.vs", "Text.fs")
+	{//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
+		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
-		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//»ñÈ¡Á£×ÓÐ§¹ûËùÊ¹ÓÃµÄÌùÍ¼
+		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½ï¿½Í¼
 		srand((unsigned)time(NULL));
 		for (int i = 0; i < 50; i++) {
 			randomCoorX[i] = rand() / double(RAND_MAX)*100.0f;
@@ -171,6 +184,11 @@ public:
 		dynamicShadowShader.use();
 		dynamicShadowShader.setInt("diffuseTexture", 0);
 		dynamicShadowShader.setInt("shadowMap", 1);
+
+		lightPos = glm::vec3(-110.0f, 200.0f, -200.0f);
+
+		// Initialize text
+		text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
 	}
 
 	//void DrawPalm(const Shader &shader) {
@@ -239,17 +257,29 @@ public:
 	//		fish4.Draw(shader);
 	//	}
 	//}
-	void DrawWhale(const Shader &shader) {
+	//void DrawWhale(const Shader &shader) {
+	//	glm::mat4 model = glm::mat4(1.0f);
+	//	model = glm::mat4(1.0f);
+	//	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//	//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
+	//	//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+	//	model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//	model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
+	//	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
+	//	shader.setMat4("model", model);
+	//	whale.Render();
+	//}
+	void DrawHarpyCat(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::mat4(1.0f);
-		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(150.0f, 100.0f, 100.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-		//model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
+		//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		model = glm::rotate(model, 1.0f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 20.0f, -100.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
 		shader.setMat4("model", model);
-		whale.Render();
+		harpyCat.Render();
 	}
 	//void DrawCity(Shader &shader) {
 	//	glEnable(GL_STENCIL_TEST);
@@ -343,22 +373,16 @@ public:
 	//	turtle.Draw(shader);
 	//}
 	void InitShaders() {
-		//shader1.use();
-		//glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
-		//glm::mat4 view = camera->GetViewMatrix();
-		//shader1.setMat4("projection", projection);
-		//shader1.setMat4("view", view);
-		//shader1.setInt("texture_diffuse1", 0);
-
-		glm::vec3 lightPos(150.0f, 200.0f, 100.0f);
 		glm::mat4 lightProjection, lightView;
 		glm::mat4 lightSpaceMatrix;
-		float near_plane = 0.1f, far_plane = 3000.0f;
 		//lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-		lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+		lightProjection = glm::ortho(-500.0f, 500.0f, -500.0f, 500.0f, near_plane, far_plane);
 		lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		lightSpaceMatrix = lightProjection * lightView;
 		// render scene from light's point of view
+		shadowDepthShaderDynamic.use();
+		shadowDepthShaderDynamic.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
 		shadowDepthShader.use();
 		shadowDepthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
 
@@ -378,12 +402,10 @@ public:
 		shadowShader.setMat4("view", view);
 		// set light uniforms
 
-		glm::vec3 lightPos(150.0f, 200.0f, 100.0f);
 		glm::mat4 lightProjection, lightView;
 		glm::mat4 lightSpaceMatrix;
-		float near_plane = 0.1f, far_plane = 3000.0f;
 		//lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-		lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+		lightProjection = glm::ortho(-500.0f, 500.0f, -500.0f, 500.0f, near_plane, far_plane);
 		lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		lightSpaceMatrix = lightProjection * lightView;
 
@@ -392,6 +414,8 @@ public:
 		shadowShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+		skybox.Draw(projection, view);
 	}
 	void InitShaders3() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -403,12 +427,11 @@ public:
 		dynamicShadowShader.setMat4("view", view);
 		// set light uniforms
 
-		glm::vec3 lightPos(150.0f, 200.0f, 100.0f);
+		
 		glm::mat4 lightProjection, lightView;
 		glm::mat4 lightSpaceMatrix;
-		float near_plane = 0.1f, far_plane = 3000.0f;
 		//lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-		lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+		lightProjection = glm::ortho(-500.0f, 500.0f, -500.0f, 500.0f, near_plane, far_plane);
 		lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		lightSpaceMatrix = lightProjection * lightView;
 
@@ -421,13 +444,14 @@ public:
 			memset(Name, 0, sizeof(Name));
 			SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
 
-			m_boneLocation[i] = glGetUniformLocation(shader2.ID, Name);
+			m_boneLocation[i] = glGetUniformLocation(dynamicShadowShader.ID, Name);
 		}
 
 		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
 		vector<Matrix4f> Transforms;
 
 		whale.BoneTransform(RunningTime, Transforms);
+		harpyCat.BoneTransform(RunningTime, Transforms);
 
 		for (uint i = 0; i < Transforms.size(); i++) {
 			//m_pEffect->SetBoneTransform(i, Transforms[i]);
@@ -436,7 +460,29 @@ public:
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 	}
-	void DrawElements() {//ÑÏ¸ñÀ´Ëµº¯ÊýÖ¸ÕëËÆºõ¸üºÃ
+	void InitDynamicDepthShader() {
+		shadowDepthShaderDynamic.use();
+		GLuint m_boneLocation[MAX_BONES];
+		for (unsigned int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(m_boneLocation); i++) {
+			char Name[128];
+			memset(Name, 0, sizeof(Name));
+			SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
+
+			m_boneLocation[i] = glGetUniformLocation(shadowDepthShaderDynamic.ID, Name);
+		}
+
+		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
+		vector<Matrix4f> Transforms;
+
+		whale.BoneTransform(RunningTime, Transforms);
+		harpyCat.BoneTransform(RunningTime, Transforms);
+
+		for (uint i = 0; i < Transforms.size(); i++) {
+			//m_pEffect->SetBoneTransform(i, Transforms[i]);
+			glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
+		}
+	}
+	void DrawElements() {//ï¿½Ï¸ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ï¿½ï¿½
 		InitShaders();
 		//DrawPalm(shadowDepthShader);
 		//DrawFish(shadowDepthShader);
@@ -471,20 +517,54 @@ public:
 		InitShaders3();
 	//	DrawWhale(dynamicShadowShader);
 
-		float near_plane = 0.1f, far_plane = 3000.0f;
+		DrawLandscape(shadowDepthShader);
+		/*DrawCoralReef(shadowDepthShader);
+		DrawCoralReef2(shadowDepthShader);
+		DrawCoralReef3(shadowDepthShader);
+		DrawSeaDragon(shadowDepthShader);
+		DrawTurtle(shadowDepthShader);*/
+
+		
+		InitDynamicDepthShader();
+		//DrawWhale(shadowDepthShaderDynamic);
+		DrawHarpyCat(shadowDepthShaderDynamic);
+
+		InitShaders2();
+
+		/*DrawPalm(shadowShader);
+		DrawFish(shadowShader);
+		DrawFish2(shadowShader);
+		DrawFish3(shadowShader);
+		DrawFish4(shadowShader);
+		DrawCity(shadowShader);*/
+		DrawLandscape(shadowShader);
+		/*DrawCoralReef(shadowShader);
+		DrawCoralReef2(shadowShader);
+		DrawCoralReef3(shadowShader);
+		DrawSeaDragon(shadowShader);
+		DrawTurtle(shadowShader);*/
+
+		InitShaders3();
+		//DrawWhale(dynamicShadowShader);
+		DrawHarpyCat(dynamicShadowShader);
+
+		//Eject camera if collide
+		for (int i = 0; i < 50; i++)
+			GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
+		GameObject::CameraCollision(cityObj, coralReefObj, coralReefObj2, coralReefObj3, seaDragonObj, turtleObj);
+		
 		shadowDebugShader.use();
 		shadowDebugShader.setFloat("near_plane", near_plane);
 		shadowDebugShader.setFloat("far_plane", far_plane);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		
-		
-
-		//DrawWhale();
+		// text effect, should be rendered at last
+		text.drawSample(shaderText, SCR_WIDTH, SCR_HEIGHT);
 		//temptation->Draw();
 	}
 	void InitParticle() {
-		temptation = std::make_shared<ParticleGenerator>(//³õÊ¼»¯
+		temptation = std::make_shared<ParticleGenerator>(//ï¿½ï¿½Ê¼ï¿½ï¿½
 			particleShader,
 			particleTexture,
 			100,

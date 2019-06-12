@@ -12,7 +12,6 @@ out VS_OUT {
     vec4 FragPosLightSpace;
 } vs_out;
 
-
 const int MAX_BONES = 100;
 
 uniform mat4 model;
@@ -29,11 +28,11 @@ void main()
     BoneTransform     += gBones[aBoneIDs[3]] * aWeights[3];
 
 
-    vec4 PosL    = BoneTransform * vec4(aPos, 1.0);
-	gl_Position  = projection * view * model * PosL;
+    vec4 position = BoneTransform * vec4(aPos, 1.0);
     
-	vs_out.FragPos = vec3(model * vec4(aPos, 1.0));
+	vs_out.FragPos = vec3(model * position);
     vs_out.Normal = transpose(inverse(mat3(model))) * aNormal;
     vs_out.TexCoords = aTexCoords;
     vs_out.FragPosLightSpace = lightSpaceMatrix * vec4(vs_out.FragPos, 1.0);
+	gl_Position  = projection * view * model * position;
 }

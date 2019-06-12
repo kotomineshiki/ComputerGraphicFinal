@@ -34,6 +34,8 @@ public:
 	bool isCollided;
 	//when two objects have collided, the lock is set to true to avoid detecting multiple collision; when they are far away from each other. the lock will be set to false.
 	bool lock;
+    
+    static Camera* camera_ptr;
 
 	GameObject() {}
 	GameObject(bool Stuck, glm::vec3 Pos, glm::vec3 Scale, glm::vec3 RotateAxis, 
@@ -100,6 +102,23 @@ public:
 			lock = false;
 		}
 	}
+    
+    static void CameraCollision(GameObject& obj) {
+        glm::vec3 difference = camera_ptr->Position - obj.position;
+        float collisionDepth = obj.radius - glm::length(difference);
+        if (collisionDepth > 0) {
+            camera_ptr->Position += collisionDepth * difference;
+        }
+    }
+    template <typename ... Args>
+    static void CameraCollision(GameObject& obj, Args ... args) {
+        glm::vec3 difference = camera_ptr->Position - obj.position;
+        float collisionDepth = obj.radius - glm::length(difference);
+        if (collisionDepth > 0) {
+            camera_ptr->Position += collisionDepth * difference;
+        }
+        CameraCollision(args...);
+    }
 };
 
 #endif
