@@ -1,0 +1,10 @@
+#version 330  core 
+out vec4 FragColor;
+
+in vec2 TexCoord0;
+                                       
+uniform sampler2D gColorMap;                                                                
+void main()
+{                                    
+    FragColor =  texture(gColorMap, TexCoord0);     
+}

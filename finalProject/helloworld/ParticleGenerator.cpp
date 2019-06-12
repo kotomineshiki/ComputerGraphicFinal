@@ -15,6 +15,8 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 	// Add new particles 
 	for (GLuint i = 0; i < newParticles; ++i) {
 		int unusedParticle = this->firstUnusedParticle();//找到第一个未使用的粒子位置
+		std::cout << unusedParticle <<"********"<< std::endl;
+		if (unusedParticle == -1)break;//不需要处理
 		this->respawnParticle(this->particles[unusedParticle], object, offset, way, type);
 	}
 	// Update all particles
@@ -26,6 +28,7 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 		{	// particle is alive, thus update
 			p.Position -= p.Velocity * dt;
 			p.Color.a -= dt * a_atten;
+		//	std::cout << "life" << p.Life << " " << p.Velocity.x << " " << p.Velocity.y << " " << p.Velocity.z << std::endl;
 		}
 	}
 }
@@ -33,7 +36,7 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 // Render all particles
 void ParticleGenerator::Draw()
 {
-	std::cout << "2321"<<std::endl;
+	//std::cout << particles.size()<<std::endl;
 	// Use additive blending to give it a 'glow' effect
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	//this->shader.Use();
@@ -45,25 +48,31 @@ void ParticleGenerator::Draw()
 		it != particles.end();
 		++it) {
 		if (it->Life > 0.0f) {
-			std::cout << "2321" << std::endl;
+		//	std::cout << "2321" << std::endl;
 		//	this->shader.SetVector2f("offset", it->Position);
 		//	this->shader.SetVector4f("color", it->Color);
 		//	this->shader.SetFloat("scale", this->scale);
 		//	this->shader.setVec3("offset", it->Position);
 		//	this->shader.setVec4("color", it->Color);
 		//	this->shader.setFloat("scale", this->scale);
-
+		//	std::cout <<it->Position.x<<"  "<<it->Position.y<<"  "<<it->Position.z << std::endl;
 			glm::mat4 projection = glm::perspective(glm::radians(theCamera->Zoom), (float)800 / (float)600, 0.1f, 1000.0f);
 			glm::mat4 view = theCamera->GetViewMatrix();
 			shader.setMat4("projection", projection);
 			shader.setMat4("view", view);
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, glm::vec3(-40.0f, 80.0f, 0.0f));
+			//model = glm::translate(model, glm::vec3(-40.0f, 80.0f, 0.0f));
+
+			std::cout << "该粒子的寿命" << it->Life<<"粒子总数"<<particles.size() << std::endl;
+			std::cout <<"该粒子的坐标"<< it->Position.x << " " << it->Position.y << " " << it->Position.z << std::endl;
+			std::cout << "该粒子的速度" << it->Velocity.x << " " << it->Velocity.y << " " << it->Velocity.z << std::endl<<std::endl;
+			model = glm::translate(model, it->Position);//传入粒子的位置
 			shader.setMat4("model", model);
 			//glDrawArrays(GL_TRIANGLES, 0, 6);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 	}
+	std::cout << "***DFSDFSDF****" << std::endl;
 	glBindVertexArray(0);
 	glUseProgram(0);
 	// Don't forget to reset to default blending mode
@@ -136,6 +145,7 @@ void ParticleGenerator::init()
 		glBindVertexArray(0);
 	}
 	this->particles = std::vector<Particle>(this->amount, Particle());
+	glBindTexture(GL_TEXTURE_2D, texture.ID);//绑定给粒子绑定贴图
 /*	GLuint VBO;
 	GLfloat particle_quad[] = {
 		0.0f, 1.0f, 0.0f, 1.0f,
@@ -159,31 +169,30 @@ void ParticleGenerator::init()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	*/
 	// Create this->amount default particle instances
-	this->particles = std::vector<Particle>(this->amount, Particle());
+//	this->particles = std::vector<Particle>(this->amount, Particle());
 }
 
 // Stores the index of the last particle used (for quick access to next dead particle)
-GLuint lastUsedParticle = 0;
 GLuint ParticleGenerator::firstUnusedParticle()
 {
 	// First search from last used particle, this will usually return almost instantly
-	for (GLuint i = lastUsedParticle; i < this->amount; ++i) {
+	for (GLuint i = 0; i < this->amount; ++i) {
 		if (this->particles[i].Life <= 0.0f) {
-			lastUsedParticle = i;
+		//	lastUsedParticle = i;
 			return i;
 		}
 	}
 	// Otherwise, do a linear search，在Last之后未找到有被杀死的粒子
-	for (GLuint i = 0; i < lastUsedParticle; ++i) {
+/*	for (GLuint i = 0; i < lastUsedParticle; ++i) {
 		if (this->particles[i].Life <= 0.0f) {
 			lastUsedParticle = i;
 			return i;
 		}
-	}
+	}*/
 	// All particles are taken, override the first one
 	//(note that if it repeatedly hits this case, more particles should be reserved)
-	lastUsedParticle = 0;
-	return 0;
+//	lastUsedParticle = 0;
+	return -1;//目前所有的粒子都在被使用
 }
 
 void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
@@ -191,14 +200,18 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 {
 	//随机产生一个粒子
 	//-5到+5的随机数
-	GLfloat random = ((rand() % 100) - 50) / 10.0f;
+	GLfloat random1 = ((rand() % 100) - 50) / 10.0f;
+	GLfloat random2= ((rand() % 100) - 50) / 10.0f;
+	GLfloat random3 = ((rand() % 100) - 50) / 10.0f;
 	//随机颜色
 	GLfloat rColor1 = 0.5 + ((rand() % 100) / 100.0f);
 	GLfloat rColor2 = -1.0 + ((rand() % 100) / 100.0f) * 2;
 	GLfloat rColor3 = -1.0 + ((rand() % 100) / 100.0f) * 2;
-	particle.Position = object.Position + random + offset;
+//	particle.Position = object.Position + random + offset;
 	particle.Life = life;
-	if (way == 1) {
+	particle.Velocity = glm::vec3(random1 , random2 , random3 );
+	//particle.Velocity = glm::vec3(1.0f, 1.0f, 1.0f);
+/*	if (way == 1) {
 		particle.Velocity = object.Velocity * 0.2f;
 		particle.Color = glm::vec4(rColor1, (rColor2 + 1.0f) / 2.0f*0.6f, (rColor3 + 1.0f) / 2.0f*0.6f, 1.0f);
 	}
@@ -235,7 +248,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 		GLfloat len = glm::length(object.Velocity);
 		particle.Velocity = len * 0.4f * dir;
 		particle.Color = glm::vec4(rColor1, (rColor2 + 1.0f) / 2.0f*0.8f, (rColor3 + 1.0f) / 2.0f*0.3f, 1.0f);
-	}
+	}*/
 }
 
 void ParticleGenerator::Reset()
