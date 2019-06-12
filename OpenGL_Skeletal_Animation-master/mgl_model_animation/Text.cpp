@@ -143,16 +143,16 @@ void Text::drawCommand(Shader shaderText) {
 	RenderText(shaderText, "Quit", 700.0f, 350.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
-//void Text::drawEnd1(Shader shaderText, float screenwith, float screenheight) {
-//	RenderText(shaderText, "Who killed Guilhem ?!", (screenwith / 2.0f) - 300, screenheight / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-//	RenderText(shaderText, "Press space to try again", (screenwith / 2.0f) - 100, (screenheight / 2.0f) - 70, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-//}
-
 void Text::drawEnd1(Shader shaderText, float screenwith, float screenheight) {
-	RenderText(shaderText, "Who killed Guilhem ?!", 30, 30, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+	RenderText(shaderText, "Who killed Guilhem ?!", (screenwith / 2.0f) - 300, screenheight / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+	RenderText(shaderText, "Press space to try again", (screenwith / 2.0f) - 100, (screenheight / 2.0f) - 70, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 void Text::drawEnd2(Shader shaderText, float screenwith, float screenheight) {
 	RenderText(shaderText, "I killed him...", (screenwith / 2.0f) - 180, screenheight / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 	RenderText(shaderText, "Press space to try again", (screenwith / 2.0f) - 100, (screenheight / 2.0f) - 70, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
+}
+
+void Text::drawSample(Shader shaderText, float screenwith, float screenheight) {
+	RenderText(shaderText, "Who killed Guilhem ?!", 30, 30, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 }

@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <glad/glad.h>
-#include "learnopengl/shader.h"
+#include <shader.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <map>

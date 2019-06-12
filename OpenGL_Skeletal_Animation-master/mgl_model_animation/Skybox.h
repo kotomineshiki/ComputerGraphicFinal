@@ -8,10 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <learnopengl/filesystem.h>
-#include <learnopengl/shader_m.h>
-#include <learnopengl/model.h>
-
+#include <shader.h>
 #include <iostream>
 
 unsigned int loadCubemap(vector<std::string> faces);
@@ -85,12 +82,12 @@ public:
 		// -------------
 		vector<std::string> faces
 		{
-			FileSystem::getPath("resources/Skybox/right.jpg"),
-			FileSystem::getPath("resources/Skybox/left.jpg"),
-			FileSystem::getPath("resources/Skybox/top.jpg"),
-			FileSystem::getPath("resources/Skybox/bottom.jpg"),
-			FileSystem::getPath("resources/Skybox/front.jpg"),
-			FileSystem::getPath("resources/Skybox/back.jpg")
+			"resources/Skybox/right.jpg",
+			"resources/Skybox/left.jpg",
+			"resources/Skybox/top.jpg",
+			"resources/Skybox/bottom.jpg",
+			"resources/Skybox/front.jpg",
+			"resources/Skybox/back.jpg"
 		};
 		cubemapTexture = loadCubemap(faces);
 

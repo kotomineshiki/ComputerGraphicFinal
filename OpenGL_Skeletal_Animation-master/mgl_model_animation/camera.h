@@ -1,5 +1,3 @@
-
-
 #ifndef CAMERA_H
 #define CAMERA_H
 
@@ -18,10 +16,10 @@ enum Camera_Movement
     DOWN,
     LEFT,
     RIGHT,
-    TURN_UP,
-    TURN_DOWN,
-    TURN_LEFT,
-    TURN_RIGHT
+    // TURN_UP,
+    // TURN_DOWN,
+    // TURN_LEFT,
+    // TURN_RIGHT
 };
 
 // Default camera values
@@ -91,14 +89,14 @@ public:
 			Position -= Right * velocity;
 		if (direction == RIGHT)
 			Position += Right * velocity;
-        if (direction == TURN_UP)
-            ProcessMouseMovement(0, 5);
-        if (direction == TURN_DOWN)
-            ProcessMouseMovement(0, -5);
-        if (direction == TURN_LEFT)
-            ProcessMouseMovement(-10, 0);
-        if (direction == TURN_RIGHT)
-            ProcessMouseMovement(10, 0);
+        // if (direction == TURN_UP)
+        //     ProcessMouseMovement(0, 5);
+        // if (direction == TURN_DOWN)
+        //     ProcessMouseMovement(0, -5);
+        // if (direction == TURN_LEFT)
+        //     ProcessMouseMovement(-10, 0);
+        // if (direction == TURN_RIGHT)
+        //     ProcessMouseMovement(10, 0);
 		if (direction == SPACE) {
 			Position.x = 0;
 			Position.y = 0;
