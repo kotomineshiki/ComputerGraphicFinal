@@ -6,9 +6,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-//#include <learnopengl/filesystem.h>
-
 #include"camera.h"
 #include"shader.h"
 #include"model.h"
@@ -158,6 +155,7 @@ public:
 		};
 		// plane VAO
 		
+
 		glGenVertexArrays(1, &planeVAO);
 		glGenBuffers(1, &planeVBO);
 		glBindVertexArray(planeVAO);
