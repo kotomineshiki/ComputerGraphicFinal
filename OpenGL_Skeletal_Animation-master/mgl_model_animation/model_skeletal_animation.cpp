@@ -98,7 +98,7 @@ int model_skeletal_animation()
 	float m_startTime = glfwGetTime();
 	SceneManager sceneManager(&camera);
 	glEnable(GL_DEPTH_TEST);
-	sceneManager.InitParticle();
+	//sceneManager.InitParticle();
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -111,7 +111,7 @@ int model_skeletal_animation()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 
-		Transform debugTransform;
+		//Transform debugTransform;
 		//sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//更新粒子信息
 		sceneManager.DrawElements();
 
@@ -132,7 +132,7 @@ int model_skeletal_animation()
 		//harpyCat.BoneTransform(RunningTime, Transforms);
 
 		//for (uint i = 0; i < Transforms.size(); i++) {
-		//	m_pEffect->SetBoneTransform(i, Transforms[i]);
+		//	//m_pEffect->SetBoneTransform(i, Transforms[i]);
 		//	glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
 		//}
 

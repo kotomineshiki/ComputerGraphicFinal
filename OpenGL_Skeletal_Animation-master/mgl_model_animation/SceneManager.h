@@ -22,8 +22,8 @@ public:
 	Model fish3;
 	Model fish4;*/
 	SkinnedMesh whale;
-	Model city;
-	//Model landscape;
+	//Model city;
+	Model landscape;
 	//Model coralReef;
 	/*Model coralReef2;
 	Model coralReef3;*/
@@ -61,7 +61,6 @@ public:
 	unsigned int depthMap;
 	const unsigned int SCR_WIDTH = 800;
 	const unsigned int SCR_HEIGHT = 600;
-	unsigned int planeVBO, planeVAO;
 	float near_plane = -500.0f, far_plane = 500.0f;
 	glm::vec3 lightPos;
 	//Shader shadowShader;
@@ -95,8 +94,8 @@ public:
 		fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"),
 		fish3("resources/Models/fish3/12265_Fish_v1_L2.obj"),
 		fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"),*/
-		city("resources/Models/city/Organodron City.obj"),
-		//landscape("resources/Models/landscape/Ocean.obj"),
+		//city("resources/Models/city/Organodron City.obj"),
+		landscape("resources/Models/landscape/Ocean.obj"),
 		//coralReef("resources/Models/coralReef/source/model.obj"),
 		/*coralReef2("resources/Models/coralReef2/source/model.obj"),
 		coralReef3("resources/Models/coralReef3/source/model.obj"),
@@ -111,7 +110,7 @@ public:
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs")
 	{//初始化这个场景
-		//whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
+		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		camera = input;
 		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//获取粒子效果所使用的贴图
 		srand((unsigned)time(NULL));
@@ -142,32 +141,6 @@ public:
 
 		seaDragonObj.setObject(false, glm::vec3(-100.0f, 100.0f, 290.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 10.0f, 0.0f, 180.0f);
 		turtleObj.setObject(false, glm::vec3(100.0f, 30.0f, 250.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 10.0f, 0.0f, 180.0f);
-
-		float planeVertices[] = {
-			// positions            // normals         // texcoords
-			 25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f,
-			-25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f,
-			-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f,
-
-			 25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f,
-			-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f,
-			 25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,  25.0f, 25.0f
-		};
-		// plane VAO
-		
-
-		glGenVertexArrays(1, &planeVAO);
-		glGenBuffers(1, &planeVBO);
-		glBindVertexArray(planeVAO);
-		glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-		glBindVertexArray(0);
 
 		glGenFramebuffers(1, &depthMapFBO);
 		// create depth texture
@@ -265,66 +238,68 @@ public:
 	//		fish4.Draw(shader);
 	//	}
 	//}
-	//void DrawWhale(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	model = glm::mat4(1.0f);
-	//	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//	model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0f)); // translate it down so it's at the center of the scene
-	//	model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
-	//	//model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//	//model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
-	//	//model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
-	//	shader.setMat4("model", model);
-	//	whale.Render();
-	//}
-	void DrawCity(Shader &shader) {
-		glEnable(GL_STENCIL_TEST);
-		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glStencilMask(0xFF);
-
-		shader.use();
+	void DrawWhale(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-		model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
-		shader.setMat4("model", model);
-		city.Draw(shader);
-
-		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-		glStencilMask(0x00);
-		glDisable(GL_DEPTH_TEST);
-		stencilShader.use();
-		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
-		glm::mat4 view = camera->GetViewMatrix();
-		stencilShader.setMat4("projection", projection);
-		stencilShader.setMat4("view", view);
 		model = glm::mat4(1.0f);
-		model = glm::scale(model, glm::vec3(0.705f, 0.705f, 0.705f));
-		model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
-		stencilShader.setMat4("model", model);
-		city.Draw(stencilShader);
-		glStencilMask(0xFF);
-		glEnable(GL_DEPTH_TEST);
-		glDisable(GL_STENCIL_TEST);
-
-		shader.use();
-	}
-	void DrawLandscape(const Shader &shader) {
-		//glm::mat4 model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
-		//shader.setMat4("model", model);
-		//landscape.Draw(shader);
-
-
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		//model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
 		shader.setMat4("model", model);
-		glBindVertexArray(planeVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		whale.Render();
+	}
+	//void DrawCity(Shader &shader) {
+	//	glEnable(GL_STENCIL_TEST);
+	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	//	glStencilFunc(GL_ALWAYS, 1, 0xFF);
+	//	glStencilMask(0xFF);
+
+	//	shader.use();
+	//	glm::mat4 model = glm::mat4(1.0f);
+	//	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+	//	model = glm::translate(model, glm::vec3(-110.0f+sin(glfwGetTime())*10.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+	//	shader.setMat4("model", model);
+	//	city.Draw(shader);
+
+	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	//	glStencilMask(0x00);
+	//	glDisable(GL_DEPTH_TEST);
+	//	stencilShader.use();
+	//	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
+	//	glm::mat4 view = camera->GetViewMatrix();
+	//	stencilShader.setMat4("projection", projection);
+	//	stencilShader.setMat4("view", view);
+	//	model = glm::mat4(1.0f);
+	//	model = glm::scale(model, glm::vec3(0.705f, 0.705f, 0.705f));
+	//	model = glm::translate(model, glm::vec3(-110.0f + sin(glfwGetTime())*10.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+	//	stencilShader.setMat4("model", model);
+	//	city.Draw(stencilShader);
+	//	glStencilMask(0xFF);
+	//	glEnable(GL_DEPTH_TEST);
+	//	glDisable(GL_STENCIL_TEST);
+
+	//	shader.use();
+	//}
+	void DrawLandscape(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		landscape.Draw(shader);
+
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, texture);
+
+		//glm::mat4 model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(20.0f, 20.0f, 20.0f));
+		//shader.setMat4("model", model);
+		//glBindVertexArray(planeVAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 	//void DrawCoralReef(const Shader &shader) {
 	//	glm::mat4 model = glm::mat4(1.0f);
@@ -447,7 +422,7 @@ public:
 			memset(Name, 0, sizeof(Name));
 			SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
 
-			m_boneLocation[i] = glGetUniformLocation(shader2.ID, Name);
+			m_boneLocation[i] = glGetUniformLocation(dynamicShadowShader.ID, Name);
 		}
 
 		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
@@ -469,14 +444,14 @@ public:
 		//DrawFish2(shadowDepthShader);
 		//DrawFish3(shadowDepthShader);
 		//DrawFish4(shadowDepthShader);
-		DrawCity(shadowDepthShader);
+		//DrawCity(shadowDepthShader);
 		DrawLandscape(shadowDepthShader);
 		//DrawCoralReef(shadowDepthShader);
 		//DrawCoralReef2(shadowDepthShader);
 		//DrawCoralReef3(shadowDepthShader);
 		//DrawSeaDragon(shadowDepthShader);
 		//DrawTurtle(shadowDepthShader);
-		//DrawWhale(shadowDepthShader);
+		DrawWhale(shadowDepthShader);
 
 		InitShaders2();
 
@@ -485,7 +460,7 @@ public:
 		//DrawFish2(shadowShader);
 		//DrawFish3(shadowShader);
 		//DrawFish4(shadowShader);
-		DrawCity(shadowShader);
+		//DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
 		//DrawCoralReef(shadowShader);
 		//DrawCoralReef2(shadowShader);
@@ -493,8 +468,8 @@ public:
 		//DrawSeaDragon(shadowShader);
 		//DrawTurtle(shadowShader);
 
-		//InitShaders3();
-		//DrawWhale(dynamicShadowShader);
+		InitShaders3();
+		DrawWhale(dynamicShadowShader);
 
 		
 		shadowDebugShader.use();
