@@ -148,6 +148,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="Wave.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="1.model_loading.fs" />
