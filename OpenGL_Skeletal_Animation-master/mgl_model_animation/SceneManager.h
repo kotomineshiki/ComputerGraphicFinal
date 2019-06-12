@@ -65,7 +65,7 @@ public:
 	const unsigned int SCR_HEIGHT = 600;
 	float near_plane = -500.0f, far_plane = 500.0f;
 	glm::vec3 lightPos;
-	Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha)//´Ó×ÊÔ´ÖÐ¶ÁÈëtexture
+	Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha)//ï¿½ï¿½ï¿½ï¿½Ô´ï¿½Ð¶ï¿½ï¿½ï¿½texture
 	{
 		// Create Texture object
 		Texture2D texture;
@@ -111,11 +111,11 @@ public:
 		shadowDepthShaderDynamic("shadow_mapping_depth_dynamic.vs", "shadow_mapping_depth.fs"),
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs")
-	{//³õÊ¼»¯Õâ¸ö³¡¾°
+	{//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		//whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
-		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//»ñÈ¡Á£×ÓÐ§¹ûËùÊ¹ÓÃµÄÌùÍ¼
+		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½ï¿½Í¼
 		srand((unsigned)time(NULL));
 		for (int i = 0; i < 50; i++) {
 			randomCoorX[i] = rand() / double(RAND_MAX)*100.0f;
@@ -461,7 +461,7 @@ public:
 			glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
 		}
 	}
-	void DrawElements() {//ÑÏ¸ñÀ´Ëµº¯ÊýÖ¸ÕëËÆºõ¸üºÃ
+	void DrawElements() {//ï¿½Ï¸ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ï¿½ï¿½
 		InitShaders();
 		//DrawPalm(shadowDepthShader);
 		//DrawFish(shadowDepthShader);
@@ -499,6 +499,11 @@ public:
 		InitShaders3();
 		//DrawWhale(dynamicShadowShader);
 		DrawHarpyCat(dynamicShadowShader);
+
+		//Eject camera if collide
+		for (int i = 0; i < 50; i++)
+			GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
+		GameObject::CameraCollision(cityObj, coralReefObj, coralReefObj2, coralReefObj3, seaDragonObj, turtleObj);
 		
 		shadowDebugShader.use();
 		shadowDebugShader.setFloat("near_plane", near_plane);
@@ -509,7 +514,7 @@ public:
 		//temptation->Draw();
 	}
 	void InitParticle() {
-		temptation = std::make_shared<ParticleGenerator>(//³õÊ¼»¯
+		temptation = std::make_shared<ParticleGenerator>(//ï¿½ï¿½Ê¼ï¿½ï¿½
 			particleShader,
 			particleTexture,
 			100,

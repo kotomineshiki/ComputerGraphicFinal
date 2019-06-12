@@ -32,6 +32,8 @@ extern float lastX;
 extern float lastY;
 extern bool firstMouse;
 
+Camera* GameObject::camera_ptr = &camera;
+
 // timing
 extern float deltaTime;
 extern float lastFrame;
@@ -82,16 +84,16 @@ int model_skeletal_animation()
 	
 	
 	//SkinnedMesh running, harpyCat, chicken;
-	//running.LoadMesh("resources/Models/running/model.dae");//ÈËÎïÅÜ²½¶¯»­
-	//harpyCat.LoadMesh("resources/Models/Humpback whale/5.fbx");//ÄñÈË¶¯»­
-	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//Ð¡¼¦¶¯»­
+	//running.LoadMesh("resources/Models/running/model.dae");//ï¿½ï¿½ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½ï¿½
+	//harpyCat.LoadMesh("resources/Models/Humpback whale/5.fbx");//ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
+	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	//glm::mat4 model(1.0f);
 
 	//Shader SkinnedShader("skinning.vs", "skinning2");
 	
-	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//¾²Ì¬Ð¡¾«Áé
-	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");ÊØÎÀ,ÈËÁ³ÊÇµ¹Á¢µÄ,¸Ã×ÊÔ´¿ÉÒÔ²»ÓÃ
+	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//ï¿½ï¿½Ì¬Ð¡ï¿½ï¿½ï¿½ï¿½
+	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½
 	
 	//stencil Test
 	static const uint MAX_BONES = 100;
@@ -112,7 +114,7 @@ int model_skeletal_animation()
 		
 
 		//Transform debugTransform;
-		//sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//¸üÐÂÁ£×ÓÐÅÏ¢
+		//sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		sceneManager.DrawElements();
 
 
