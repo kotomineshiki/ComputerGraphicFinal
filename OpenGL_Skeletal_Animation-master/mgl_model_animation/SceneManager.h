@@ -115,7 +115,8 @@ public:
 		shadowDepthShader("shadow_mapping_depth.vs", "shadow_mapping_depth.fs"),
 		shadowDepthShaderDynamic("shadow_mapping_depth_dynamic.vs", "shadow_mapping_depth.fs"),
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
-		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs")
+		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs"),
+		shaderText("Text.vs", "Text.fs")
 	{//��ʼ���������
 		//whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
@@ -180,7 +181,6 @@ public:
 		lightPos = glm::vec3(-110.0f, 200.0f, -200.0f);
 
 		// Initialize text
-		shaderText("Text.vs", "Text.fs");
 		text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
 	}
 
