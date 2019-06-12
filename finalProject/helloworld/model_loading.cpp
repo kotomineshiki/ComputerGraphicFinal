@@ -360,7 +360,7 @@
 
 #include"SceneManager.h"
 //#include"Skybox.h"
-
+#include "Text.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -375,6 +375,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 
 Camera camera(glm::vec3(-5.0f, 2.0f, 10.0f));
+Camera* GameObject::camera_ptr = &camera;
 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
@@ -412,7 +413,7 @@ int main()
 	glfwSetScrollCallback(window, scroll_callback);
 
 	// tell GLFW to capture our mouse
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
@@ -426,6 +427,10 @@ int main()
 	// build and compile shaders
 	// -------------------------
 	Shader ourShader("1.model_loading.vs", "1.model_loading.fs");
+	// initialize text
+	Text text;
+	Shader shaderText("Text.vs", "Text.fs");
+	text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
 
 	//float planeVertices[] = {
 	//	// positions            // normals         // texcoords
@@ -527,11 +532,7 @@ int main()
 
 	//myScene.InitParticle();//初始化粒子
 
-<<<<<<< HEAD
 	//Skybox skybox; //天空盒
-=======
-//	Skybox skybox; //天空盒
->>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
 
 	GameObject obj1(false, glm::vec3(-5.0f, 2.0f, 0.0f), glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.1f), 5.0f, 0.0f, 180.0f);
 	GameObject obj2(false, glm::vec3(-5.0f, 2.0f, 50.0f), glm::vec3(8.0f, 8.0f, 8.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -0.1f), 5.0f, 0.0f, 180.0f);
@@ -572,6 +573,11 @@ int main()
 		ourShader.setVec3("viewPos", camera.Position);
 
 		bool collision = obj1.DetectCollision(obj1, obj2);
+		
+		// variadic function, eject camera when collision happens
+		// GameObject::CameraCollision(obj1, obj2, obj3, ...);
+		GameObject::CameraCollision(obj1, obj2);
+
 		if (collision) {
 			obj1.CollidedIn();
 			obj2.CollidedIn();
@@ -755,6 +761,9 @@ int main()
 	//	skybox.Draw(projection, view);
 >>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
 
+		// text effect, should be rendered at last
+		text.drawEnd1(shaderText, SCR_WIDTH, SCR_HEIGHT);
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -775,6 +784,10 @@ void processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(FORWARD, deltaTime*30.0f);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		camera.ProcessKeyboard(BACKWARD, deltaTime*30.0f);
+	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+		camera.ProcessKeyboard(UP, deltaTime*30.0f);
+	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+		camera.ProcessKeyboard(DOWN, deltaTime*30.0f);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		camera.ProcessKeyboard(LEFT, deltaTime*30.0f);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
@@ -815,7 +828,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	lastX = xpos;
 	lastY = ypos;
 
-	camera.ProcessMouseMovement(xoffset, yoffset);
+	// multiply 3.2 to expand perspective
+	camera.ProcessMouseMovement(xoffset*3.2f, yoffset*3.2f);
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
