@@ -1,5 +1,4 @@
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
+#pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -9,8 +8,8 @@
 
 #include <learnopengl/filesystem.h>
 #include <learnopengl/shader_m.h>
-#include <learnopengl/camera.h>
 #include <learnopengl/model.h>
+#include <learnopengl/camera.h>
 
 #include <iostream>
 
@@ -30,6 +29,9 @@ public:
 	glm::mat4 modelMatrix;
 	bool isCollided;
 	bool block;
+
+
+	static Camera* camera_ptr;
 
 	GameObject(bool Stuck, glm::vec3 Pos, glm::vec3 Scale, glm::vec3 RotateAxis, glm::vec3 Velocity, float Radius, float RadiansForward, float RadiansBack) : isStuck(Stuck), position(Pos), scale(Scale), rotateAxis(RotateAxis), velocity(Velocity), radius(Radius), radiansForward(RadiansForward), radiansBack(RadiansBack), For_Back(1), isCollided(false), block(false) {}
 	bool static DetectCollision(GameObject &one, GameObject &two) {
@@ -74,6 +76,21 @@ public:
 			block = false;
 		}
 	}
-};
 
-#endif
+	static void CameraCollision(GameObject& obj) {
+		glm::vec3 difference = camera_ptr->Position - obj.position;
+		float collisionDepth = obj.radius - glm::length(difference);
+		if (collisionDepth > 0) {
+			camera_ptr->Position += collisionDepth * difference;
+		}
+	}
+	template <typename ... Args>
+	static void CameraCollision(GameObject& obj, Args ... args) {
+		glm::vec3 difference = camera_ptr->Position - obj.position;
+		float collisionDepth = obj.radius - glm::length(difference);
+		if (collisionDepth > 0) {
+			camera_ptr->Position += collisionDepth * difference;
+		}
+		CameraCollision(args...);
+	}
+};
