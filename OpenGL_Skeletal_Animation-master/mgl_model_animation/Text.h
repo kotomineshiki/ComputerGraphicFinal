@@ -1,7 +1,8 @@
 #pragma once 
 
 #include <glm/glm.hpp>
-#include <glad/glad.h>
+// #include <glad/glad.h>
+#include <GL/glew.h>
 #include <shader.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
