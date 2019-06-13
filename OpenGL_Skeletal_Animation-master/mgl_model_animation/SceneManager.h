@@ -124,11 +124,7 @@ public:
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs"),
 		shaderText("Text.vs", "Text.fs")
-<<<<<<< HEAD
 	{//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-=======
-	{//³õÊ¼»¯Õâ¸ö³¡¾°
->>>>>>> e2cd08c5000392a948f8c29f39f77cfb90729c9f
 		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
@@ -319,7 +315,8 @@ public:
 		city.Draw(shader);
 
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-		glStencilMask(0x00);
+		//glStencilMask(0x00);
+		glStencilMask(0xFF);
 		glDisable(GL_DEPTH_TEST);
 		stencilShader.use();
 		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
@@ -347,117 +344,29 @@ public:
 		shader.setMat4("model", model);
 		landscape.Draw(shader);
 	}
-	//void DrawCoralReef(Shader &shader) {
-	//	glEnable(GL_STENCIL_TEST);
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	//	glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	//	glStencilMask(0xFF);
-
+	//void DrawCoralReef(const Shader &shader) {
 	//	glm::mat4 model = glm::mat4(1.0f);
 	//	model = glm::translate(model, glm::vec3(325.0f, -30.0f, 300.0f)); // translate it down so it's at the center of the scene
 	//	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
 	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//	shader.setMat4("model", model);
 	//	coralReef.Draw(shader);
-
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//	glStencilMask(0x00);
-	//	glDisable(GL_DEPTH_TEST);
-	//	stencilShader.use();
-	//	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
-	//	glm::mat4 view = camera->GetViewMatrix();
-	//	stencilShader.setMat4("projection", projection);
-	//	stencilShader.setMat4("view", view);
-
-	//	model = glm::mat4(1.0f);
-	//	model = glm::translate(model, glm::vec3(325.0f, -30.0f, 300.0f)); // translate it down so it's at the center of the scene
-	//	model = glm::scale(model, glm::vec3(2.1f, 2.1f, 2.1f));	// it's a bit too big for our scene, so scale it down
-	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//	stencilShader.setMat4("model", model);
-	//	coralReef.Draw(stencilShader);
-
-	//	glStencilMask(0xFF);
-	//	glEnable(GL_DEPTH_TEST);
-	//	glDisable(GL_STENCIL_TEST);
-
-	//	shader.use();
 	//}
-	//void DrawCoralReef2(Shader &shader) {
-	//	glEnable(GL_STENCIL_TEST);
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	//	glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	//	glStencilMask(0xFF);
-
+	//void DrawCoralReef2(const Shader &shader) {
 	//	glm::mat4 model = glm::mat4(1.0f);
 	//	model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
 	//	model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
 	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//	shader.setMat4("model", model);
 	//	coralReef2.Draw(shader);
-
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//	glStencilMask(0x00);
-	//	glDisable(GL_DEPTH_TEST);
-	//	stencilShader.use();
-	//	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
-	//	glm::mat4 view = camera->GetViewMatrix();
-	//	stencilShader.setMat4("projection", projection);
-	//	stencilShader.setMat4("view", view);
-
-	//	model = glm::mat4(1.0f);
-	//	model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
-	//	model = glm::scale(model, glm::vec3(6.05f, 6.05f, 6.05f));	// it's a bit too big for our scene, so scale it down
-	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//	stencilShader.setMat4("model", model);
-	//	coralReef2.Draw(stencilShader);
-
-	//	glStencilMask(0xFF);
-	//	glEnable(GL_DEPTH_TEST);
-	//	glDisable(GL_STENCIL_TEST);
-
-	//	shader.use();
 	//}
-	//void DrawCoralReef3(Shader &shader) {
-	//	glEnable(GL_STENCIL_TEST);
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	//	glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	//	glStencilMask(0xFF);
-
-
+	//void DrawCoralReef3(const Shader &shader) {
 	//	glm::mat4 model = glm::mat4(1.0f);
 	//	model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
 	//	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));	// it's a bit too big for our scene, so scale it down
 	//	model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//	shader.setMat4("model", model);
 	//	coralReef3.Draw(shader);
-
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//	glStencilMask(0x00);
-	//	glDisable(GL_DEPTH_TEST);
-	//	stencilShader.use();
-	//	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
-	//	glm::mat4 view = camera->GetViewMatrix();
-	//	stencilShader.setMat4("projection", projection);
-	//	stencilShader.setMat4("view", view);
-
-	//	model = glm::mat4(1.0f);
-	//	model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
-	//	model = glm::scale(model, glm::vec3(2.25f, 2.25f, 2.25f));	// it's a bit too big for our scene, so scale it down
-	//	model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//	stencilShader.setMat4("model", model);
-	//	coralReef3.Draw(stencilShader);
-
-	//	glStencilMask(0xFF);
-	//	glEnable(GL_DEPTH_TEST);
-	//	glDisable(GL_STENCIL_TEST);
-
-	//	shader.use();
 	//}
 	//void DrawSeaDragon(const Shader &shader) {
 	//	glm::mat4 model = glm::mat4(1.0f);
@@ -592,7 +501,6 @@ public:
 		}
 	}
 	void DrawElements() {//ï¿½Ï¸ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ï¿½ï¿½
-		
 		InitShaders();
 
 		//DrawPalm(shadowDepthShader);
@@ -622,7 +530,7 @@ public:
 		DrawFish2(shadowShader);
 		DrawFish3(shadowShader);
 		DrawFish4(shadowShader);*/
-		DrawCity(shadowShader);
+	    DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
 		//DrawCoralReef(shadowShader);
 		/*DrawCoralReef2(shadowShader);
@@ -645,19 +553,23 @@ public:
 		shadowDebugShader.setFloat("far_plane", far_plane);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
+
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
+		glm::mat4 view = camera->GetViewMatrix();
+		glStencilMask(0x00);
+		skybox.Draw(projection, view);
+
+		glDisable(GL_STENCIL_TEST);
 		
-		// draw skybox
-		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
-		glm::mat4 view = camera->GetViewMatrix();
-		skybox.Draw(projection, view);
-
 		// text effect, should be rendered at last
-		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
-		glm::mat4 view = camera->GetViewMatrix();
-		skybox.Draw(projection, view);
-
 		text.drawSample(shaderText, SCR_WIDTH, SCR_HEIGHT);
-
+		
 		//temptation->Draw();
 	}
 	void InitParticle() {
