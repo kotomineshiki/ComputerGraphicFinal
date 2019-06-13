@@ -189,7 +189,7 @@ public:
 		lightPos = glm::vec3(-110.0f, 200.0f, -100.0f);
 
 		// Initialize text
-		text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
+		text.LoadText(shaderText);
 	}
 
 	//void DrawPalm(const Shader &shader) {
@@ -419,7 +419,6 @@ public:
 		glm::mat4 view = camera->GetViewMatrix();
 		shadowShader.setMat4("projection", projection);
 		shadowShader.setMat4("view", view);
-		//skybox.Draw(projection, view);
 		// set light uniforms
 
 		glm::mat4 lightProjection, lightView;
@@ -434,8 +433,6 @@ public:
 		shadowShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-
-		//skybox.Draw(projection, view);
 	}
 	void InitShaders3() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -543,9 +540,9 @@ public:
 		DrawHarpyCat(dynamicShadowShader);
 
 		//Eject camera if collide
-		/*for (int i = 0; i < 50; i++)
-			GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
-		GameObject::CameraCollision(cityObj, coralReefObj, coralReefObj2, coralReefObj3, seaDragonObj, turtleObj);*/
+		//for (int i = 0; i < 50; i++)
+		//	GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
+		//GameObject::CameraCollision(cityObj, coralReefObj, coralReefObj2, coralReefObj3, seaDragonObj, turtleObj);
 		
 
 		shadowDebugShader.use();
@@ -568,7 +565,8 @@ public:
 		glDisable(GL_STENCIL_TEST);
 		
 		// text effect, should be rendered at last
-		text.drawSample(shaderText, SCR_WIDTH, SCR_HEIGHT);
+		text.drawLabel(shaderText);
+		text.drawCommand(shaderText);
 		
 		//temptation->Draw();
 	}
