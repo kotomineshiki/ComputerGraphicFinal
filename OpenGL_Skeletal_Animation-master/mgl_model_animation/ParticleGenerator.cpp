@@ -15,7 +15,7 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 	// Add new particles 
 	for (GLuint i = 0; i < newParticles; ++i) {
 		int unusedParticle = this->firstUnusedParticle();//找到第一个未使用的粒子位置
-		std::cout << unusedParticle <<"********"<< std::endl;
+	//s	std::cout << unusedParticle <<"********"<< std::endl;
 		if (unusedParticle == -1)break;//不需要处理
 		this->respawnParticle(this->particles[unusedParticle], object, offset, way, type);
 	}
@@ -71,16 +71,16 @@ void ParticleGenerator::Draw()
 			glm::mat4 model = glm::mat4(1.0f);
 			//model = glm::translate(model, glm::vec3(-40.0f, 80.0f, 0.0f));
 
-			std::cout << "该粒子的寿命" << it->Life<<"粒子总数"<<particles.size() << std::endl;
-			std::cout <<"该粒子的坐标"<< it->Position.x << " " << it->Position.y << " " << it->Position.z << std::endl;
-			std::cout << "该粒子的速度" << it->Velocity.x << " " << it->Velocity.y << " " << it->Velocity.z << std::endl<<std::endl;
+	//		std::cout << "该粒子的寿命" << it->Life<<"粒子总数"<<particles.size() << std::endl;
+	//		std::cout <<"该粒子的坐标"<< it->Position.x << " " << it->Position.y << " " << it->Position.z << std::endl;
+	//		std::cout << "该粒子的速度" << it->Velocity.x << " " << it->Velocity.y << " " << it->Velocity.z << std::endl<<std::endl;
 			model = glm::translate(model, it->Position);//传入粒子的位置
 			shader.setMat4("model", model);
 			//glDrawArrays(GL_TRIANGLES, 0, 6);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 	}
-	std::cout << "***DFSDFSDF****" <<particles.size()<< std::endl;
+//	std::cout << "***DFSDFSDF****" <<particles.size()<< std::endl;
 	glBindVertexArray(0);
 	glUseProgram(0);
 	// Don't forget to reset to default blending mode

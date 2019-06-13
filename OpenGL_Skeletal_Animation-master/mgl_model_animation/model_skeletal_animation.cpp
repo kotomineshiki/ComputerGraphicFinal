@@ -32,6 +32,8 @@ extern float lastX;
 extern float lastY;
 extern bool firstMouse;
 
+Camera* GameObject::camera_ptr = &camera;
+
 // timing
 extern float deltaTime;
 extern float lastFrame;
@@ -42,6 +44,9 @@ int model_skeletal_animation()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	// Anti aliasing
+	glfwWindowHint(GLFW_SAMPLES, 4);
+	glEnable(GL_MULTISAMPLE);
 
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
@@ -90,8 +95,8 @@ int model_skeletal_animation()
 
 	//Shader SkinnedShader("skinning.vs", "skinning2");
 	
-	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//¾²Ì¬Ð¡¾«Áé
-	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");ÊØÎÀ,ÈËÁ³ÊÇµ¹Á¢µÄ,¸Ã×ÊÔ´¿ÉÒÔ²»ÓÃ
+	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//ï¿½ï¿½Ì¬Ð¡ï¿½ï¿½ï¿½ï¿½
+	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½
 	
 	//stencil Test
 	static const uint MAX_BONES = 100;
@@ -99,6 +104,7 @@ int model_skeletal_animation()
 	SceneManager sceneManager(&camera);
 	glEnable(GL_DEPTH_TEST);
 	//sceneManager.InitParticle();
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -112,7 +118,7 @@ int model_skeletal_animation()
 		
 
 		//Transform debugTransform;
-		//sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//¸üÐÂÁ£×ÓÐÅÏ¢
+		//sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		sceneManager.DrawElements();
 
 
@@ -147,35 +153,6 @@ int model_skeletal_animation()
 		//SkinnedShader.setMat4("view", view);
 		//SkinnedShader.setMat4("model", model);
 		//harpyCat.Render();
-
-		//GLuint m_boneLocation1[MAX_BONES];
-		//for (unsigned int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(m_boneLocation); i++) {
-		//	char Name[128];
-		//	memset(Name, 0, sizeof(Name));
-		//	SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
-
-		//	m_boneLocation[i] = glGetUniformLocation(SkinnedShader.ID, Name);
-		//}
-
-		//RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
-		//vector<Matrix4f> Transforms1;
-
-		//running.BoneTransform(RunningTime, Transforms1);
-
-		//for (uint i = 0; i < Transforms1.size(); i++) {
-		//	//m_pEffect->SetBoneTransform(i, Transforms[i]);
-		//	glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms1[i]);
-		//}
-		//
-		//model = glm::mat4(1.0f);
-		////model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
-		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//model = glm::translate(model, glm::vec3(10.0f, -1.0f, 0.0f));
-		////model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//SkinnedShader.setMat4("projection", projection);
-		//SkinnedShader.setMat4("view", view);
-		//SkinnedShader.setMat4("model", model);
-		//running.Render();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -48,6 +48,9 @@
     <ClCompile Include="Texture2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -95,6 +98,15 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Wave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="1.model_loading.vs">
@@ -120,5 +132,7 @@
     <None Include="shadow_mapping_dynamic.vs" />
     <None Include="shadow_mapping_dynamic.fs" />
     <None Include="shadow_mapping_depth_dynamic.vs" />
+    <None Include="Skybox.fs" />
+    <None Include="Skybox.vs" />
   </ItemGroup>
 </Project>
