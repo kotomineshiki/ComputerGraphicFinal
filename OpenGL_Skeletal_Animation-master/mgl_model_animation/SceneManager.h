@@ -15,7 +15,7 @@
 #include "Text.h"
 #include <time.h>
 #include <stdlib.h>
-
+#include"Wave.h"
 class SceneManager{
 public:
 	/*Model palm;
@@ -25,14 +25,19 @@ public:
 	Model fish4;*/
 	SkinnedMesh whale;
 	SkinnedMesh harpyCat;
-	//Model city;
+	Model city;
 	Model landscape;
-	/*Model coralReef;
-	Model coralReef2;
+	//Model coralReef;
+	/*Model coralReef2;
 	Model coralReef3;
+
+	//Model seaDragon;
+	//Model turtle;
+	Wave testWave;
 
 	Model seaDragon;
 	Model turtle;*/
+
 
 	GameObject fishObj[50];
 	GameObject fishObj2[50];
@@ -51,6 +56,7 @@ public:
 	Shader particleShader;
 	Shader stencilShader;
 	Shader shadowShader;
+	Shader waveShader;
 	Shader shadowDepthShader;
 	Shader shadowDepthShaderDynamic;
 	Shader shadowDebugShader;
@@ -100,15 +106,16 @@ public:
 		//fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"),
 		//fish3("resources/Models/fish3/12265_Fish_v1_L2.obj"),
 		//fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"),
-		//city("resources/Models/city/Organodron City.obj"),
+		city("resources/Models/city/Organodron City.obj"),
 		landscape("resources/Models/landscape/Ocean.obj"),
-		/*coralReef("resources/Models/coralReef/source/model.obj"),
-		coralReef2("resources/Models/coralReef2/source/model.obj"),
+		//coralReef("resources/Models/coralReef/source/model.obj"),
+		/*coralReef2("resources/Models/coralReef2/source/model.obj"),
 		coralReef3("resources/Models/coralReef3/source/model.obj"),
 		seaDragon("resources/Models/seaDragon/source/model.obj"),
 		turtle("resources/Models/turtle/model.obj"),*/
 		shader1("1.model_loading.vs", "1.model_loading.fs"),
 		shader2("skinning.vs", "skinning2"),
+		waveShader("wave.vs","wave.fs"),
 		particleShader("Particle.vs", "Particle.fs"),
 		stencilShader("stencilTest.vs", "stencilTest.fs"),
 		shadowShader("shadow_mapping.vs", "shadow_mapping.fs"),
@@ -118,7 +125,7 @@ public:
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs"),
 		shaderText("Text.vs", "Text.fs")
 	{//��ʼ���������
-		//whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
+		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
 		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//��ȡ����Ч����ʹ�õ���ͼ
@@ -178,7 +185,8 @@ public:
 		dynamicShadowShader.setInt("diffuseTexture", 0);
 		dynamicShadowShader.setInt("shadowMap", 1);
 
-		lightPos = glm::vec3(-110.0f, 200.0f, -200.0f);
+		//lightPos = glm::vec3(-110.0f, 800.0f, -100.0f);
+		lightPos = glm::vec3(-110.0f, 200.0f, -100.0f);
 
 		// Initialize text
 		text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
@@ -250,19 +258,36 @@ public:
 	//		fish4.Draw(shader);
 	//	}
 	//}
-	//void DrawWhale(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	model = glm::mat4(1.0f);
-	//	//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//	//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
-	//	//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-	//	model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//	model = glm::translate(model, glm::vec3(450.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
-	//	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
-	//	shader.setMat4("model", model);
-	//	whale.Render();
-	//}
+	void DrawWhale(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::mat4(1.0f);
+		//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(300.0f, 600.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		whale.Render();
+	}
 	void DrawHarpyCat(const Shader &shader) {
+		GLuint m_boneLocation[MAX_BONES];
+		for (unsigned int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(m_boneLocation); i++) {
+			char Name[128];
+			memset(Name, 0, sizeof(Name));
+			SNPRINTF(Name, sizeof(Name), "gBones[%d]", i);
+
+			m_boneLocation[i] = glGetUniformLocation(shader.ID, Name);
+		}
+		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
+		vector<Matrix4f> Transforms;
+		harpyCat.BoneTransform(RunningTime, Transforms);
+
+		for (uint i = 0; i < Transforms.size(); i++) {
+			//m_pEffect->SetBoneTransform(i, Transforms[i]);
+			glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
+		}
+
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::mat4(1.0f);
 		//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -274,7 +299,51 @@ public:
 		shader.setMat4("model", model);
 		harpyCat.Render();
 	}
-	//void DrawCity(Shader &shader) {
+	void DrawCity(Shader &shader) {
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
+
+		shader.use();
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+		model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+		shader.setMat4("model", model);
+		city.Draw(shader);
+
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0x00);
+		glDisable(GL_DEPTH_TEST);
+		stencilShader.use();
+		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
+		glm::mat4 view = camera->GetViewMatrix();
+		stencilShader.setMat4("projection", projection);
+		stencilShader.setMat4("view", view);
+		model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(0.705f, 0.705f, 0.705f));
+		model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+		stencilShader.setMat4("model", model);
+		city.Draw(stencilShader);
+		glStencilMask(0xFF);
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_STENCIL_TEST);
+
+		shader.use();
+	}
+	void DrawLandscape(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+		double time = glfwGetTime();
+		std::cout << time << endl;
+		shader.setFloat("time", time);
+		shader.setMat4("model", model);
+		landscape.Draw(shader);
+	}
+	//void DrawCoralReef(Shader &shader) {
 	//	glEnable(GL_STENCIL_TEST);
 	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
@@ -282,12 +351,12 @@ public:
 	//	glStencilFunc(GL_ALWAYS, 1, 0xFF);
 	//	glStencilMask(0xFF);
 
-	//	shader.use();
 	//	glm::mat4 model = glm::mat4(1.0f);
-	//	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-	//	model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+	//	model = glm::translate(model, glm::vec3(325.0f, -30.0f, 300.0f)); // translate it down so it's at the center of the scene
+	//	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
+	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//	shader.setMat4("model", model);
-	//	city.Draw(shader);
+	//	coralReef.Draw(shader);
 
 	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 	//	glStencilMask(0x00);
@@ -297,47 +366,94 @@ public:
 	//	glm::mat4 view = camera->GetViewMatrix();
 	//	stencilShader.setMat4("projection", projection);
 	//	stencilShader.setMat4("view", view);
+
 	//	model = glm::mat4(1.0f);
-	//	model = glm::scale(model, glm::vec3(0.705f, 0.705f, 0.705f));
-	//	model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+	//	model = glm::translate(model, glm::vec3(325.0f, -30.0f, 300.0f)); // translate it down so it's at the center of the scene
+	//	model = glm::scale(model, glm::vec3(2.1f, 2.1f, 2.1f));	// it's a bit too big for our scene, so scale it down
+	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//	stencilShader.setMat4("model", model);
-	//	city.Draw(stencilShader);
+	//	coralReef.Draw(stencilShader);
+
 	//	glStencilMask(0xFF);
 	//	glEnable(GL_DEPTH_TEST);
 	//	glDisable(GL_STENCIL_TEST);
 
 	//	shader.use();
 	//}
-	void DrawLandscape(const Shader &shader) {
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
-		shader.setMat4("model", model);
-		landscape.Draw(shader);
-	}
-	//void DrawCoralReef(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	model = glm::translate(model, glm::vec3(325.0f, -30.0f, 300.0f)); // translate it down so it's at the center of the scene
-	//	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
-	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//	shader.setMat4("model", model);
-	//	coralReef.Draw(shader);
-	//}
-	//void DrawCoralReef2(const Shader &shader) {
+	//void DrawCoralReef2(Shader &shader) {
+	//	glEnable(GL_STENCIL_TEST);
+	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	//	glStencilFunc(GL_ALWAYS, 1, 0xFF);
+	//	glStencilMask(0xFF);
+
 	//	glm::mat4 model = glm::mat4(1.0f);
 	//	model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
 	//	model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
 	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//	shader.setMat4("model", model);
 	//	coralReef2.Draw(shader);
+
+	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	//	glStencilMask(0x00);
+	//	glDisable(GL_DEPTH_TEST);
+	//	stencilShader.use();
+	//	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
+	//	glm::mat4 view = camera->GetViewMatrix();
+	//	stencilShader.setMat4("projection", projection);
+	//	stencilShader.setMat4("view", view);
+
+	//	model = glm::mat4(1.0f);
+	//	model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
+	//	model = glm::scale(model, glm::vec3(6.05f, 6.05f, 6.05f));	// it's a bit too big for our scene, so scale it down
+	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//	stencilShader.setMat4("model", model);
+	//	coralReef2.Draw(stencilShader);
+
+	//	glStencilMask(0xFF);
+	//	glEnable(GL_DEPTH_TEST);
+	//	glDisable(GL_STENCIL_TEST);
+
+	//	shader.use();
 	//}
-	//void DrawCoralReef3(const Shader &shader) {
+	//void DrawCoralReef3(Shader &shader) {
+	//	glEnable(GL_STENCIL_TEST);
+	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	//	glStencilFunc(GL_ALWAYS, 1, 0xFF);
+	//	glStencilMask(0xFF);
+
+
 	//	glm::mat4 model = glm::mat4(1.0f);
 	//	model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
 	//	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));	// it's a bit too big for our scene, so scale it down
 	//	model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	//	shader.setMat4("model", model);
 	//	coralReef3.Draw(shader);
+
+	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	//	glStencilMask(0x00);
+	//	glDisable(GL_DEPTH_TEST);
+	//	stencilShader.use();
+	//	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
+	//	glm::mat4 view = camera->GetViewMatrix();
+	//	stencilShader.setMat4("projection", projection);
+	//	stencilShader.setMat4("view", view);
+
+	//	model = glm::mat4(1.0f);
+	//	model = glm::translate(model, glm::vec3(300.0f, -130.0f, -310.0f)); // translate it down so it's at the center of the scene
+	//	model = glm::scale(model, glm::vec3(2.25f, 2.25f, 2.25f));	// it's a bit too big for our scene, so scale it down
+	//	model = glm::rotate(model, glm::radians(-120.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//	stencilShader.setMat4("model", model);
+	//	coralReef3.Draw(stencilShader);
+
+	//	glStencilMask(0xFF);
+	//	glEnable(GL_DEPTH_TEST);
+	//	glDisable(GL_STENCIL_TEST);
+
+	//	shader.use();
 	//}
 	//void DrawSeaDragon(const Shader &shader) {
 	//	glm::mat4 model = glm::mat4(1.0f);
@@ -390,6 +506,7 @@ public:
 		glm::mat4 view = camera->GetViewMatrix();
 		shadowShader.setMat4("projection", projection);
 		shadowShader.setMat4("view", view);
+		//skybox.Draw(projection, view);
 		// set light uniforms
 
 		glm::mat4 lightProjection, lightView;
@@ -405,7 +522,7 @@ public:
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 
-		skybox.Draw(projection, view);
+		//skybox.Draw(projection, view);
 	}
 	void InitShaders3() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -436,12 +553,11 @@ public:
 
 			m_boneLocation[i] = glGetUniformLocation(dynamicShadowShader.ID, Name);
 		}
-
 		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
 		vector<Matrix4f> Transforms;
 
 		whale.BoneTransform(RunningTime, Transforms);
-		harpyCat.BoneTransform(RunningTime, Transforms);
+		//harpyCat.BoneTransform(RunningTime, Transforms);
 
 		for (uint i = 0; i < Transforms.size(); i++) {
 			//m_pEffect->SetBoneTransform(i, Transforms[i]);
@@ -460,12 +576,11 @@ public:
 
 			m_boneLocation[i] = glGetUniformLocation(shadowDepthShaderDynamic.ID, Name);
 		}
-
 		float RunningTime = (float)((double)glfwGetTime() - (double)m_startTime);// / 1000.0f;
 		vector<Matrix4f> Transforms;
 
 		whale.BoneTransform(RunningTime, Transforms);
-		harpyCat.BoneTransform(RunningTime, Transforms);
+		//harpyCat.BoneTransform(RunningTime, Transforms);
 
 		for (uint i = 0; i < Transforms.size(); i++) {
 			//m_pEffect->SetBoneTransform(i, Transforms[i]);
@@ -473,57 +588,68 @@ public:
 		}
 	}
 	void DrawElements() {//�ϸ���˵����ָ���ƺ�����
+		
 		InitShaders();
+
 		//DrawPalm(shadowDepthShader);
 		//DrawFish(shadowDepthShader);
 		//DrawFish2(shadowDepthShader);
 		//DrawFish3(shadowDepthShader);
 		//DrawFish4(shadowDepthShader);
-		//DrawCity(shadowDepthShader);
+		DrawCity(shadowDepthShader);
 		DrawLandscape(shadowDepthShader);
-		/*DrawCoralReef(shadowDepthShader);
-		DrawCoralReef2(shadowDepthShader);
-		DrawCoralReef3(shadowDepthShader);
-		DrawSeaDragon(shadowDepthShader);
-		DrawTurtle(shadowDepthShader);*/
+		//DrawCoralReef(shadowDepthShader);
+		//DrawCoralReef2(shadowDepthShader);
+		//DrawCoralReef3(shadowDepthShader);
+		//DrawSeaDragon(shadowDepthShader);
+		//DrawTurtle(shadowDepthShader);
 
+		//testWave.Update();
+		//testWave.DrawLandscape(shadowShader);
 		
 		InitDynamicDepthShader();
-		//DrawWhale(shadowDepthShaderDynamic);
+		DrawWhale(shadowDepthShaderDynamic);
 		DrawHarpyCat(shadowDepthShaderDynamic);
-
+		
 		InitShaders2();
 
 		/*DrawPalm(shadowShader);
 		DrawFish(shadowShader);
 		DrawFish2(shadowShader);
 		DrawFish3(shadowShader);
-		DrawFish4(shadowShader);
-		DrawCity(shadowShader);*/
+		DrawFish4(shadowShader);*/
+		DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
-		/*DrawCoralReef(shadowShader);
-		DrawCoralReef2(shadowShader);
+		//DrawCoralReef(shadowShader);
+		/*DrawCoralReef2(shadowShader);
 		DrawCoralReef3(shadowShader);
 		DrawSeaDragon(shadowShader);
 		DrawTurtle(shadowShader);*/
 
 		InitShaders3();
-		//DrawWhale(dynamicShadowShader);
+		DrawWhale(dynamicShadowShader);
 		DrawHarpyCat(dynamicShadowShader);
 
 		//Eject camera if collide
-		for (int i = 0; i < 50; i++)
+		/*for (int i = 0; i < 50; i++)
 			GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
-		GameObject::CameraCollision(cityObj, coralReefObj, coralReefObj2, coralReefObj3, seaDragonObj, turtleObj);
+		GameObject::CameraCollision(cityObj, coralReefObj, coralReefObj2, coralReefObj3, seaDragonObj, turtleObj);*/
 		
+
 		shadowDebugShader.use();
 		shadowDebugShader.setFloat("near_plane", near_plane);
 		shadowDebugShader.setFloat("far_plane", far_plane);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		
+		// draw skybox
+		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
+		glm::mat4 view = camera->GetViewMatrix();
+		skybox.Draw(projection, view);
+
 		// text effect, should be rendered at last
 		text.drawSample(shaderText, SCR_WIDTH, SCR_HEIGHT);
+
 		//temptation->Draw();
 	}
 	void InitParticle() {
@@ -538,20 +664,3 @@ public:
 			);
 	}
 };
-
-/*	Model rose(FileSystem::getPath("resources/objects/rose/rose.obj"));
-	Model palm(FileSystem::getPath("resources/objects/palm/Palm_01.obj"));
-	//Model castle(FileSystem::getPath("resources/objects/castle/eastern ancient casttle.obj"));
-	Model fish(FileSystem::getPath("resources/objects/fish/fish.obj"));
-	Model fish2(FileSystem::getPath("resources/objects/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"));
-	Model fish3(FileSystem::getPath("resources/objects/fish3/12265_Fish_v1_L2.obj"));
-	Model fish4(FileSystem::getPath("resources/objects/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"));
-	//Model frog(FileSystem::getPath("resources/objects/frog/20436_Frog_v1 textured.obj"));
-	Model whale(FileSystem::getPath("resources/objects/whale/10054_Whale_v2_L3.obj"));
-	//Model coralReef(FileSystem::getPath("resources/objects/coralReef/source/model.obj"));
-	//Model coralReef2(FileSystem::getPath("resources/objects/coralReef2/source/model.obj"));
-	//Model coralReef3(FileSystem::getPath("resources/objects/coralReef3/source/model.obj"));
-	//Model plant(FileSystem::getPath("resources/objects/plant/model.obj"));
-	//Model seaDragon(FileSystem::getPath("resources/objects/seaDragon/source/model.obj"));
-	//Model turtle(FileSystem::getPath("resources/objects/turtle/model.obj"));
-	*/
