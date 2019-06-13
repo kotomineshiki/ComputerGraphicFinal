@@ -740,26 +740,24 @@ int main()
 
 		//city.Draw(ourShader);
 
-<<<<<<< HEAD
-=======
+
 		//city.Draw(ourShader);
->>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
+
 
 		//Transform debugTransform;
 		//myScene.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);
 		////渲染场景中的所有模型
 		//myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
 
-<<<<<<< HEAD
+
 		//skybox.drawSkybox(projection, view);
-=======
+
 		Transform debugTransform;
 		myScene.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);
 		//渲染场景中的所有模型
 		myScene.DrawElements();//只需要调用这个函数就可以画出所有元素
 		
 	//	skybox.Draw(projection, view);
->>>>>>> 522b6c9ae12e994480f325b08fe419259161dfd0
 
 		// text effect, should be rendered at last
 		text.drawEnd1(shaderText, SCR_WIDTH, SCR_HEIGHT);

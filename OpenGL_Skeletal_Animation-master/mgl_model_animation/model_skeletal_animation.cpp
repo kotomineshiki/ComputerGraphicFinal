@@ -87,9 +87,9 @@ int model_skeletal_animation()
 	
 	
 	//SkinnedMesh running, harpyCat, chicken;
-	//running.LoadMesh("resources/Models/running/model.dae");//ï¿½ï¿½ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½ï¿½
-	//harpyCat.LoadMesh("resources/Models/Humpback whale/5.fbx");//ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½
-	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//running.LoadMesh("resources/Models/running/model.dae");//ÈËÎïÅÜ²½¶¯»­
+	//harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");//ÄñÈË¶¯»­
+	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//Ð¡¼¦¶¯»­
 
 	//glm::mat4 model(1.0f);
 
@@ -145,10 +145,10 @@ int model_skeletal_animation()
 		//glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 3000.0f);
 		//glm::mat4 view = camera.GetViewMatrix();
 		//glm::mat4 model(1.0f);
-		//model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		////model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
 		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		//model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		////model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		//SkinnedShader.setMat4("projection", projection);
 		//SkinnedShader.setMat4("view", view);
 		//SkinnedShader.setMat4("model", model);

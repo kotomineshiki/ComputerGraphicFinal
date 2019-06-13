@@ -89,19 +89,6 @@ public:
 			Position -= Right * velocity;
 		if (direction == RIGHT)
 			Position += Right * velocity;
-        // if (direction == TURN_UP)
-        //     ProcessMouseMovement(0, 5);
-        // if (direction == TURN_DOWN)
-        //     ProcessMouseMovement(0, -5);
-        // if (direction == TURN_LEFT)
-        //     ProcessMouseMovement(-10, 0);
-        // if (direction == TURN_RIGHT)
-        //     ProcessMouseMovement(10, 0);
-		if (direction == SPACE) {
-			Position.x = 0;
-			Position.y = 0;
-			Position.z = 0;
-		}
 	}
 
 	// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.

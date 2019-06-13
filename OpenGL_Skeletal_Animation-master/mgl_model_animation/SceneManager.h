@@ -124,7 +124,11 @@ public:
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs"),
 		shaderText("Text.vs", "Text.fs")
+<<<<<<< HEAD
 	{//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+=======
+	{//³õÊ¼»¯Õâ¸ö³¡¾°
+>>>>>>> e2cd08c5000392a948f8c29f39f77cfb90729c9f
 		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
@@ -648,6 +652,10 @@ public:
 		skybox.Draw(projection, view);
 
 		// text effect, should be rendered at last
+		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 1000.0f);
+		glm::mat4 view = camera->GetViewMatrix();
+		skybox.Draw(projection, view);
+
 		text.drawSample(shaderText, SCR_WIDTH, SCR_HEIGHT);
 
 		//temptation->Draw();
