@@ -31,11 +31,11 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 			glm::vec3 acce;
 			if (type == 1) {
 				acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0, 20, 0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
-				p.scale = pow(double(23 / (10 * (100.0 + p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
+				p.scale = 1*pow(double(23 / (10 * (100.0 + p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
 			}
 			if (type == 2) {
-				acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0, -8, 0);
-				p.scale = sqrt(p.Life/8);
+				acce = -p.Velocity*k*p.scale*p.scale*(0.1f) + glm::vec3(0, -20, 0);
+				p.scale = 4*sqrt(p.Life/8);
 			}
 			if (type == 3) {
 				acce = glm::vec3(0, 0, 0);
@@ -233,13 +233,13 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 	}
 	if (type == 2) {
 		particle.Life = life + randomtime / 5;
-		particle.Velocity = glm::vec3(random1*2, abs(random2 *2), random3 *2 )+object.Velocity;
+		particle.Velocity = glm::vec3(random1*15, abs(random2 *15), random3 *15 )+object.Velocity;
 		particle.Position = object.Position;
 	}
 	if (type == 3) {
 		particle.Life = life+randomtime*3;
 		particle.Velocity = glm::vec3(random1, random2, random3);
-		particle.Position = glm::vec3(random1 * 100, random2 * 100, random3 * 100);
+		particle.Position = glm::vec3(random1 * 200, random2 * 200, random3 * 200);
 	}
 }
 

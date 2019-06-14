@@ -66,38 +66,7 @@ int model_skeletal_animation()
 	{
 		cout << "glew error";
 	}
-	//Shader simpleShader("1.model_loading.vs", "1.model_loading.fs");
-	//Model nanosuit("resources/Models/nanosuit/nanosuit.obj");
-    //Model rose("resources/Models/rose/rose.obj");
-	//Model palm("resources/Models/palm/Palm_01.obj");
-	//Model castle("resources/Models/castle/eastern ancient casttle.obj");
-	/*Model city("resources/Models/city/Organodron City.obj");
-	Model landscape("resources/Models/landscape/Ocean.obj");*/
-	//Model fish("resources/Models/fish/fish.obj");
-	//Model fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj");
-	//Model fish3("resources/Models/fish3/12265_Fish_v1_L2.obj");
-	//Model fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj");
-	//Model frog("resources/Models/frog/20436_Frog_v1 textured.obj");
-	//Model whale("resources/Models/whale/10054_Whale_v2_L3.obj");
-	//Model coralReef("resources/Models/coralReef/source/model.obj");
-	//Model coralReef2("resources/Models/coralReef2/source/model.obj");
-	//Model coralReef3("resources/Models/coralReef3/source/model.obj");
-	//Model seaDragon("resources/Models/seaDragon/source/model.obj");
-	//Model turtle("resources/Models/turtle/model.obj");
-	
-	
-	//SkinnedMesh running, harpyCat, chicken;
-	//running.LoadMesh("resources/Models/running/model.dae");//ÈËÎïÅÜ²½¶¯»­
-	//harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");//ÄñÈË¶¯»­
-	//chicken.LoadMesh("resources/Models/test/chicken/1.fbx");//Ð¡¼¦¶¯»­
 
-	//glm::mat4 model(1.0f);
-
-	//Shader SkinnedShader("skinning.vs", "skinning2");
-	
-	//ourModel.LoadMesh("resources/Models/test/MeshSmith/Fantasy1/Lady Fairy/Mesh/Lady Fairy.fbx");//ï¿½ï¿½Ì¬Ð¡ï¿½ï¿½ï¿½ï¿½
-	//ourModel.LoadMesh("resources/Models/bob_lamp_update/boblampclean.md5mesh");ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½
-	
 	//stencil Test
 	static const uint MAX_BONES = 100;
 	float m_startTime = glfwGetTime();
@@ -120,8 +89,8 @@ int model_skeletal_animation()
 
 		Transform debugTransform;
 		sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f));//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-		debugTransform.Position = glm::vec3(0, 40, 10);
-		debugTransform.Velocity = glm::vec3(0, 5, 0);
+		debugTransform.Position = glm::vec3(00.0f, 60.0f, -1300.0f);
+		debugTransform.Velocity = glm::vec3(0, 30, 30);
 		sceneManager.temptation2->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f));
 
 		sceneManager.temptation3->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f));
