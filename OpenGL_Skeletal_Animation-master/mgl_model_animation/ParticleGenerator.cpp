@@ -87,6 +87,12 @@ void ParticleGenerator::Draw()
 
 
 			shader.setMat4("model", model);
+			if (type == 1 || type == 3) {
+				shader.setVec4("myColor", glm::vec4(1,1,1,1));
+			}
+			if (type == 2) {
+				shader.setVec4("myColor", glm::vec4(1, 0, 0,1));
+			}
 		//	shader.setMat4("face", face);//法向量转换
 			//glDrawArrays(GL_TRIANGLES, 0, 6);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
