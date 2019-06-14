@@ -25,7 +25,7 @@ public:
 	//Model fish4;
 	SkinnedMesh whale;
 	SkinnedMesh harpyCat;
-	//Model city;
+	Model city;
 	Model landscape;
 	Model coralReef;
 	Model coralReef2;
@@ -103,7 +103,7 @@ public:
 		//fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"),
 		//fish3("resources/Models/fish3/12265_Fish_v1_L2.obj"),
 		//fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"),
-		//city("resources/Models/city/Organodron City.obj"),
+		city("resources/Models/beike/1.obj"),
 		landscape("resources/Models/landscape/Ocean.obj"),
 		coralReef("resources/Models/coralReef/source/model.obj"),
 		coralReef2("resources/Models/coralReef2/source/model.obj"),
@@ -294,41 +294,41 @@ public:
 		shader.setMat4("model", model);
 		harpyCat.Render();
 	}
-	//void DrawCity(Shader &shader) {
-	//	glEnable(GL_STENCIL_TEST);
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	//	glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	//	glStencilMask(0xFF);
+	void DrawCity(Shader &shader) {
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
 
-	//	shader.use();
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-	//	model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
-	//	shader.setMat4("model", model);
-	//	city.Draw(shader);
+		shader.use();
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+		model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+		shader.setMat4("model", model);
+		city.Draw(shader);
 
-	//	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	//	//glStencilMask(0x00);
-	//	glStencilMask(0xFF);
-	//	glDisable(GL_DEPTH_TEST);
-	//	stencilShader.use();
-	//	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
-	//	glm::mat4 view = camera->GetViewMatrix();
-	//	stencilShader.setMat4("projection", projection);
-	//	stencilShader.setMat4("view", view);
-	//	model = glm::mat4(1.0f);
-	//	model = glm::scale(model, glm::vec3(0.705f, 0.705f, 0.705f));
-	//	model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
-	//	stencilShader.setMat4("model", model);
-	//	city.Draw(stencilShader);
-	//	glStencilMask(0xFF);
-	//	glEnable(GL_DEPTH_TEST);
-	//	glDisable(GL_STENCIL_TEST);
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		//glStencilMask(0x00);
+		glStencilMask(0xFF);
+		glDisable(GL_DEPTH_TEST);
+		stencilShader.use();
+		glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)800 / (float)600, 0.1f, 3000.0f);
+		glm::mat4 view = camera->GetViewMatrix();
+		stencilShader.setMat4("projection", projection);
+		stencilShader.setMat4("view", view);
+		model = glm::mat4(1.0f);
+		model = glm::scale(model, glm::vec3(0.705f, 0.705f, 0.705f));
+		model = glm::translate(model, glm::vec3(-110.0f, -5.0f, -100.0f)); // translate it down so it's at the center of the scene
+		stencilShader.setMat4("model", model);
+		city.Draw(stencilShader);
+		glStencilMask(0xFF);
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_STENCIL_TEST);
 
-	//	shader.use();
-	//}
+		shader.use();
+	}
 	void DrawLandscape(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -501,7 +501,7 @@ public:
 		DrawFish2(shadowDepthShader);
 		DrawFish3(shadowDepthShader);
 		DrawFish4(shadowDepthShader);
-		//DrawCity(shadowDepthShader);
+		DrawCity(shadowDepthShader);
 		DrawLandscape(shadowDepthShader);
 		DrawCoralReef(shadowDepthShader);
 		DrawCoralReef2(shadowDepthShader);
@@ -523,7 +523,7 @@ public:
 		DrawFish2(shadowShader);
 		DrawFish3(shadowShader);
 		DrawFish4(shadowShader);
-	    //DrawCity(shadowShader);
+	    DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
 
 		DrawCoralReef(shadowShader);
