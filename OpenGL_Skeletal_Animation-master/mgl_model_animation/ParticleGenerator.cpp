@@ -72,8 +72,8 @@ void ParticleGenerator::Draw()
 			//model = glm::translate(model, glm::vec3(-40.0f, 80.0f, 0.0f));
 
 	//		std::cout << "该粒子的寿命" << it->Life<<"粒子总数"<<particles.size() << std::endl;
-	//		std::cout <<"该粒子的坐标"<< it->Position.x << " " << it->Position.y << " " << it->Position.z << std::endl;
-	//		std::cout << "该粒子的速度" << it->Velocity.x << " " << it->Velocity.y << " " << it->Velocity.z << std::endl<<std::endl;
+		//	std::cout <<"该粒子的坐标"<< it->Position.x << " " << it->Position.y << " " << it->Position.z << std::endl;
+		//	std::cout << "该粒子的速度" << it->Velocity.x << " " << it->Velocity.y << " " << it->Velocity.z << std::endl<<std::endl;
 			model = glm::translate(model, it->Position);//传入粒子的位置
 			shader.setMat4("model", model);
 			//glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -218,7 +218,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 //	particle.Position = object.Position + random + offset;
 	particle.Life = life;
 	particle.Velocity = glm::vec3(random1 , random2 , random3 );
-	particle.Position = object.Position;
+	particle.Position =object.Position;
 	//particle.Velocity = glm::vec3(1.0f, 1.0f, 1.0f);
 /*	if (way == 1) {
 		particle.Velocity = object.Velocity * 0.2f;

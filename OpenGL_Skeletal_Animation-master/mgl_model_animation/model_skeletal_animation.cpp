@@ -103,7 +103,7 @@ int model_skeletal_animation()
 	float m_startTime = glfwGetTime();
 	SceneManager sceneManager(&camera);
 	glEnable(GL_DEPTH_TEST);
-	//sceneManager.InitParticle();
+	sceneManager.InitParticle();
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -117,8 +117,9 @@ int model_skeletal_animation()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 
-		//Transform debugTransform;
-		//sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//����������Ϣ
+		Transform debugTransform;
+		sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f), 2);//����������Ϣ
+
 		sceneManager.DrawElements();
 
 

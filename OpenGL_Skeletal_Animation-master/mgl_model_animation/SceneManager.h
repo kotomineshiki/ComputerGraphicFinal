@@ -35,7 +35,7 @@ public:
 	Model turtle;
 	//Wave testWave;
 
-
+	Wave testWave;
 	GameObject fishObj[50];
 	GameObject fishObj2[50];
 	GameObject fishObj3[50];
@@ -121,7 +121,7 @@ public:
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs"),
 		shaderText("Text.vs", "Text.fs")
-	{//³õÊ¼»¯Õâ¸ö³¡¾°
+	{//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
@@ -186,7 +186,8 @@ public:
 		lightPos = glm::vec3(-110.0f, 200.0f, -100.0f);
 
 		// Initialize text
-		text.LoadText(shaderText, SCR_WIDTH, SCR_HEIGHT);
+		//text.LoadText(shaderText);
+		//InitParticle();
 	}
 
 	void DrawPalm(const Shader &shader) {
@@ -419,7 +420,6 @@ public:
 		glm::mat4 view = camera->GetViewMatrix();
 		shadowShader.setMat4("projection", projection);
 		shadowShader.setMat4("view", view);
-		//skybox.Draw(projection, view);
 		// set light uniforms
 
 		glm::mat4 lightProjection, lightView;
@@ -434,8 +434,6 @@ public:
 		shadowShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-
-		//skybox.Draw(projection, view);
 	}
 	void InitShaders3() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -501,6 +499,7 @@ public:
 		}
 	}
 	void DrawElements() {//ï¿½Ï¸ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½ï¿½ï¿½
+
 		InitShaders();
 
 		DrawPalm(shadowDepthShader);
@@ -532,20 +531,26 @@ public:
 		DrawFish4(shadowShader);
 	    //DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
+
 		DrawCoralReef(shadowShader);
 		DrawCoralReef2(shadowShader);
 		//DrawCoralReef3(shadowShader);
+
+
+		//testWave.Update();//æ›´æ–°æ³¢æµª
+		//testWave.DrawLandscape(shadowShader);//ç»˜åˆ¶æ³¢æµª
+
 		DrawSeaDragon(shadowShader);
 		DrawTurtle(shadowShader);
 
 		InitShaders3();
 		DrawWhale(dynamicShadowShader);
 		DrawHarpyCat(dynamicShadowShader);
-
+		temptation->Draw();
 		//Eject camera if collide
-		/*for (int i = 0; i < 50; i++)
-			GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
-		GameObject::CameraCollision(cityObj, coralReefObj, coralReefObj2, coralReefObj3, seaDragonObj, turtleObj);*/
+		//for (int i = 0; i < 50; i++)
+		//	GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
+		//GameObject::CameraCollision(cityObj, coralReefObj, coralReefObj2, coralReefObj3, seaDragonObj, turtleObj);
 		
 
 		shadowDebugShader.use();
@@ -568,9 +573,10 @@ public:
 		glDisable(GL_STENCIL_TEST);
 		
 		// text effect, should be rendered at last
+		/*text.drawLabel(shaderText);
+		text.drawCommand(shaderText);*/
+		
 
-		text.drawSample(shaderText, SCR_WIDTH, SCR_HEIGHT);
-		//temptation->Draw();
 	}
 	void InitParticle() {
 		temptation = std::make_shared<ParticleGenerator>(//ï¿½ï¿½Ê¼ï¿½ï¿½

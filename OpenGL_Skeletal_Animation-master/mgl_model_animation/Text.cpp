@@ -2,14 +2,17 @@
 
 using namespace std;
 
-void Text::LoadText(Shader &shader, GLuint width, GLuint height) {
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+void Text::LoadText(Shader &shader) {
 	// Set OpenGL options
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	shader.use();
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(width), 0.0f, static_cast<GLfloat>(height));
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(SCR_WIDTH), 0.0f, static_cast<GLfloat>(SCR_HEIGHT));
 	shader.setMat4("projection", projection);
 
 	// FreeType
@@ -122,37 +125,10 @@ void Text::RenderText(Shader &shader, std::string text, GLfloat x, GLfloat y, GL
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Text::DrawHint(Shader shaderText) {
-	RenderText(shaderText, "Press E to interact with this object", 130.0f, 100.0f, 0.5f, glm::vec3(0.8f, 0.7f, 0.0f));
-}
-
-void Text::drawHome(Shader shaderText, float screenwith, float screenheight) {
-	RenderText(shaderText, "The  Broloc", (screenwith / 2.0f) - 180, screenheight / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "Press space to start", (screenwith / 2.0f) - 100, (screenheight / 2.0f) - 70, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-}
-
 void Text::drawCommand(Shader shaderText) {
-	RenderText(shaderText, "Commands :", 300.0f, 600.0f, 0.5f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "zqsd or arrow keys :", 400.0f, 500.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "Move", 700.0f, 500.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "space :", 400.0f, 450.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "Pass the text", 700.0f, 450.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "e :", 400.0f, 400.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "Interact with object", 700.0f, 400.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "esc :", 400.0f, 350.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "Quit", 700.0f, 350.0f, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
+	RenderText(shaderText, "aswd : Move, esc : Quit", 20.0f, 20.0f, 0.3f, glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
-void Text::drawEnd1(Shader shaderText, float screenwith, float screenheight) {
-	RenderText(shaderText, "Who killed Guilhem ?!", (screenwith / 2.0f) - 300, screenheight / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "Press space to try again", (screenwith / 2.0f) - 100, (screenheight / 2.0f) - 70, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-}
-
-void Text::drawEnd2(Shader shaderText, float screenwith, float screenheight) {
-	RenderText(shaderText, "I killed him...", (screenwith / 2.0f) - 180, screenheight / 2.0f, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-	RenderText(shaderText, "Press space to try again", (screenwith / 2.0f) - 100, (screenheight / 2.0f) - 70, 0.3f, glm::vec3(1.0f, 1.0f, 1.0f));
-}
-
-void Text::drawSample(Shader shaderText, float screenwith, float screenheight) {
-	RenderText(shaderText, "Who killed Guilhem ?!", 30, 30, 1.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+void Text::drawLabel(Shader shaderText) {
+	RenderText(shaderText, "Underwater Scene", 20.0f, 50.0f, 0.5f, glm::vec3(0.0f, 0.0f, 0.0f));
 }
