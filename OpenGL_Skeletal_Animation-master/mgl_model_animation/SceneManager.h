@@ -38,7 +38,7 @@ public:
 	Model seaDragon;
 	Model turtle;*/
 
-
+	Wave testWave;
 	GameObject fishObj[50];
 	GameObject fishObj2[50];
 	GameObject fishObj3[50];
@@ -529,6 +529,8 @@ public:
 		DrawFish4(shadowShader);*/
 	    DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
+		testWave.Update();
+		testWave.DrawLandscape(shadowShader);
 		//DrawCoralReef(shadowShader);
 		/*DrawCoralReef2(shadowShader);
 		DrawCoralReef3(shadowShader);
