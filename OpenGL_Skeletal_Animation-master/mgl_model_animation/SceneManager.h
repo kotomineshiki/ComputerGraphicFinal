@@ -73,7 +73,7 @@ public:
 	Text text;
 	Shader shaderText;
 	Skybox skybox;
-	Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha)//����Դ�ж���texture
+	Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha)
 	{
 		// Create Texture object
 		Texture2D texture;
@@ -121,11 +121,11 @@ public:
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs"),
 		shaderText("Text.vs", "Text.fs")
-	{//��ʼ���������
+	{
 		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
-		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//��ȡ����Ч����ʹ�õ���ͼ
+		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);
 		srand((unsigned)time(NULL));
 		for (int i = 0; i < 50; i++) {
 			randomCoorX[i] = rand() / double(RAND_MAX)*100.0f;
@@ -235,16 +235,10 @@ public:
 
 	void DrawFish3(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 50; i++) {
-			//model = glm::mat4(1.0f);
-			//model = glm::translate(model, glm::vec3(200.0f + randomCoorX[i], 200.0f + randomCoorY[i], 250.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-			//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
-			model = fishObj3[i].Move();
 			//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			shader.setMat4("model", model);
 			fish.Draw(shader);
-		}
 	}
 	void DrawFish4(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
@@ -338,7 +332,7 @@ public:
 	void DrawLandscape(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::scale(model, glm::vec3(600.0f, 10.0f, 600.0f));	// it's a bit too big for our scene, so scale it down
 		double time = glfwGetTime();
 		std::cout << time << endl;
 		shader.setFloat("time", time);
@@ -498,7 +492,7 @@ public:
 			glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
 		}
 	}
-	void DrawElements() {//�ϸ���˵����ָ���ƺ�����
+	void DrawElements() {
 
 		InitShaders();
 
@@ -579,7 +573,7 @@ public:
 
 	}
 	void InitParticle() {
-		temptation = std::make_shared<ParticleGenerator>(//��ʼ��
+		temptation = std::make_shared<ParticleGenerator>(
 			particleShader,
 			particleTexture,
 			800,
