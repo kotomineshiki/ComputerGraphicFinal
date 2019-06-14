@@ -135,8 +135,8 @@ public:
 
 	//	shader.use();
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(00.0f, 60.0f, -1300.0f));
-		model = glm::scale(model, glm::vec3(200.0f, 200.0f, 200.0f));
+		model = glm::translate(model, glm::vec3(-100.0f, 30.0f, -1000.0f));
+		model = glm::scale(model, glm::vec3(100.0f, 150.0f, 120.0f));
 		shader.setMat4("model", model);
 		currentlandscape.Draw(shader,true);//绘制当前地图,而且要使用wave特有的绘制方法
 	//	glDrawElements(GL_TRIANGLES, 81*6, GL_UNSIGNED_INT, 0);
