@@ -190,6 +190,7 @@ public:
 
 		// Initialize text
 		text.LoadText(shaderText);
+		//InitParticle();
 	}
 
 	//void DrawPalm(const Shader &shader) {
@@ -498,6 +499,7 @@ public:
 		}
 	}
 	void DrawElements() {//�ϸ���˵����ָ���ƺ�����
+
 		InitShaders();
 
 		//DrawPalm(shadowDepthShader);
@@ -529,8 +531,11 @@ public:
 		DrawFish4(shadowShader);*/
 	    DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
-		testWave.Update();
-		testWave.DrawLandscape(shadowShader);
+
+
+
+		testWave.Update();//更新波浪
+		testWave.DrawLandscape(shadowShader);//绘制波浪
 		//DrawCoralReef(shadowShader);
 		/*DrawCoralReef2(shadowShader);
 		DrawCoralReef3(shadowShader);
@@ -540,7 +545,7 @@ public:
 		InitShaders3();
 		DrawWhale(dynamicShadowShader);
 		DrawHarpyCat(dynamicShadowShader);
-
+		temptation->Draw();
 		//Eject camera if collide
 		//for (int i = 0; i < 50; i++)
 		//	GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
@@ -570,7 +575,7 @@ public:
 		text.drawLabel(shaderText);
 		text.drawCommand(shaderText);
 		
-		//temptation->Draw();
+
 	}
 	void InitParticle() {
 		temptation = std::make_shared<ParticleGenerator>(//��ʼ��
