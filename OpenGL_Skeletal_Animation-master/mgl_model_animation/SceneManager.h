@@ -332,7 +332,7 @@ public:
 	void DrawLandscape(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::scale(model, glm::vec3(600.0f, 10.0f, 600.0f));	// it's a bit too big for our scene, so scale it down
 		double time = glfwGetTime();
 		std::cout << time << endl;
 		shader.setFloat("time", time);
