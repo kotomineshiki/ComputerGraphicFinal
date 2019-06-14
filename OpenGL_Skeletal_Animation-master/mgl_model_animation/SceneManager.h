@@ -27,7 +27,7 @@ public:
 	SkinnedMesh harpyCat;
 	Model city;
 	Model landscape;
-	//Model coralReef;
+	Model coralReef;
 	/*Model coralReef2;
 	Model coralReef3;
 
@@ -108,7 +108,7 @@ public:
 		//fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"),
 		city("resources/Models/city/Organodron City.obj"),
 		landscape("resources/Models/landscape/Ocean.obj"),
-		//coralReef("resources/Models/coralReef/source/model.obj"),
+		coralReef("resources/Models/coralReef/source/model.obj"),
 		/*coralReef2("resources/Models/coralReef2/source/model.obj"),
 		coralReef3("resources/Models/coralReef3/source/model.obj"),
 		seaDragon("resources/Models/seaDragon/source/model.obj"),
@@ -344,14 +344,14 @@ public:
 		shader.setMat4("model", model);
 		landscape.Draw(shader);
 	}
-	//void DrawCoralReef(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	model = glm::translate(model, glm::vec3(325.0f, -30.0f, 300.0f)); // translate it down so it's at the center of the scene
-	//	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
-	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//	shader.setMat4("model", model);
-	//	coralReef.Draw(shader);
-	//}
+	void DrawCoralReef(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(325.0f, -30.0f, 300.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		coralReef.Draw(shader);
+	}
 	//void DrawCoralReef2(const Shader &shader) {
 	//	glm::mat4 model = glm::mat4(1.0f);
 	//	model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
@@ -510,7 +510,7 @@ public:
 		//DrawFish4(shadowDepthShader);
 		DrawCity(shadowDepthShader);
 		DrawLandscape(shadowDepthShader);
-		//DrawCoralReef(shadowDepthShader);
+		DrawCoralReef(shadowDepthShader);
 		//DrawCoralReef2(shadowDepthShader);
 		//DrawCoralReef3(shadowDepthShader);
 		//DrawSeaDragon(shadowDepthShader);
@@ -532,7 +532,7 @@ public:
 		DrawFish4(shadowShader);*/
 	    DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
-		//DrawCoralReef(shadowShader);
+		DrawCoralReef(shadowShader);
 		/*DrawCoralReef2(shadowShader);
 		DrawCoralReef3(shadowShader);
 		DrawSeaDragon(shadowShader);
