@@ -2,9 +2,10 @@
 #include <iostream>
 
 ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, 
-	GLuint amount, Camera* c, float s, float l, float a)
+	GLuint amount, Camera* c, float s, float l, float a,int type)
 	: shader(shader), texture(texture), amount(amount), scale(s), life(l), a_atten(a)
 {
+	this->type = type;
 	theCamera = c;
 	this->init();
 }
@@ -27,7 +28,7 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 		if (p.Life > 0.0f)
 		{	// particle is alive, thus update
 			GLfloat k = 1;//粘滞阻力系数
-			glm::vec3 acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0,10,0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
+			glm::vec3 acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0,20,0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
 			p.scale = pow(double(23/(10*(100.0-p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
 
 
@@ -71,11 +72,20 @@ void ParticleGenerator::Draw()
 			glm::mat4 model = glm::mat4(1.0f);
 			//model = glm::translate(model, glm::vec3(-40.0f, 80.0f, 0.0f));
 
+//			glm::vec3 temp = theCamera->Front;
+//			model = glm::rotate(model, -atan(temp.z / temp.x), glm::vec3(0, 1, 0));
+//			model = glm::rotate(model, atan(temp.b / sqrt(temp.x*temp.x + temp.z*temp.z)), glm::vec3(temp.z*temp.z, temp.x*temp.x, 0));
 	//		std::cout << "该粒子的寿命" << it->Life<<"粒子总数"<<particles.size() << std::endl;
 		//	std::cout <<"该粒子的坐标"<< it->Position.x << " " << it->Position.y << " " << it->Position.z << std::endl;
 		//	std::cout << "该粒子的速度" << it->Velocity.x << " " << it->Velocity.y << " " << it->Velocity.z << std::endl<<std::endl;
 			model = glm::translate(model, it->Position);//传入粒子的位置
+			model = glm::scale(model, glm::vec3(it->scale, it->scale, it->scale));
+
+
+
+
 			shader.setMat4("model", model);
+		//	shader.setMat4("face", face);//法向量转换
 			//glDrawArrays(GL_TRIANGLES, 0, 6);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
@@ -211,13 +221,14 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 	GLfloat random1 = ((rand() % 100) - 50) / 10.0f;
 	GLfloat random2= ((rand() % 100) - 50) / 10.0f;
 	GLfloat random3 = ((rand() % 100) - 50) / 10.0f;
+	GLfloat randomtime = ((rand() % 100) - 50) / 10.0f;
 	//随机颜色
 	GLfloat rColor1 = 0.5 + ((rand() % 100) / 100.0f);
 	GLfloat rColor2 = -1.0 + ((rand() % 100) / 100.0f) * 2;
 	GLfloat rColor3 = -1.0 + ((rand() % 100) / 100.0f) * 2;
 //	particle.Position = object.Position + random + offset;
-	particle.Life = life;
-	particle.Velocity = glm::vec3(random1 , random2 , random3 );
+	particle.Life = life+randomtime;
+	particle.Velocity = glm::vec3(random1/4 , random2/4 , random3/4 );
 	particle.Position =object.Position;
 	//particle.Velocity = glm::vec3(1.0f, 1.0f, 1.0f);
 /*	if (way == 1) {

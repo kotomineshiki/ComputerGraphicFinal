@@ -20,7 +20,7 @@ class ParticleGenerator
 public:
 	
 	ParticleGenerator(Shader shader, Texture2D texture, GLuint amount, Camera* c,
-		float scale = 20.0f, float life = 5.0f, float a = 2.5f);
+		float scale = 20.0f, float life = 5.0f, float a = 2.5f,int type=1);
 	// Update all particles
 	void Update(GLfloat dt, Transform &object, GLuint newParticles,
 		glm::vec3 offset = glm::vec3(0.0f, 0.0f,0.0f), int way = 1, int type = 0);
@@ -44,6 +44,7 @@ private:
 
 	GLfloat a_atten;	//alphaË¥¼õËÙ¶È
 
+	int type=1;
 	void init();
 	// Returns the first Particle index that's currently unused e.g. Life <= 0.0f or 0 if no particle is currently inactive
 	GLuint firstUnusedParticle();
