@@ -83,12 +83,12 @@ public:
 		// -------------
 		vector<std::string> faces
 		{
-			"resources/Skybox/right.jpg",
-			"resources/Skybox/left.jpg",
-			"resources/Skybox/top.jpg",
-			"resources/Skybox/bottom.jpg",
-			"resources/Skybox/front.jpg",
-			"resources/Skybox/back.jpg"
+			"resources/Skybox/right.png",
+			"resources/Skybox/left.png",
+			"resources/Skybox/top.png",
+			"resources/Skybox/bottom.png",
+			"resources/Skybox/front.png",
+			"resources/Skybox/back.png"
 		};
 		cubemapTexture = loadCubemap(faces);
 
