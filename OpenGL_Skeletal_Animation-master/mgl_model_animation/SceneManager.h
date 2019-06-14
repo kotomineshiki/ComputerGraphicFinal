@@ -60,6 +60,10 @@ public:
 	Shader dynamicShadowShader;
 	Texture2D particleTexture;
 	std::shared_ptr<ParticleGenerator> temptation;
+
+	std::shared_ptr<ParticleGenerator> temptation2;
+
+	std::shared_ptr<ParticleGenerator> temptation3;
 	float randomCoorX[50], randomCoorY[50], randomCoorZ[50], x[3], z[3];
 	static const uint MAX_BONES = 100;
 	float m_startTime;
@@ -334,7 +338,7 @@ public:
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(600.0f, 10.0f, 600.0f));	// it's a bit too big for our scene, so scale it down
 		double time = glfwGetTime();
-		std::cout << time << endl;
+	//	std::cout << time << endl;
 		shader.setFloat("time", time);
 		shader.setMat4("model", model);
 		landscape.Draw(shader);
@@ -541,6 +545,8 @@ public:
 		DrawWhale(dynamicShadowShader);
 		DrawHarpyCat(dynamicShadowShader);
 		temptation->Draw();
+		temptation2->Draw();
+		temptation3->Draw();
 		//Eject camera if collide
 		//for (int i = 0; i < 50; i++)
 		//	GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
@@ -582,6 +588,31 @@ public:
 			10.0f,
 			1.0 / 5.0f,
 			1
+			);
+	}
+	void InitParticle2() {
+		temptation2 = std::make_shared<ParticleGenerator>(
+			particleShader,
+			particleTexture,
+			300,
+			camera,
+			30,
+			7.0f,
+			1.0 / 5.0f,
+			2
+			);
+	}
+
+	void InitParticle3() {
+		temptation3 = std::make_shared<ParticleGenerator>(
+			particleShader,
+			particleTexture,
+			300,
+			camera,
+			30,
+			40.0f,
+			1.0 / 5.0f,
+			3
 			);
 	}
 };

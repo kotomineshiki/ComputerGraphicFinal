@@ -5,5 +5,5 @@ uniform sampler2D particleTexture;
 
 void main()
 {
-    FragColor =texture(particleTexture,TexCoords);// vec4(1.0f,0.0f,0.0f, 1.0f);
+    FragColor = vec4(1.0f,1.0f,1.0f, 1.0f);//texture(particleTexture,TexCoords);
 }

@@ -11,14 +11,14 @@ ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture,
 }
 
 void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticles,
-	glm::vec3 offset, int way, int type)
+	glm::vec3 offset)
 {
 	// Add new particles 
 	for (GLuint i = 0; i < newParticles; ++i) {
 		int unusedParticle = this->firstUnusedParticle();//找到第一个未使用的粒子位置
 	//s	std::cout << unusedParticle <<"********"<< std::endl;
 		if (unusedParticle == -1)break;//不需要处理
-		this->respawnParticle(this->particles[unusedParticle], object, offset, way, type);
+		this->respawnParticle(this->particles[unusedParticle], object, offset);
 	}
 	// Update all particles
 	for (GLuint i = 0; i < this->amount; ++i)
@@ -28,9 +28,18 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 		if (p.Life > 0.0f)
 		{	// particle is alive, thus update
 			GLfloat k = 1;//粘滞阻力系数
-			glm::vec3 acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0,20,0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
-			p.scale = pow(double(23/(10*(100.0-p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
-
+			glm::vec3 acce;
+			if (type == 1) {
+				acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0, 20, 0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
+				p.scale = pow(double(23 / (10 * (100.0 + p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
+			}
+			if (type == 2) {
+				acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0, -8, 0);
+				p.scale = sqrt(p.Life/8);
+			}
+			if (type == 3) {
+				acce = glm::vec3(0, 0, 0);
+			}
 
 			p.Velocity += acce * dt;//动力学方程
 			p.Position += p.Velocity * dt;
@@ -57,14 +66,7 @@ void ParticleGenerator::Draw()
 		it != particles.end();
 		++it) {
 		if (it->Life > 0.0f) {
-		//	std::cout << "2321" << std::endl;
-		//	this->shader.SetVector2f("offset", it->Position);
-		//	this->shader.SetVector4f("color", it->Color);
-		//	this->shader.SetFloat("scale", this->scale);
-		//	this->shader.setVec3("offset", it->Position);
-		//	this->shader.setVec4("color", it->Color);
-		//	this->shader.setFloat("scale", this->scale);
-		//	std::cout <<it->Position.x<<"  "<<it->Position.y<<"  "<<it->Position.z << std::endl;
+
 			glm::mat4 projection = glm::perspective(glm::radians(theCamera->Zoom), (float)800 / (float)600, 0.1f, 1000.0f);
 			glm::mat4 view = theCamera->GetViewMatrix();
 			shader.setMat4("projection", projection);
@@ -200,21 +202,12 @@ GLuint ParticleGenerator::firstUnusedParticle()
 			return i;//这个粒子需要被更新
 		}
 	}
-	// Otherwise, do a linear search，在Last之后未找到有被杀死的粒子
-/*	for (GLuint i = 0; i < lastUsedParticle; ++i) {
-		if (this->particles[i].Life <= 0.0f) {
-			lastUsedParticle = i;
-			return i;
-		}
-	}*/
-	// All particles are taken, override the first one
-	//(note that if it repeatedly hits this case, more particles should be reserved)
-//	lastUsedParticle = 0;
+
 	return -1;//目前所有的粒子都在被使用
 }
 
 void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
-	glm::vec3 offset, int way, int type)
+	glm::vec3 offset)
 {
 	//随机产生一个粒子
 	//-5到+5的随机数
@@ -227,48 +220,21 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 	GLfloat rColor2 = -1.0 + ((rand() % 100) / 100.0f) * 2;
 	GLfloat rColor3 = -1.0 + ((rand() % 100) / 100.0f) * 2;
 //	particle.Position = object.Position + random + offset;
-	particle.Life = life+randomtime;
-	particle.Velocity = glm::vec3(random1/4 , random2/4 , random3/4 );
-	particle.Position =object.Position;
-	//particle.Velocity = glm::vec3(1.0f, 1.0f, 1.0f);
-/*	if (way == 1) {
-		particle.Velocity = object.Velocity * 0.2f;
-		particle.Color = glm::vec4(rColor1, (rColor2 + 1.0f) / 2.0f*0.6f, (rColor3 + 1.0f) / 2.0f*0.6f, 1.0f);
+	if (type == 1) {
+		particle.Life = life + randomtime;
+		particle.Velocity = glm::vec3(random1 / 4, random2 / 4, random3 / 4);
+		particle.Position = object.Position;
 	}
-	else if (way == 2) {
-		glm::vec3 dir;
-		dir.x = cos(180.0f*rColor2);
-		dir.y = sin(180.0f*rColor2);
-		particle.Velocity = glm::length(object.Velocity) * 0.4f * dir;
-		particle.Color = glm::vec4(rColor1, (rColor2 + 1.0f) / 2.0f*0.6f, (rColor3 + 1.0f) / 2.0f*0.6f, 1.0f);
+	if (type == 2) {
+		particle.Life = life + randomtime / 5;
+		particle.Velocity = glm::vec3(random1*2, abs(random2 *2), random3 *2 )+object.Velocity;
+		particle.Position = object.Position;
 	}
-	else if (way == 3) {
-		glm::vec3 dir;
-		int whichone = rand() % 2;
-		switch (type) {
-		case 0://铜钱形
-			if (whichone == 0) {
-				dir.x = pow(cos(180.0f*rColor2), 3);
-				dir.y = pow(sin(180.0f*rColor2), 3);
-			}
-			else {
-				dir.x = cos(180.0f*rColor2);
-				dir.y = sin(180.0f*rColor2);
-			}
-			break;
-		case 1://心形
-			dir.y = 2 * cos(180.0f*rColor2) - cos(2 * 180.0f*rColor2);
-			dir.x = 2 * sin(180.0f*rColor2) - sin(2 * 180.0f*rColor2);
-			break;
-		case 2://三叶草形
-			dir.x = sin(3 * 180.0f*rColor2)*cos(180.0f*rColor2);
-			dir.y = sin(3 * 180.0f*rColor2)*sin(180.0f*rColor2);
-			break;
-		}
-		GLfloat len = glm::length(object.Velocity);
-		particle.Velocity = len * 0.4f * dir;
-		particle.Color = glm::vec4(rColor1, (rColor2 + 1.0f) / 2.0f*0.8f, (rColor3 + 1.0f) / 2.0f*0.3f, 1.0f);
-	}*/
+	if (type == 3) {
+		particle.Life = life+randomtime*3;
+		particle.Velocity = glm::vec3(random1, random2, random3);
+		particle.Position = glm::vec3(random1 * 100, random2 * 100, random3 * 100);
+	}
 }
 
 void ParticleGenerator::Reset()
