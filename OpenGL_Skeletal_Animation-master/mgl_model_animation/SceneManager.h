@@ -515,8 +515,8 @@ public:
 		DrawSeaDragon(shadowDepthShader);
 		DrawTurtle(shadowDepthShader);
 
-		//testWave.Update();
-		//testWave.DrawLandscape(shadowShader);
+	//	testWave.Update();
+	//	testWave.DrawLandscape(shadowShader);
 		
 		InitDynamicDepthShader();
 		DrawWhale(shadowDepthShaderDynamic);
@@ -537,8 +537,8 @@ public:
 		//DrawCoralReef3(shadowShader);
 
 
-		//testWave.Update();//更新波浪
-		//testWave.DrawLandscape(shadowShader);//绘制波浪
+		testWave.Update();//更新波浪
+		testWave.DrawLandscape(shadowShader);//绘制波浪
 
 		DrawSeaDragon(shadowShader);
 		DrawTurtle(shadowShader);
