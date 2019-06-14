@@ -18,11 +18,11 @@
 #include"Wave.h"
 class SceneManager{
 public:
-	/*Model palm;
+	//Model palm;
 	Model fish;
 	Model fish2;
-	Model fish3;
-	Model fish4;*/
+	//Model fish3;
+	//Model fish4;
 	SkinnedMesh whale;
 	SkinnedMesh harpyCat;
 	Model city;
@@ -102,8 +102,8 @@ public:
 	}
 	SceneManager(Camera* input) :
 		//palm("resources/Models/palm/Palm_01.obj"),
-		//fish("resources/Models/fish/fish.obj"),
-		//fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"),
+		fish("resources/Models/fish/fish.obj"),
+		fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"),
 		//fish3("resources/Models/fish3/12265_Fish_v1_L2.obj"),
 		//fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"),
 		city("resources/Models/city/Organodron City.obj"),
@@ -124,11 +124,11 @@ public:
 		shadowDebugShader("debug_quad.vs", "debug_quad_depth.fs"),
 		dynamicShadowShader("shadow_mapping_dynamic.vs","shadow_mapping_dynamic.fs"),
 		shaderText("Text.vs", "Text.fs")
-	{//��ʼ���������
+	{
 		whale.LoadMesh("resources/Models/Humpback whale/5.fbx");
 		harpyCat.LoadMesh("resources/Models/test/HarpyCat/Model/1.fbx");
 		camera = input;
-		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);//��ȡ����Ч����ʹ�õ���ͼ
+		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);
 		srand((unsigned)time(NULL));
 		for (int i = 0; i < 50; i++) {
 			randomCoorX[i] = rand() / double(RAND_MAX)*100.0f;
@@ -204,35 +204,35 @@ public:
 	//		}
 	//	}
 	//}
-	//void DrawFish(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	for (int i = 0; i < 50; i++) {
-	//		if (fishObj[i].DetectCollision(fishObj[i], coralReefObj) || fishObj[i].DetectCollision(fishObj[i], coralReefObj3)) {
-	//			fishObj[i].CollidedIn();
-	//		}
-	//		else {
-	//			fishObj[i].CollidedOut();
-	//		}
-	//		//model = glm::mat4(1.0f);
-	//		//model = glm::translate(model, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-	//		//model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));	// it's a bit too big for our scene, so scale it down
-	//		model = fishObj[i].Move();
-	//		shader.setMat4("model", model);
-	//		fish.Draw(shader);
-	//	}
-	//}
-	//void DrawFish2(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	for (int i = 0; i < 50; i++) {
-	//		//model = glm::mat4(1.0f);
-	//		//model = glm::translate(model, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-	//		//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-	//		model = fishObj2[i].Move();
-	//		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//		shader.setMat4("model", model);
-	//		fish2.Draw(shader);
-	//	}
-	//}
+	void DrawFish(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		for (int i = 0; i < 50; i++) {
+			if (fishObj[i].DetectCollision(fishObj[i], coralReefObj) || fishObj[i].DetectCollision(fishObj[i], coralReefObj3)) {
+				fishObj[i].CollidedIn();
+			}
+			else {
+				fishObj[i].CollidedOut();
+			}
+			//model = glm::mat4(1.0f);
+			//model = glm::translate(model, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
+			//model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));	// it's a bit too big for our scene, so scale it down
+			model = fishObj[i].Move();
+			shader.setMat4("model", model);
+			fish.Draw(shader);
+		}
+	}
+	void DrawFish2(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		for (int i = 0; i < 50; i++) {
+			//model = glm::mat4(1.0f);
+			//model = glm::translate(model, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
+			//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+			model = fishObj2[i].Move();
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			shader.setMat4("model", model);
+			fish2.Draw(shader);
+		}
+	}
 
 	//void DrawFish3(const Shader &shader) {
 	//	glm::mat4 model = glm::mat4(1.0f);
@@ -500,12 +500,12 @@ public:
 			glUniformMatrix4fv(m_boneLocation[i], 1, GL_TRUE, (const GLfloat*)Transforms[i]);
 		}
 	}
-	void DrawElements() {//�ϸ���˵����ָ���ƺ�����
+	void DrawElements() {
 		InitShaders();
 
 		//DrawPalm(shadowDepthShader);
-		//DrawFish(shadowDepthShader);
-		//DrawFish2(shadowDepthShader);
+		DrawFish(shadowDepthShader);
+		DrawFish2(shadowDepthShader);
 		//DrawFish3(shadowDepthShader);
 		//DrawFish4(shadowDepthShader);
 		DrawCity(shadowDepthShader);
@@ -525,11 +525,11 @@ public:
 		
 		InitShaders2();
 
-		/*DrawPalm(shadowShader);
+		//DrawPalm(shadowShader);
 		DrawFish(shadowShader);
 		DrawFish2(shadowShader);
-		DrawFish3(shadowShader);
-		DrawFish4(shadowShader);*/
+		//DrawFish3(shadowShader);
+		//DrawFish4(shadowShader);
 	    DrawCity(shadowShader);
 		DrawLandscape(shadowShader);
 		//DrawCoralReef(shadowShader);
@@ -573,7 +573,7 @@ public:
 		//temptation->Draw();
 	}
 	void InitParticle() {
-		temptation = std::make_shared<ParticleGenerator>(//��ʼ��
+		temptation = std::make_shared<ParticleGenerator>(
 			particleShader,
 			particleTexture,
 			100,
