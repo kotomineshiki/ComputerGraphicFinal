@@ -185,8 +185,7 @@ public:
 		lightPos = glm::vec3(-110.0f, 200.0f, -100.0f);
 
 		// Initialize text
-		//text.LoadText(shaderText);
-		//InitParticle();
+		text.LoadText(shaderText);
 	}
 
 	void DrawPalm(const Shader &shader) {
@@ -218,40 +217,40 @@ public:
 			fish.Draw(shader);
 		}
 	}
-	//void DrawFish2(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	for (int i = 0; i < 50; i++) {
-	//		//model = glm::mat4(1.0f);
-	//		//model = glm::translate(model, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-	//		//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-	//		model = fishObj2[i].Move();
-	//		//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//		shader.setMat4("model", model);
-	//		fish.Draw(shader);
-	//	}
-	//}
+	void DrawFish2(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		for (int i = 0; i < 50; i++) {
+			//model = glm::mat4(1.0f);
+			//model = glm::translate(model, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
+			//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+			model = fishObj2[i].Move();
+			//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			shader.setMat4("model", model);
+			fish.Draw(shader);
+		}
+	}
 
-	//void DrawFish3(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//		shader.setMat4("model", model);
-	//		fish.Draw(shader);
-	//}
-	//void DrawFish4(const Shader &shader) {
-	//	glm::mat4 model = glm::mat4(1.0f);
-	//	for (int i = 0; i < 50; i++) {
-	//		//model = glm::mat4(1.0f);
-	//		//model = glm::translate(model, glm::vec3(-280.0f + randomCoorX[i], 300.0f + randomCoorY[i], -100.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-	//		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-	//		model = fishObj4[i].Move();
-	//		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//		shader.setMat4("model", model);
-	//		fish.Draw(shader);
-	//	}
-	//}
+	void DrawFish3(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+			//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			shader.setMat4("model", model);
+			fish.Draw(shader);
+	}
+	void DrawFish4(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		for (int i = 0; i < 50; i++) {
+			//model = glm::mat4(1.0f);
+			//model = glm::translate(model, glm::vec3(-280.0f + randomCoorX[i], 300.0f + randomCoorY[i], -100.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
+			//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+			model = fishObj4[i].Move();
+			//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			shader.setMat4("model", model);
+			fish.Draw(shader);
+		}
+	}
 	void DrawWhale(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::mat4(1.0f);
@@ -486,13 +485,13 @@ public:
 	void DrawElements() {
 
 		InitShaders();
-
+		DrawCity(shadowDepthShader);
 		DrawPalm(shadowDepthShader);
 		DrawFish(shadowDepthShader);
-	//	DrawFish2(shadowDepthShader);
-	//	DrawFish3(shadowDepthShader);
-	//	DrawFish4(shadowDepthShader);
-		DrawCity(shadowDepthShader);
+		DrawFish2(shadowDepthShader);
+		DrawFish3(shadowDepthShader);
+		DrawFish4(shadowDepthShader);
+		
 		DrawLandscape(shadowDepthShader);
 		DrawCoralReef(shadowDepthShader);
 		DrawCoralReef2(shadowDepthShader);
@@ -508,12 +507,14 @@ public:
 		
 		InitShaders2();
 
+
+		DrawCity(shadowShader);
 		DrawPalm(shadowShader);
 		DrawFish(shadowShader);
-	//	DrawFish2(shadowShader);
-	//	DrawFish3(shadowShader);
-	//	DrawFish4(shadowShader);
-	    DrawCity(shadowShader);
+		DrawFish2(shadowShader);
+		DrawFish3(shadowShader);
+		DrawFish4(shadowShader);
+	    
 		DrawLandscape(shadowShader);
 
 		DrawCoralReef(shadowShader);
