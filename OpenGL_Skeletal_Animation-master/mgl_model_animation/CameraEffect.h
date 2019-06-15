@@ -283,7 +283,7 @@ public:
 		glEnableVertexAttribArray(1);
 	}
 
-	void draw(Camera& camera)
+	void draw(Camera& camera, glm::vec3 lightPos)
 	{
 		bool lensflare = true;
 		bool dof = false;
@@ -297,7 +297,7 @@ public:
 		glBindVertexArray(screenVao);
 
 		plainShaders.setFloat("aspect", 1);
-		glm::vec3 toLight = glm::normalize(glm::vec3(0.0, 20.0, -20.0) - camera.Position);
+		glm::vec3 toLight = glm::normalize(lightPos - camera.Position);
 		plainShaders.setFloat("offsetX", fmax(fmin(1.0, (1 + glm::dot(toLight, camera.Right)) / 2), 0.0));
 		plainShaders.setFloat("offsetY", fmax(fmin(1.0, (1 + glm::dot(toLight, camera.Up)) / 2), 0.0));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
