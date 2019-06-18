@@ -31,7 +31,7 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 			glm::vec3 acce;
 			if (type == 1) {
 				acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0, 20, 0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
-				p.scale = 1*pow(double(23 / (10 * (100.0 + p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
+				p.scale = p.initialScale*1*pow(double(23 / (10 * (100.0 + p.Position.y*3))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
 			}
 			if (type == 2) {
 				acce = -p.Velocity*k*p.scale*p.scale*(0.1f) + glm::vec3(0, -20, 0);
@@ -83,7 +83,7 @@ void ParticleGenerator::Draw()
 
 			shader.setMat4("model", model);
 			if (type == 1 || type == 3) {
-				shader.setVec4("myColor", glm::vec4(1,1,1,1));
+				shader.setVec4("myColor", glm::vec4(1,1,1,0.4));
 			}
 			if (type == 2) {
 				shader.setVec4("myColor", glm::vec4(1, 0, 0,1));
@@ -193,6 +193,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 	GLfloat random1 = ((rand() % 100) - 50) / 10.0f;
 	GLfloat random2= ((rand() % 100) - 50) / 10.0f;
 	GLfloat random3 = ((rand() % 100) - 50) / 10.0f;
+	GLfloat random4 = ((rand() % 100) - 50) / 10.0f;
 	GLfloat randomtime = ((rand() % 100) - 50) / 10.0f;
 	//随机颜色
 	GLfloat rColor1 = 0.5 + ((rand() % 100) / 100.0f);
@@ -203,6 +204,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 		particle.Life = life + randomtime;
 		particle.Velocity = glm::vec3(random1 / 4, random2 / 4, random3 / 4);
 		particle.Position = object.Position;
+		particle.initialScale = 1 + random4 / 5;//使得初始的气泡大小错落不一
 	}
 	if (type == 2) {
 		particle.Life = life + randomtime / 5;
