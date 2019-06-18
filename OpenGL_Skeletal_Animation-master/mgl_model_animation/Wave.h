@@ -120,7 +120,7 @@ public:
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				x -= 0.2*cos(thetas[j])*amplitudes[i][j] * sin(waveNums[i] * (x*cos(thetas[j]) + z * sin(thetas[j])) - omegas[i] * time);
-				y += 0.2* amplitudes[i][j] * cos(waveNums[i] * (x*cos(thetas[j]) + z * sin(thetas[j])) - omegas[i] * time);
+				y += 0.1* amplitudes[i][j] * cos(waveNums[i] * (x*cos(thetas[j]) + z * sin(thetas[j])) - omegas[i] * time);
 				z -= 0.2*sin(thetas[j])*amplitudes[i][j] * sin(waveNums[i] * (x*cos(thetas[j]) + z * sin(thetas[j])) - omegas[i] * time);
 			}
 		}     return glm::vec3 (x, y, z);
@@ -135,8 +135,8 @@ public:
 
 	//	shader.use();
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		model = glm::translate(model, glm::vec3(-100.0f, 30.0f, -1000.0f));
+		model = glm::scale(model, glm::vec3(100.0f, 150.0f, 120.0f));
 		shader.setMat4("model", model);
 		currentlandscape.Draw(shader,true);//绘制当前地图,而且要使用wave特有的绘制方法
 	//	glDrawElements(GL_TRIANGLES, 81*6, GL_UNSIGNED_INT, 0);

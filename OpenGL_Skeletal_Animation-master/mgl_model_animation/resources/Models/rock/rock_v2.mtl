@@ -1,0 +1,9 @@
+newmtl lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd rock_v2_obj_lambert2SG_BaseColor.png
+map_Ka rock_v2_obj_lambert2SG_Height.png
+bump rock_v2_obj_lambert2SG_Normal.png -bm 1.258065
+Ni 1.00

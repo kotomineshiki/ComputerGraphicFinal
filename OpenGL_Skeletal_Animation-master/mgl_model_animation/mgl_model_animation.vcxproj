@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="CameraEffect.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="math_3d.h" />
     <ClInclude Include="mesh.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Texture_c.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="util.h" />
