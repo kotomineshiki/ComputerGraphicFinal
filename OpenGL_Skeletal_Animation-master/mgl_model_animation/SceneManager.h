@@ -29,6 +29,11 @@ public:
 
 	Model seaDragon;
 	Model turtle;
+	Model snake;
+	Model sixLineFish;
+	Model seahorse;
+	Model rug;
+	Model crab;
 
 	Wave testWave;
 	GameObject fishObj[50];
@@ -109,6 +114,11 @@ public:
 
 		seaDragon("resources/Models/seaDragon/source/model.obj"),
 		turtle("resources/Models/turtle/model.obj"),
+		snake("resources/Models/snake/13108_Eastern_Hognose_Snake_v1_L3.obj"),
+		sixLineFish("resources/Models/sixLineFish/13014_Six_Line_Wrasse_v1_l3.obj"),
+		seahorse("resources/Models/seahorse/10044_SeaHorse_v1_iterations-2.obj"),
+		crab("resources/Models/crab/10012_crab_v2_iterations-1.obj"),
+		rug("resources/Models/rug/10404_Circular_Throw_Rug_v1_max2010_iterations-2.obj"),
 		shader1("1.model_loading.vs", "1.model_loading.fs"),
 		shader2("skinning.vs", "skinning2"),
 		waveShader("wave.vs","wave.fs"),
@@ -224,10 +234,10 @@ public:
 			//model = glm::translate(model, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
 			//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
 			model = fishObj2[i].Move();
-			//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 			model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			shader.setMat4("model", model);
-			fish.Draw(shader);
+			sixLineFish.Draw(shader);
 		}
 	}
 
@@ -376,6 +386,48 @@ public:
 		shader.setMat4("model", model);
 		turtle.Draw(shader);
 	}
+	void DrawSnake(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-50.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		snake.Draw(shader);
+	}
+	void DrawSixLineFish(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		sixLineFish.Draw(shader);
+	}
+	void DrawSeahorse(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 110.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		seahorse.Draw(shader);
+	}
+	void DrawRug(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-100.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		rug.Draw(shader);
+	}
+	void DrawCrab(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-200.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		crab.Draw(shader);
+	}
+
+
 	void InitShaders() {
 		glm::mat4 lightProjection, lightView;
 		glm::mat4 lightSpaceMatrix;
@@ -499,7 +551,11 @@ public:
 		DrawSeaDragon(shadowDepthShader);
 		DrawTurtle(shadowDepthShader);
 
-
+		DrawSnake(shadowDepthShader);
+		DrawSeahorse(shadowDepthShader);
+		DrawSixLineFish(shadowDepthShader);
+		DrawRug(shadowDepthShader);
+		DrawCrab(shadowDepthShader);
 		
 		InitDynamicDepthShader();
 		DrawWhale(shadowDepthShaderDynamic);
@@ -519,7 +575,11 @@ public:
 
 		DrawCoralReef(shadowShader);
 		DrawCoralReef2(shadowShader);
-
+		DrawSnake(shadowShader);
+		DrawSixLineFish(shadowShader);
+		DrawSeahorse(shadowShader);
+		DrawRug(shadowShader);
+		DrawCrab(shadowShader);
 
 
 		testWave.Update();//更新波浪
