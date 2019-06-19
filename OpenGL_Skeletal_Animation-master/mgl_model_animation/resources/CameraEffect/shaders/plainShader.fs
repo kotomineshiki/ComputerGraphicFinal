@@ -21,7 +21,7 @@ void main()
 	if(((x-offsetX)*(x-offsetX) + (y-offsetY)*(y-offsetY) < 0.01)){
 		color = vec4(1.0, 1.0, 1.0, 1.0);
 	}else{
-		color = vec4(0.0, 0.0, 0.0, 1.0);
+		color = vec4(0.0, 0.0, 0.0, 0.0);
 	}
 	//color = vec4(vTexCoord.x, vTexCoord.y, 1.0, 1.0);//texture(churchTexture, vTexCoord); 
 }
