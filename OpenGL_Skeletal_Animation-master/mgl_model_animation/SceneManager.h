@@ -23,29 +23,33 @@ public:
 	SkinnedMesh whale;
 	SkinnedMesh harpyCat;
 	Model city;
+	Model seahorse;
 	Model landscape;
-	Model coralReef;
-	Model coralReef2;
+	Model tree;
+	Model blueFish;
+	Model brightFish;
+	Model crab;
+	Model flower;
+	Model rock;
+	//Model rug;
 
-	Model seaDragon;
+	Model poinsetta;
+
 	Model turtle;
 	Model snake;
-	Model sixLineFish;
-	Model seahorse;
-	Model rug;
-	Model crab;
+
 
 	Wave testWave;
 	GameObject fishObj[50];
 	GameObject fishObj2[50];
 	GameObject fishObj3[50];
-	GameObject fishObj4[50];
+	GameObject fishObj4[200];
 	GameObject cityObj;
-	GameObject coralReefObj;
-	GameObject coralReefObj2;
-	GameObject coralReefObj3;
 	GameObject seaDragonObj;
+	GameObject seaDragonObj2;
+	GameObject seaDragonObj3;
 	GameObject turtleObj;
+	GameObject rockObj;
 
 	Camera* camera;
 	Shader shader1;
@@ -64,7 +68,7 @@ public:
 	std::shared_ptr<ParticleGenerator> temptation2;
 
 	std::shared_ptr<ParticleGenerator> temptation3;
-	float randomCoorX[50], randomCoorY[50], randomCoorZ[50], x[3], z[3];
+	float randomCoorX[50], randomCoorY[50], randomCoorZ[50], x[3], z[3], randomNum[50];
 	static const uint MAX_BONES = 100;
 	float m_startTime;
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -72,7 +76,7 @@ public:
 	unsigned int depthMap;
 	const unsigned int SCR_WIDTH = 800;
 	const unsigned int SCR_HEIGHT = 600;
-	float near_plane = -1000.0f, far_plane = 1000.0f;
+	float near_plane = -500.0f, far_plane = 500.0f;
 	glm::vec3 lightPos;
 	Text text;
 	Shader shaderText;
@@ -104,21 +108,23 @@ public:
 	SceneManager(Camera* input) :
 		palm("resources/Models/palm/Palm_01.obj"),
 		fish("resources/Models/fish/fish.obj"),
-	//	fish2("resources/Models/fish2/13009_Coral_Beauty_Angelfish_v1_l3.obj"),
-	//	fish3("resources/Models/fish3/12265_Fish_v1_L2.obj"),
-	//	fish4("resources/Models/fish4/13013_Red_Head_Solon_Fairy_Wrasse_v1_l3.obj"),
 		city("resources/Models/beike/1.obj"),
+		seahorse("resources/Models/seahorse/seahorse.obj"),
 		landscape("resources/Models/landscape/Ocean.obj"),
-		coralReef("resources/Models/coralReef/source/model.obj"),
-		coralReef2("resources/Models/coralReef2/source/model.obj"),
+		//landscape("resources/Models/newLandScape/1.obj"),
+		tree("resources/Models/Tree/Tree.obj"),
 
-		seaDragon("resources/Models/seaDragon/source/model.obj"),
+		blueFish("resources/Models/blueFish/blueFish.obj"),
+		brightFish("resources/Models/brightFish/brightFish.obj"),
+		crab("resources/Models/crab/crab.obj"),
+		flower("resources/Models/Flower/Flower.obj"),
+		rock("resources/Models/rock/rock.obj"),
+		//rug("resources/Models/rug/rug.obj"),
+
+		poinsetta("resources/Models/Poinsetta/Poinsetta.obj"),
+
 		turtle("resources/Models/turtle/model.obj"),
 		snake("resources/Models/snake/13108_Eastern_Hognose_Snake_v1_L3.obj"),
-		sixLineFish("resources/Models/sixLineFish/13014_Six_Line_Wrasse_v1_l3.obj"),
-		seahorse("resources/Models/seahorse/10044_SeaHorse_v1_iterations-2.obj"),
-		crab("resources/Models/crab/10012_crab_v2_iterations-1.obj"),
-		rug("resources/Models/rug/10404_Circular_Throw_Rug_v1_max2010_iterations-2.obj"),
 		shader1("1.model_loading.vs", "1.model_loading.fs"),
 		shader2("skinning.vs", "skinning2"),
 		waveShader("wave.vs","wave.fs"),
@@ -136,10 +142,13 @@ public:
 		camera = input;
 		particleTexture = loadTextureFromFile("resources/Textures/particle.bmp", GL_FALSE);
 		srand((unsigned)time(NULL));
+		
 		for (int i = 0; i < 50; i++) {
-			randomCoorX[i] = rand() / double(RAND_MAX)*100.0f;
-			randomCoorY[i] = rand() / double(RAND_MAX)*100.0f;
-			randomCoorZ[i] = rand() / double(RAND_MAX)*100.0f;
+			randomNum[i] = rand() / double(RAND_MAX)*9.0f;
+			randomNum[i] += 1.0f;
+			randomCoorX[i] = rand() / double(RAND_MAX)*200.0f;
+			randomCoorY[i] = rand() / double(RAND_MAX)*200.0f;
+			randomCoorZ[i] = rand() / double(RAND_MAX)*180.0f;
 		}
 		x[0] = 280.0f;
 		x[1] = 330.0f;
@@ -148,21 +157,33 @@ public:
 		z[1] = -280.0f;
 		z[2] = 280.0f;
 		m_startTime = glfwGetTime();
-
+		cityObj.setObject(true, glm::vec3(-10.0f, -5.0f, -100.0f), glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 200.0f, 0.0f, 180.0f);
 		for (int i = 0; i < 50; i++) {
-			fishObj[i].setObject(false, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i]), glm::vec3(2.5f, 2.5f, 2.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 2.5f, 0.0f, 180.0f);
-			fishObj2[i].setObject(false, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i]), glm::vec3(6.0f, 6.0f, 6.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.5f), 6.0f, 0.0f, 180.0f);
-			fishObj3[i].setObject(false, glm::vec3(200.0f + randomCoorX[i], 200.0f + randomCoorY[i], 250.0f + randomCoorZ[i]), glm::vec3(3.5f, 3.5f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(-1.5f, 0.0f, 0.0f), 3.5f, 0.0f, 180.0f);
-			fishObj4[i].setObject(false, glm::vec3(-280.0f + randomCoorX[i], 300.0f + randomCoorY[i], -100.0f + randomCoorZ[i]), glm::vec3(4.0f, 4.0f, 4.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(-1.5f, 0.0f, 0.0f), 4.0f, 0.0f, 180.0f);
+			float randomSize = rand() / double(RAND_MAX)*2.0f;
+			randomSize += 1.0f;
+			fishObj[i].setObject(false, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i]), glm::vec3(2.5f*randomSize, 2.5f*randomSize, 2.5f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 2.5f*randomSize, 0.0f, 180.0f);
+			fishObj2[i].setObject(false, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -250.0f + randomCoorZ[i]), glm::vec3(1.0f*randomSize, 1.0f*randomSize, 1.0f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.5f), 1.0f*randomSize, 180.0f, 0.0f);
+			fishObj3[i].setObject(false, glm::vec3(200.0f + randomCoorX[i], 200.0f + randomCoorY[i], 250.0f + randomCoorZ[i]), glm::vec3(3.5f*randomSize, 3.5f*randomSize, 3.5f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(-1.5f, 0.0f, 0.0f), 3.5f*randomSize, 0.0f, 180.0f);
 		}
 
-		cityObj.setObject(true, glm::vec3(-110.0f, -5.0f, -100.0f), glm::vec3(0.7f, 0.7f, 0.7f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 250.0f, 0.0f, 180.0f);
-		coralReefObj.setObject(true, glm::vec3(325.0f, -30.0f, 300.0f), glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 100.0f, 0.0f, 180.0f);
-		coralReefObj2.setObject(true, glm::vec3(-300.0f, -40.0f, 210.0f), glm::vec3(6.0f, 6.0f, 6.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 110.0f, 0.0f, 180.0f);
-		coralReefObj3.setObject(true, glm::vec3(300.0f, -130.0f, -310.0f), glm::vec3(2.2f, 2.2f, 2.2f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 105.0f, 0.0f, 180.0f);
+		float x, y, z, size;
+		for (int i = 0; i < 200; i++) {
+			size = rand() / double(RAND_MAX)*5.0f;
+			size += 1.0f;
+			x = rand() / double(RAND_MAX)*1000.0f;
+			x -= 500.0f;
+			y = rand() / double(RAND_MAX)*500.0f;
+			z = rand() / double(RAND_MAX)*600.0f;
+			z -= 300.0f;
+			fishObj4[i].setObject(false, glm::vec3(x, y, z), glm::vec3(size, size, size), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.5f), size, 180.0f, 0.0f);
+		}
 
-		seaDragonObj.setObject(false, glm::vec3(-100.0f, 100.0f, 290.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 10.0f, 0.0f, 180.0f);
+		cityObj.setObject(true, glm::vec3(-110.0f, -5.0f, -100.0f), glm::vec3(0.7f, 0.7f, 0.7f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 150.0f, 0.0f, 180.0f);
+		seaDragonObj.setObject(false, glm::vec3(-100.0f, 100.0f, 290.0f), glm::vec3(4.5f, 4.5f, 4.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 4.5f, 0.0f, 180.0f);
+		seaDragonObj2.setObject(false, glm::vec3(-130.0f, 120.0f, 260.0f), glm::vec3(7.0f, 7.0f, 7.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 7.0f, 0.0f, 180.0f);
+		seaDragonObj3.setObject(false, glm::vec3(-110.0f, 130.0f, 310.0f), glm::vec3(6.0f, 6.0f, 6.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 6.0f, 0.0f, 180.0f);
 		turtleObj.setObject(false, glm::vec3(100.0f, 30.0f, 250.0f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 10.0f, 0.0f, 180.0f);
+		rockObj.setObject(true, glm::vec3(100.0f, 0.0f, 500.0f), glm::vec3(8.0f, 8.0f, 8.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 200.0f, 0.0f, 180.0f);
 
 		glGenFramebuffers(1, &depthMapFBO);
 		// create depth texture
@@ -203,8 +224,8 @@ public:
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 50; j++) {
 				model = glm::mat4(1.0f);
+				model = glm::scale(model, glm::vec3(1.5f, 1.5f*randomNum[j], 1.5f));	// it's a bit too big for our scene, so scale it down
 				model = glm::translate(model, glm::vec3(x[i] + randomCoorX[j], -1.0f, z[i] + randomCoorZ[j])); // translate it down so it's at the center of the scene
-				model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));	// it's a bit too big for our scene, so scale it down
 				shader.setMat4("model", model);
 				palm.Draw(shader);
 			}
@@ -213,15 +234,12 @@ public:
 	void DrawFish(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		for (int i = 0; i < 50; i++) {
-			if (fishObj[i].DetectCollision(fishObj[i], coralReefObj) || fishObj[i].DetectCollision(fishObj[i], coralReefObj3)) {
+			if (fishObj[i].DetectCollision(fishObj[i], cityObj)) {
 				fishObj[i].CollidedIn();
 			}
 			else {
 				fishObj[i].CollidedOut();
 			}
-			//model = glm::mat4(1.0f);
-			//model = glm::translate(model, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-			//model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));	// it's a bit too big for our scene, so scale it down
 			model = fishObj[i].Move();
 			shader.setMat4("model", model);
 			fish.Draw(shader);
@@ -230,37 +248,52 @@ public:
 	void DrawFish2(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		for (int i = 0; i < 50; i++) {
-			//model = glm::mat4(1.0f);
-			//model = glm::translate(model, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-			//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+			if (fishObj2[i].DetectCollision(fishObj2[i], cityObj)) {
+				fishObj2[i].CollidedIn();
+			}
+			else {
+				fishObj2[i].CollidedOut();
+			}
 			model = fishObj2[i].Move();
-			model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 			shader.setMat4("model", model);
-			sixLineFish.Draw(shader);
+			blueFish.Draw(shader);
+		}
+
+		for (int i = 0; i < 200; i++) {
+			if (fishObj4[i].DetectCollision(fishObj4[i], cityObj)) {
+				fishObj4[i].CollidedIn();
+			}
+			else if (fishObj4[i].DetectCollision(fishObj4[i], rockObj)) {
+				fishObj4[i].CollidedIn();
+				cout << "rock collision" << endl;
+			}
+			else {
+				fishObj4[i].CollidedOut();
+			}
+			model = fishObj4[i].Move();
+			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			shader.setMat4("model", model);
+			blueFish.Draw(shader);
 		}
 	}
 
 	void DrawFish3(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-			//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			shader.setMat4("model", model);
-			fish.Draw(shader);
-	}
-	void DrawFish4(const Shader &shader) {
-		glm::mat4 model = glm::mat4(1.0f);
 		for (int i = 0; i < 50; i++) {
-			//model = glm::mat4(1.0f);
-			//model = glm::translate(model, glm::vec3(-280.0f + randomCoorX[i], 300.0f + randomCoorY[i], -100.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-			//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-			model = fishObj4[i].Move();
-			//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			if (fishObj3[i].DetectCollision(fishObj3[i], cityObj)) {
+				fishObj3[i].CollidedIn();
+			}
+			else {
+				fishObj3[i].CollidedOut();
+			}
+			model = fishObj3[i].Move();
+			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 			shader.setMat4("model", model);
-			fish.Draw(shader);
+			brightFish.Draw(shader);
 		}
 	}
+
 	void DrawWhale(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::mat4(1.0f);
@@ -268,7 +301,7 @@ public:
 		//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
 		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(300.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::translate(model, glm::vec3(300.0f, 500.0f, 0.0f)); // translate it down so it's at the center of the scene
 		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
 		shader.setMat4("model", model);
 		whale.Render();
@@ -302,6 +335,7 @@ public:
 		shader.setMat4("model", model);
 		harpyCat.Render();
 	}
+
 	void DrawCity(Shader &shader) {
 		glEnable(GL_STENCIL_TEST);
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
@@ -337,50 +371,92 @@ public:
 
 		shader.use();
 	}
+	void DrawFlower(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 50; j+=10) {
+				model = glm::mat4(1.0f);
+				model = glm::translate(model, glm::vec3(x[i] + randomCoorX[j], -1.0f, z[i] + randomCoorZ[j])); // translate it down so it's at the center of the scene
+				model = glm::scale(model, glm::vec3(1.5f, 1.5f*randomNum[j], 1.5f));	// it's a bit too big for our scene, so scale it down
+				model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+				shader.setMat4("model", model);
+				flower.Draw(shader);
+			}
+		}
+	}
 	void DrawLandscape(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1000.0f, 10.0f, 1000.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::scale(model, glm::vec3(1000.0f, 100.0f, 1000.0f));	// it's a bit too big for our scene, so scale it down
 		double time = glfwGetTime();
 	//	std::cout << time << endl;
 		shader.setFloat("time", time);
 		shader.setMat4("model", model);
 		landscape.Draw(shader);
 	}
-	void DrawCoralReef(const Shader &shader) {
+	void DrawPoinsetta(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(325.0f, -30.0f, 300.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		shader.setMat4("model", model);
-		coralReef.Draw(shader);
+		for (int j = 0; j < 20; j++) {
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(-200.0f + randomCoorX[j], -40.0f, -250.0f + randomCoorZ[j]));
+			model = glm::scale(model, glm::vec3(1.0f*randomNum[j], 2.0f*randomNum[j], 1.0f*randomNum[j]));
+			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			//model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+			shader.setMat4("model", model);
+			poinsetta.Draw(shader);
+		}
+
+		for (int j = 20; j < 50; j++) {
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(-400.0f + randomCoorX[j], -40.0f, 100.0f + randomCoorZ[j]));
+			model = glm::scale(model, glm::vec3(1.0f*randomNum[j], 2.0f*randomNum[j], 1.0f*randomNum[j]));
+			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			//model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+			shader.setMat4("model", model);
+			poinsetta.Draw(shader);
+		}
 	}
-	void DrawCoralReef2(const Shader &shader) {
+
+	//void DrawRug(const Shader &shader) {
+	//	glm::mat4 model = glm::mat4(1.0f);
+	//	model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
+	//	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//	//model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
+	//	shader.setMat4("model", model);
+	//	rug.Draw(shader);
+	//}
+	void DrawRock(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(100.0f, 0.0f, 500.0f));
+		model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
 		shader.setMat4("model", model);
-		coralReef2.Draw(shader);
+		rock.Draw(shader);
 	}
-	void DrawSeaDragon(const Shader &shader) {
+
+	void DrawSeahorse(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		//model = glm::translate(model, glm::vec3(-100.0f, 100.0f, 290.0f)); // translate it down so it's at the center of the scene
 		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
 		model = seaDragonObj.Move();
+		model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
-		seaDragon.Draw(shader);
+		seahorse.Draw(shader);
+
+		model = seaDragonObj2.Move();
+		model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		seahorse.Draw(shader);
+
+		model = seaDragonObj3.Move();
+		model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		seahorse.Draw(shader);
 	}
 	void DrawTurtle(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		if (turtleObj.DetectCollision(turtleObj, coralReefObj)|| turtleObj.DetectCollision(turtleObj, coralReefObj2)) {
-			turtleObj.CollidedIn();
-		}
-		else {
-			turtleObj.CollidedOut();
-		}
-		//model = glm::translate(model, glm::vec3(100.0f, 30.0f, 250.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
 		model = turtleObj.Move();
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
@@ -388,45 +464,57 @@ public:
 	}
 	void DrawSnake(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-50.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::translate(model, glm::vec3(-250.0f, -10.0f, 400.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
 		snake.Draw(shader);
 	}
-	void DrawSixLineFish(const Shader &shader) {
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		shader.setMat4("model", model);
-		sixLineFish.Draw(shader);
-	}
-	void DrawSeahorse(const Shader &shader) {
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-300.0f, -40.0f, 110.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		shader.setMat4("model", model);
-		seahorse.Draw(shader);
-	}
-	void DrawRug(const Shader &shader) {
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-100.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		shader.setMat4("model", model);
-		rug.Draw(shader);
-	}
 	void DrawCrab(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-200.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::translate(model, glm::vec3(200.0f, 1.0f, 150.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
 		crab.Draw(shader);
 	}
+	void DrawTree(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(250.0f, -10.0f, -510.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(80.0f, 80.0f, 60.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
 
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(270.0f, -10.0f, -530.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(120.0f, 120.0f, 120.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(230.0f, -10.0f, -470.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(250.0f, -10.0f, -200.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(130.0f, 130.0f, 130.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(100.0f, -10.0f, -270.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(180.0f, 180.0f, 180.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(510.0f, -10.0f, 520.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(130.0f, 130.0f, 130.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+	}
 
 	void InitShaders() {
 		glm::mat4 lightProjection, lightView;
@@ -537,25 +625,25 @@ public:
 	void DrawElements() {
 
 		InitShaders();
+
 		DrawCity(shadowDepthShader);
+		
+		DrawLandscape(shadowDepthShader);
 		DrawPalm(shadowDepthShader);
 		DrawFish(shadowDepthShader);
 		DrawFish2(shadowDepthShader);
 		DrawFish3(shadowDepthShader);
-		DrawFish4(shadowDepthShader);
-		
-		DrawLandscape(shadowDepthShader);
-		DrawCoralReef(shadowDepthShader);
-		DrawCoralReef2(shadowDepthShader);
 
-		DrawSeaDragon(shadowDepthShader);
+		DrawSeahorse(shadowDepthShader);
+		DrawFlower(shadowDepthShader);
+		//DrawRug(shadowDepthShader);
+		DrawRock(shadowDepthShader);
+		DrawPoinsetta(shadowDepthShader);
 		DrawTurtle(shadowDepthShader);
 
 		DrawSnake(shadowDepthShader);
-		DrawSeahorse(shadowDepthShader);
-		DrawSixLineFish(shadowDepthShader);
-		DrawRug(shadowDepthShader);
 		DrawCrab(shadowDepthShader);
+		DrawTree(shadowDepthShader);
 		
 		InitDynamicDepthShader();
 		DrawWhale(shadowDepthShaderDynamic);
@@ -563,37 +651,34 @@ public:
 		
 		InitShaders2();
 
-
-		DrawCity(shadowShader);
+	    DrawCity(shadowShader);
+		DrawLandscape(shadowShader);
 		DrawPalm(shadowShader);
 		DrawFish(shadowShader);
 		DrawFish2(shadowShader);
 		DrawFish3(shadowShader);
-		DrawFish4(shadowShader);
-	    
-		DrawLandscape(shadowShader);
 
-		DrawCoralReef(shadowShader);
-		DrawCoralReef2(shadowShader);
-		DrawSnake(shadowShader);
-		DrawSixLineFish(shadowShader);
 		DrawSeahorse(shadowShader);
-		DrawRug(shadowShader);
+		DrawFlower(shadowShader);
+		//DrawRug(shadowShader);
+		DrawRock(shadowShader);
+		DrawPoinsetta(shadowShader);
+		DrawTurtle(shadowShader);
+		DrawSnake(shadowShader);
 		DrawCrab(shadowShader);
+		DrawTree(shadowShader);
 
 
 		testWave.Update();//更新波浪
 		testWave.DrawLandscape(shadowShader);//绘制波浪
 
-		DrawSeaDragon(shadowShader);
-		DrawTurtle(shadowShader);
 
 		InitShaders3();
 		DrawWhale(dynamicShadowShader);
 		DrawHarpyCat(dynamicShadowShader);
-		temptation->Draw();
-		temptation2->Draw();
-		temptation3->Draw();
+		//temptation->Draw();
+		//temptation2->Draw();
+		//temptation3->Draw();
 		//Eject camera if collide
 		//for (int i = 0; i < 50; i++)
 		//	GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
@@ -620,8 +705,8 @@ public:
 		glDisable(GL_STENCIL_TEST);
 		
 		// text effect, should be rendered at last
-		text.drawLabel(shaderText);
-		text.drawCommand(shaderText);
+		//text.drawLabel(shaderText);
+		//text.drawCommand(shaderText);
 		
 
 	}

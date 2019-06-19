@@ -69,7 +69,7 @@ public:
 		//if the object can move
 		if (!this->isStuck) {
 			//if the object has collided with other object or reach the boundary of the map
-			if ((isCollided && !lock) || this->position.x - this->radius <= -500.0f || this->position.x + this->radius >= 500.0f || this->position.z - this->radius <= -350.0f || this->position.z + this->radius >= 500.0f)
+			if ((isCollided && !lock) || this->position.x - this->radius <= -500.0f || this->position.x + this->radius >= 500.0f || this->position.z - this->radius <= -500.0f || this->position.z + this->radius >= 500.0f)
 			{
 				this->velocity = -this->velocity;
 				this->For_Back = -this->For_Back;
