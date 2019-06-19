@@ -31,66 +31,6 @@ public:
 	Wave() :landscape("resources/Models/landscape/untitled.obj"), currentlandscape("resources/Models/landscape/untitled.obj") {
 
 	}
-	/*	float vertices[800];	//水面顶点数组
-		uint indices[81*6];	//水面索引数组
-		GLuint VAO;
-	//	Texture texture;
-		unsigned int waveVAO = 0;
-		unsigned int waveVBO = 0;
-		unsigned int waveEBO = 0;
-		Wave() {
-			Init();//初始化波浪
-		}
-		void Init() {//初始化波形状
-				// Set up mesh and attribute properties
-			if (waveVAO == 0)
-			{
-				for (int i = 0; i < 10; ++i) {//这是一个平面
-					for (int j = 0; j < 10; ++j) {
-						vertices[(i * 10 + j) * 8 + 0] = i-5;//x
-						vertices[(i * 10 + j) * 8 + 1] = 0;//y
-						vertices[(i * 10 + j) * 8 + 2] = j - 5;//z
-
-					//	vertices[(i * 10 + j) * 8 + 3] = 0;//x
-					//	vertices[(i * 10 + j) * 8 + 4] = 0;//y
-					//	vertices[(i * 10 + j) * 8 + 5] = 0;//z
-					}
-				}
-				int indices_end = 0;
-				for (int i = 0; i < 9; ++i) { //i,j   i,j+1
-											  //i+1,j i+1,j+1
-					for (int j = 0; j < 9; ++j) {
-						indices[indices_end++] = 10 * i + j;
-						indices[indices_end++] = 10 * i + j + 1;
-						indices[indices_end++] = 10 * (i + 1) + j;
-
-						indices[indices_end++] = 10 * i + j + 1;
-						indices[indices_end++] = 10 * (i + 1) + j;
-						indices[indices_end++] = 10 * (i + 1) + j + 1;
-					}
-				}
-				glGenVertexArrays(1, &waveVAO);
-				glGenBuffers(1, &waveVBO);
-				glGenBuffers(1, &waveEBO);
-				// fill buffer
-				glBindBuffer(GL_ARRAY_BUFFER, waveVBO);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, waveEBO);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-				// link vertex attributes
-				glBindVertexArray(waveVAO);
-				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-				glEnableVertexAttribArray(1);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-				glEnableVertexAttribArray(2);
-				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				glBindVertexArray(0);
-			}
-		//	this->particles = std::vector<Particle>(this->amount, Particle());
-	//		glBindTexture(GL_TEXTURE_2D, texture.ID);//绑定给粒子绑定贴图
-		}*/
 	void Update() {//根据时间来变换波函数的节点
 		//std::cout << currentlandscape.meshes.size() <<"____________________"<< endl;
 		float time = glfwGetTime();
@@ -135,8 +75,8 @@ public:
 
 	//	shader.use();
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-100.0f, 30.0f, -1000.0f));
-		model = glm::scale(model, glm::vec3(100.0f, 150.0f, 120.0f));
+		model = glm::translate(model, glm::vec3(1000.0f, 300, -400.0f));
+		model = glm::scale(model, glm::vec3(80.0f, 120.0f, 95.0f));
 		shader.setMat4("model", model);
 		currentlandscape.Draw(shader,true);//绘制当前地图,而且要使用wave特有的绘制方法
 	//	glDrawElements(GL_TRIANGLES, 81*6, GL_UNSIGNED_INT, 0);
