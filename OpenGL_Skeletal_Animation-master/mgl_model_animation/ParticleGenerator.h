@@ -8,9 +8,12 @@
 #include"Transform.h"
 #include "shader.h"
 #include "camera.h"
+#include"model.h"
+#include<string>
 struct Particle {
 	glm::vec3 Position, Velocity;
 	GLfloat scale;
+	GLfloat initialScale;
 	glm::vec4 Color;
 	GLfloat Life;
 	Particle() : Position(0.0f), Velocity(0.0f), Color(1.0f), Life(0.0f) { scale = 1; }
@@ -18,7 +21,7 @@ struct Particle {
 class ParticleGenerator
 {
 public:
-	
+	Model bubbles;
 	ParticleGenerator(Shader shader, Texture2D texture, GLuint amount, Camera* c,
 		float scale = 20.0f, float life = 5.0f, float a = 2.5f,int type=1);
 	// Update all particles

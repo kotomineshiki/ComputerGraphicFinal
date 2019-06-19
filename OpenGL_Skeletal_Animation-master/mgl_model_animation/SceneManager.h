@@ -28,10 +28,10 @@ public:
 	Model city;
 	Model seahorse;
 	Model landscape;
-	//Model tree;
+	Model tree;
 	Model blueFish;
 	Model brightFish;
-	//Model crab;
+	Model crab;
 	Model flower;
 	//Model rock;
 	Model rug;
@@ -39,6 +39,8 @@ public:
 	Model poinsetta;
 
 	Model turtle;
+	Model snake;
+
 
 	Wave testWave;
 	GameObject fishObj[50];
@@ -113,11 +115,12 @@ public:
 		city("resources/Models/beike/1.obj"),
 		seahorse("resources/Models/seahorse/seahorse.obj"),
 		landscape("resources/Models/landscape/Ocean.obj"),
-		//tree("resources/Models/Tree/Tree.obj"),
+		//landscape("resources/Models/newLandScape/1.obj"),
+		tree("resources/Models/Tree/Tree.obj"),
 
 		blueFish("resources/Models/blueFish/blueFish.obj"),
 		brightFish("resources/Models/brightFish/brightFish.obj"),
-		//crab("resources/Models/crab/crab.obj"),
+		crab("resources/Models/crab/crab.obj"),
 		flower("resources/Models/Flower/Flower.obj"),
 		//rock("resources/Models/rock/rock.obj"),
 		rug("resources/Models/rug/rug.obj"),
@@ -125,6 +128,7 @@ public:
 		poinsetta("resources/Models/Poinsetta/Poinsetta.obj"),
 
 		turtle("resources/Models/turtle/model.obj"),
+		snake("resources/Models/snake/13108_Eastern_Hognose_Snake_v1_L3.obj"),
 		shader1("1.model_loading.vs", "1.model_loading.fs"),
 		shader2("skinning.vs", "skinning2"),
 		waveShader("wave.vs","wave.fs"),
@@ -146,7 +150,7 @@ public:
 		for (int i = 0; i < 50; i++) {
 			randomNum[i] = rand() / double(RAND_MAX)*9.0f;
 			randomNum[i] += 1.0f;
-			randomCoorX[i] = rand() / double(RAND_MAX)*250.0f;
+			randomCoorX[i] = rand() / double(RAND_MAX)*200.0f;
 			randomCoorY[i] = rand() / double(RAND_MAX)*200.0f;
 			randomCoorZ[i] = rand() / double(RAND_MAX)*180.0f;
 		}
@@ -162,7 +166,7 @@ public:
 			float randomSize = rand() / double(RAND_MAX)*2.0f;
 			randomSize += 1.0f;
 			fishObj[i].setObject(false, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i]), glm::vec3(2.5f*randomSize, 2.5f*randomSize, 2.5f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 2.5f*randomSize, 0.0f, 180.0f);
-			fishObj2[i].setObject(false, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i]), glm::vec3(1.0f*randomSize, 1.0f*randomSize, 1.0f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.5f), 1.0f*randomSize, 180.0f, 0.0f);
+			fishObj2[i].setObject(false, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -250.0f + randomCoorZ[i]), glm::vec3(1.0f*randomSize, 1.0f*randomSize, 1.0f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.5f), 1.0f*randomSize, 180.0f, 0.0f);
 			fishObj3[i].setObject(false, glm::vec3(200.0f + randomCoorX[i], 200.0f + randomCoorY[i], 250.0f + randomCoorZ[i]), glm::vec3(3.5f*randomSize, 3.5f*randomSize, 3.5f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(-1.5f, 0.0f, 0.0f), 3.5f*randomSize, 0.0f, 180.0f);
 		}
 
@@ -228,9 +232,6 @@ public:
 			else {
 				fishObj[i].CollidedOut();
 			}
-			//model = glm::mat4(1.0f);
-			//model = glm::translate(model, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-			//model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));	// it's a bit too big for our scene, so scale it down
 			model = fishObj[i].Move();
 			shader.setMat4("model", model);
 			fish.Draw(shader);
@@ -245,12 +246,8 @@ public:
 			else {
 				fishObj2[i].CollidedOut();
 			}
-			//model = glm::mat4(1.0f);
-			//model = glm::translate(model, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -150.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-			//model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
 			model = fishObj2[i].Move();
 			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			shader.setMat4("model", model);
 			blueFish.Draw(shader);
 		}
@@ -265,12 +262,8 @@ public:
 			else {
 				fishObj3[i].CollidedOut();
 			}
-			//model = glm::mat4(1.0f);
-			//model = glm::translate(model, glm::vec3(200.0f + randomCoorX[i], 200.0f + randomCoorY[i], 250.0f + randomCoorZ[i])); // translate it down so it's at the center of the scene
-			//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
 			model = fishObj3[i].Move();
 			model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			shader.setMat4("model", model);
 			brightFish.Draw(shader);
 		}
@@ -283,7 +276,7 @@ public:
 		//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
 		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(300.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::translate(model, glm::vec3(300.0f, 500.0f, 0.0f)); // translate it down so it's at the center of the scene
 		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
 		shader.setMat4("model", model);
 		whale.Render();
@@ -353,7 +346,7 @@ public:
 
 		shader.use();
 	}
-	void DrawTree(const Shader &shader) {
+	void DrawFlower(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 50; j+=10) {
@@ -365,13 +358,6 @@ public:
 				flower.Draw(shader);
 			}
 		}
-
-		//model = glm::translate(model, glm::vec3(0.0f, 20.0f, -20.0f));
-		//model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		////model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
-		//shader.setMat4("model", model);
-		//flower.Draw(shader);
 	}
 	void DrawLandscape(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
@@ -385,7 +371,7 @@ public:
 	}
 	void DrawPoinsetta(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-100.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-100.0f, -20.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		//model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
@@ -395,7 +381,8 @@ public:
 
 	void DrawRug(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(-100.0f, 10.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		//model = glm::scale(model, glm::vec3(250.0f, 10.0f, 250.0f));	// it's a bit too big for our scene, so scale it down
 		shader.setMat4("model", model);
 		rug.Draw(shader);
@@ -425,19 +412,65 @@ public:
 	}
 	void DrawTurtle(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		//if (turtleObj.DetectCollision(turtleObj, coralReefObj)|| turtleObj.DetectCollision(turtleObj, coralReefObj2)) {
-		//	turtleObj.CollidedIn();
-		//}
-		//else {
-		//	turtleObj.CollidedOut();
-		//}
-		//model = glm::translate(model, glm::vec3(100.0f, 30.0f, 250.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
 		model = turtleObj.Move();
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
 		turtle.Draw(shader);
 	}
+	void DrawSnake(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-250.0f, -10.0f, 400.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		snake.Draw(shader);
+	}
+	void DrawCrab(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(-200.0f, -40.0f, 210.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		shader.setMat4("model", model);
+		crab.Draw(shader);
+	}
+	void DrawTree(const Shader &shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(250.0f, -10.0f, -510.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(80.0f, 80.0f, 60.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(270.0f, -10.0f, -530.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(120.0f, 120.0f, 120.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(230.0f, -10.0f, -470.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(250.0f, -10.0f, -200.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(130.0f, 130.0f, 130.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(100.0f, -10.0f, -270.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(180.0f, 180.0f, 180.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(510.0f, -10.0f, 520.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(130.0f, 130.0f, 130.0f));	// it's a bit too big for our scene, so scale it down
+		shader.setMat4("model", model);
+		tree.Draw(shader);
+	}
+
 	void InitShaders() {
 		glm::mat4 lightProjection, lightView;
 		glm::mat4 lightSpaceMatrix;
@@ -557,10 +590,14 @@ public:
 		DrawFish3(shadowDepthShader);
 
 		DrawSeahorse(shadowDepthShader);
-		DrawTree(shadowDepthShader);
+		DrawFlower(shadowDepthShader);
 		DrawRug(shadowDepthShader);
 		DrawPoinsetta(shadowDepthShader);
 		DrawTurtle(shadowDepthShader);
+
+		DrawSnake(shadowDepthShader);
+		DrawCrab(shadowDepthShader);
+		DrawTree(shadowDepthShader);
 		
 		InitDynamicDepthShader();
 		DrawWhale(shadowDepthShaderDynamic);
@@ -576,10 +613,13 @@ public:
 		DrawFish3(shadowShader);
 
 		DrawSeahorse(shadowShader);
-		DrawTree(shadowShader);
+		DrawFlower(shadowShader);
 		DrawRug(shadowShader);
 		DrawPoinsetta(shadowShader);
 		DrawTurtle(shadowShader);
+		DrawSnake(shadowShader);
+		DrawCrab(shadowShader);
+		DrawTree(shadowShader);
 
 
 		testWave.Update();//更新波浪

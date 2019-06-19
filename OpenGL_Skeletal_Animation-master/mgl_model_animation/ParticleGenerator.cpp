@@ -3,7 +3,7 @@
 
 ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, 
 	GLuint amount, Camera* c, float s, float l, float a,int type)
-	: shader(shader), texture(texture), amount(amount), scale(s), life(l), a_atten(a)
+	: shader(shader), texture(texture), amount(amount), scale(s), life(l), a_atten(a),bubbles("resources/Models/particles/Bublbles.obj")
 {
 	this->type = type;
 	theCamera = c;
@@ -31,7 +31,7 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 			glm::vec3 acce;
 			if (type == 1) {
 				acce = -p.Velocity*k*p.scale*p.scale + glm::vec3(0, 20, 0)*p.scale*p.scale*p.scale;//加速度=粘滞阻力+浮力
-				p.scale = 1*pow(double(23 / (10 * (100.0 + p.Position.y))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
+				p.scale = p.initialScale*1*pow(double(23 / (10 * (100.0 + p.Position.y*3))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
 			}
 			if (type == 2) {
 				acce = -p.Velocity*k*p.scale*p.scale*(0.1f) + glm::vec3(0, -20, 0);
@@ -54,14 +54,11 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 // Render all particles
 void ParticleGenerator::Draw()
 {
-	//std::cout << particles.size()<<std::endl;
-	// Use additive blending to give it a 'glow' effect
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	//this->shader.Use();
+
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	this->shader.use();
-	this->texture.Bind();
-	//glBindVertexArray(this->VAO);
-	glBindVertexArray(cubeVAO);
+//	this->texture.Bind();
+//	glBindVertexArray(cubeVAO);
 	for (std::vector<Particle>::iterator it = particles.begin();
 		it != particles.end();
 		++it) {
@@ -72,11 +69,9 @@ void ParticleGenerator::Draw()
 			shader.setMat4("projection", projection);
 			shader.setMat4("view", view);
 			glm::mat4 model = glm::mat4(1.0f);
-			//model = glm::translate(model, glm::vec3(-40.0f, 80.0f, 0.0f));
+			
 
-//			glm::vec3 temp = theCamera->Front;
-//			model = glm::rotate(model, -atan(temp.z / temp.x), glm::vec3(0, 1, 0));
-//			model = glm::rotate(model, atan(temp.b / sqrt(temp.x*temp.x + temp.z*temp.z)), glm::vec3(temp.z*temp.z, temp.x*temp.x, 0));
+
 	//		std::cout << "该粒子的寿命" << it->Life<<"粒子总数"<<particles.size() << std::endl;
 		//	std::cout <<"该粒子的坐标"<< it->Position.x << " " << it->Position.y << " " << it->Position.z << std::endl;
 		//	std::cout << "该粒子的速度" << it->Velocity.x << " " << it->Velocity.y << " " << it->Velocity.z << std::endl<<std::endl;
@@ -88,27 +83,27 @@ void ParticleGenerator::Draw()
 
 			shader.setMat4("model", model);
 			if (type == 1 || type == 3) {
-				shader.setVec4("myColor", glm::vec4(1,1,1,1));
+				shader.setVec4("myColor", glm::vec4(1,1,1,0.4));
 			}
 			if (type == 2) {
 				shader.setVec4("myColor", glm::vec4(1, 0, 0,1));
 			}
-		//	shader.setMat4("face", face);//法向量转换
-			//glDrawArrays(GL_TRIANGLES, 0, 6);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//	glDrawArrays(GL_TRIANGLES, 0, 36);
+			bubbles.Draw(shader);
 		}
 	}
-//	std::cout << "***DFSDFSDF****" <<particles.size()<< std::endl;
-	glBindVertexArray(0);
-	glUseProgram(0);
-	// Don't forget to reset to default blending mode
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+//	glBindVertexArray(0);
+//	glUseProgram(0);
+
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void ParticleGenerator::init()
 {
 	// Set up mesh and attribute properties
-	if (cubeVAO == 0)
+/*	if (cubeVAO == 0)
 	{
 		float vertices[] = {
 			// back face
@@ -170,32 +165,10 @@ void ParticleGenerator::init()
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-	this->particles = std::vector<Particle>(this->amount, Particle());
-	glBindTexture(GL_TEXTURE_2D, texture.ID);//绑定给粒子绑定贴图
-/*	GLuint VBO;
-	GLfloat particle_quad[] = {
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 0.0f,
 
-		0.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, 1.0f, 1.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 0.0f
-	};
-	glGenVertexArrays(1, &this->VAO);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(this->VAO);
-	// Fill mesh buffer
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(particle_quad), particle_quad, GL_STATIC_DRAW);
-	// Set mesh attributes
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, texture.ID);//绑定给粒子绑定贴图
 	*/
-	// Create this->amount default particle instances
-//	this->particles = std::vector<Particle>(this->amount, Particle());
+	this->particles = std::vector<Particle>(this->amount, Particle());
 }
 
 // Stores the index of the last particle used (for quick access to next dead particle)
@@ -220,6 +193,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 	GLfloat random1 = ((rand() % 100) - 50) / 10.0f;
 	GLfloat random2= ((rand() % 100) - 50) / 10.0f;
 	GLfloat random3 = ((rand() % 100) - 50) / 10.0f;
+	GLfloat random4 = ((rand() % 100) - 50) / 10.0f;
 	GLfloat randomtime = ((rand() % 100) - 50) / 10.0f;
 	//随机颜色
 	GLfloat rColor1 = 0.5 + ((rand() % 100) / 100.0f);
@@ -230,6 +204,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 		particle.Life = life + randomtime;
 		particle.Velocity = glm::vec3(random1 / 4, random2 / 4, random3 / 4);
 		particle.Position = object.Position;
+		particle.initialScale = 1 + random4 / 5;//使得初始的气泡大小错落不一
 	}
 	if (type == 2) {
 		particle.Life = life + randomtime / 5;
