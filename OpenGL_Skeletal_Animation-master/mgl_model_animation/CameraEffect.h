@@ -19,18 +19,17 @@ static void GLClearError() {
 	while (glGetError() != GL_NO_ERROR);
 }
 
-static void GLCheckError() {
-	while (GLenum error = glGetError()) {
-		std::cout << "[OpenGL Error] (" << error << ")" << std::endl;
-	}
-}
-
-int SCR_WIDTH = 1024;
-int SCR_HEIGHT = 768;
+//static void GLCheckError() {
+//	while (GLenum error = glGetError()) {
+//		std::cout << "[OpenGL Error] (" << error << ")" << std::endl;
+//	}
+//}
 
 class CameraEffect
 {
 public:
+	const int SCR_WIDTH = 1024;
+	const int SCR_HEIGHT = 768;
 	unsigned int lenscolor;
 	unsigned int lensdirt;
 	unsigned int lensstar;
@@ -52,15 +51,15 @@ public:
 	unsigned int lensFlareShaderTextureBuffer;
 	unsigned int screenVao;
 	CameraEffect() :
-		lenscolor(loadTexture("resources/CameraEffect/lenscolor.png")),
-		lensdirt(loadTexture("resources/CameraEffect/lensdirt.png")),
-		lensstar(loadTexture("resources/CameraEffect/lensstar.png")),
-		plainShaders("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/plainShader.fs"),
-		thresholdShaders("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/thresholdShader.fs"),
-		featureGenerationShaders("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/featureGenerationShader.fs"),
-		blendShader("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/blendShader.fs"),
-		blurShader("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/blurFragment.fs"),
-		finalShader("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/final.fs")
+		lenscolor(loadTexture("resources/CameraEffect/textures/lenscolor.png")),
+		lensdirt(loadTexture("resources/CameraEffect/textures/lensdirt.png")),
+		lensstar(loadTexture("resources/CameraEffect/textures/lensstar.png")),
+		plainShaders("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/plainShader.fs"),
+		thresholdShaders("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/thresholdShader.fs"),
+		featureGenerationShaders("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/featureGenerationShader.fs"),
+		blendShader("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/blendShader.fs"),
+		blurShader("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/blurFragment.fs"),
+		finalShader("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/final.fs")
 	{
 		glEnable(GL_DEPTH_TEST);
 		//glEnable(GL_CULL_FACE);
@@ -287,7 +286,7 @@ public:
 		glEnableVertexAttribArray(1);
 	}
 
-	void draw(Camera& camera, glm::vec3 lightPos)
+	void draw(Camera* camera, glm::vec3 lightPos)
 	{
 		/*bool lensflare = true;
 		bool dof = false;
@@ -301,9 +300,9 @@ public:
 		glBindVertexArray(screenVao);
 
 		plainShaders.setFloat("aspect", 1);
-		glm::vec3 toLight = glm::normalize(lightPos - camera.cameraPos);
-		plainShaders.setFloat("offsetX", fmax(fmin(1.0, (1 + glm::dot(toLight, glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)))) / 2), 0.0));
-		plainShaders.setFloat("offsetY", fmax(fmin(1.0, (1 + glm::dot(toLight, camera.cameraUp)) / 2), 0.0));
+		glm::vec3 toLight = glm::normalize(lightPos - camera->Position);
+		plainShaders.setFloat("offsetX", fmax(fmin(1.0, (1 + glm::dot(toLight, camera->Right)) / 2), 0.0));
+		plainShaders.setFloat("offsetY", fmax(fmin(1.0, (1 + glm::dot(toLight, camera->Up)) / 2), 0.0));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		GLCheckError();
@@ -390,7 +389,7 @@ public:
 		blendShader.setFloat("opacity", 2.0f);
 
 		glm::mat4 lensStarMatrix = glm::mat4(1.0);
-		float angle = ((camera.yaw + camera.pitch) * 0.5)*(M_PI / 180);
+		float angle = ((camera->Yaw + camera->Pitch) * 0.5)*(M_PI / 180);
 		glm::mat4 scaleBias1 = glm::translate(lensStarMatrix, glm::vec3(-0.5, -0.5, 0.0));
 		glm::mat4 rotation = glm::rotate(lensStarMatrix, angle, glm::vec3(0, 0, 1));
 		glm::mat4 scaleBias2 = glm::translate(lensStarMatrix, glm::vec3(0.5, 0.5, 0.0));

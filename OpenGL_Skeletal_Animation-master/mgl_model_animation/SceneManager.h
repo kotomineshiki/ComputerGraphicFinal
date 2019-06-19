@@ -16,6 +16,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include"Wave.h"
+#include"CameraEffect.h"
 class SceneManager{
 public:
 	Model palm;
@@ -78,6 +79,7 @@ public:
 	const unsigned int SCR_HEIGHT = 1080;
 	float near_plane = -500.0f, far_plane = 500.0f;
 	glm::vec3 lightPos;
+	CameraEffect cameraEffect;
 	Text text;
 	Shader shaderText;
 	Skybox skybox;
@@ -715,6 +717,8 @@ public:
 		skybox.Draw(projection, view);
 
 		glDisable(GL_STENCIL_TEST);
+
+		cameraEffect.draw(camera, lightPos);
 		
 		// text effect, should be rendered at last
 		//text.drawLabel(shaderText);
