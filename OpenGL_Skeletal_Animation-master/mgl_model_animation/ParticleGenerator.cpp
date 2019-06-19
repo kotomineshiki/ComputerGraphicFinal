@@ -34,8 +34,9 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 				p.scale = p.initialScale*1*pow(double(23 / (10 * (100.0 + p.Position.y*3))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
 			}
 			if (type == 2) {
-				acce = -p.Velocity*k*p.scale*p.scale*(0.1f)*0.5f + glm::vec3(0, -15, 0);
-				p.scale = 4*sqrt(p.Life/8);
+				acce = -p.Velocity*k*p.scale*p.scale*(0.1f)*0.25f*0.5f + glm::vec3(0, -25, 0);
+				p.scale = 6*sqrt(p.Life/15);
+				p.Color = glm::vec4((p.Life/15)*(p.Life / 15), 0, 0, 1);
 			}
 			if (type == 3) {
 				acce = glm::vec3(0, 0, 0);
@@ -86,7 +87,7 @@ void ParticleGenerator::Draw()
 				shader.setVec4("myColor", glm::vec4(1,1,1,0.4));
 			}
 			if (type == 2) {
-				shader.setVec4("myColor", glm::vec4(1, 0, 0,1));
+				shader.setVec4("myColor", it->Color);
 			}
 
 		//	glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -208,8 +209,9 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 	}
 	if (type == 2) {
 		particle.Life = life + randomtime / 5;
-		particle.Velocity = glm::vec3(random1*40, abs(random2 *40), random3 *40 )+object.Velocity;
+		particle.Velocity = glm::vec3(random1*60, abs(random2 *60), random3 *60 )+object.Velocity;
 		particle.Position = object.Position;
+		particle.Color = glm::vec4(1, 0, 0, 0);
 	}
 	if (type == 3) {
 		particle.Life = life+randomtime*3;
