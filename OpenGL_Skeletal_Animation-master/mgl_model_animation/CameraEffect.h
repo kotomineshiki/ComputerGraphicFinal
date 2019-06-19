@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "shader.h"
-#include "Camera.h"
+#include "camera.h"
 #include "Texture_c.h"
 #include "stb_image.h"
 
@@ -25,8 +25,8 @@ static void GLCheckError() {
 	}
 }
 
-const unsigned int SCR_WIDTH = 1024;
-const unsigned int SCR_HEIGHT = 768;
+int SCR_WIDTH = 1024;
+int SCR_HEIGHT = 768;
 
 class CameraEffect
 {
@@ -51,17 +51,21 @@ public:
 	unsigned int lensFlareShaderBuffer;
 	unsigned int lensFlareShaderTextureBuffer;
 	unsigned int screenVao;
-	CameraEffect():
+	CameraEffect() :
 		lenscolor(loadTexture("resources/CameraEffect/lenscolor.png")),
 		lensdirt(loadTexture("resources/CameraEffect/lensdirt.png")),
 		lensstar(loadTexture("resources/CameraEffect/lensstar.png")),
-		plainShaders("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/plainShader.fs"),
-		thresholdShaders("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/thresholdShader.fs"),
-		featureGenerationShaders("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/featureGenerationShader.fs"),
-		blendShader("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/blendShader.fs"),
-		blurShader("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/blurFragment.fs"),
-		finalShader("resources/CameraEffect/shaders/screenVertex.vs", "resources/CameraEffect/shaders/final.fs")
+		plainShaders("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/plainShader.fs"),
+		thresholdShaders("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/thresholdShader.fs"),
+		featureGenerationShaders("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/featureGenerationShader.fs"),
+		blendShader("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/blendShader.fs"),
+		blurShader("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/blurFragment.fs"),
+		finalShader("resources/CameraEffect/screenVertex.vs", "resources/CameraEffect/final.fs")
 	{
+		glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_CULL_FACE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// create a color attachment texture
 		glGenTextures(1, &screenTexture);
 		glActiveTexture(GL_TEXTURE2);
@@ -285,9 +289,9 @@ public:
 
 	void draw(Camera& camera, glm::vec3 lightPos)
 	{
-		bool lensflare = true;
+		/*bool lensflare = true;
 		bool dof = false;
-		bool motionblur = false;
+		bool motionblur = false;*/
 		//----------------Pass 3--------------
 		glBindFramebuffer(GL_FRAMEBUFFER, fakeLightsBuffer); //fakeLightsBuffer
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -297,9 +301,9 @@ public:
 		glBindVertexArray(screenVao);
 
 		plainShaders.setFloat("aspect", 1);
-		glm::vec3 toLight = glm::normalize(lightPos - camera.Position);
-		plainShaders.setFloat("offsetX", fmax(fmin(1.0, (1 + glm::dot(toLight, camera.Right)) / 2), 0.0));
-		plainShaders.setFloat("offsetY", fmax(fmin(1.0, (1 + glm::dot(toLight, camera.Up)) / 2), 0.0));
+		glm::vec3 toLight = glm::normalize(lightPos - camera.cameraPos);
+		plainShaders.setFloat("offsetX", fmax(fmin(1.0, (1 + glm::dot(toLight, glm::normalize(glm::cross(camera.cameraFront, camera.cameraUp)))) / 2), 0.0));
+		plainShaders.setFloat("offsetY", fmax(fmin(1.0, (1 + glm::dot(toLight, camera.cameraUp)) / 2), 0.0));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		GLCheckError();
@@ -318,7 +322,6 @@ public:
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 4);
-
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		GLCheckError();
@@ -326,7 +329,7 @@ public:
 		//-----------------------------------------
 
 		//-----------------Pass 5--------------------------------------------
-		glBindFramebuffer(GL_FRAMEBUFFER, featureGenerationBuffer); //blurBuffer
+	    glBindFramebuffer(GL_FRAMEBUFFER, featureGenerationBuffer); //blurBuffer
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		featureGenerationShaders.use();
@@ -357,8 +360,9 @@ public:
 		//-----------------------------------------
 
 		//-----------------Pass 7--------------------------------------------
-		glBindFramebuffer(GL_FRAMEBUFFER, lensFlareShaderBuffer);//lensFlareShaderBuffer
-		glClear(GL_COLOR_BUFFER_BIT);
+		//glBindFramebuffer(GL_FRAMEBUFFER, lensFlareShaderBuffer);//lensFlareShaderBuffer
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);//lensFlareShaderBuffer
+		//glClear(GL_COLOR_BUFFER_BIT);
 
 		blendShader.use();
 		glDisable(GL_DEPTH_TEST);
@@ -380,12 +384,13 @@ public:
 		glBindTexture(GL_TEXTURE_2D, lensstar);
 		blendShader.setInt("tLensStar", 10);
 
+		//blendShader.setFloat("mixRatio", 0.5f);
 		blendShader.setFloat("mixRatio", 0.5f);
 		blendShader.setFloat("artefactScale", 0.0f);
 		blendShader.setFloat("opacity", 2.0f);
 
 		glm::mat4 lensStarMatrix = glm::mat4(1.0);
-		float angle = ((camera.Yaw + camera.Pitch) * 0.5)*(M_PI / 180);
+		float angle = ((camera.yaw + camera.pitch) * 0.5)*(M_PI / 180);
 		glm::mat4 scaleBias1 = glm::translate(lensStarMatrix, glm::vec3(-0.5, -0.5, 0.0));
 		glm::mat4 rotation = glm::rotate(lensStarMatrix, angle, glm::vec3(0, 0, 1));
 		glm::mat4 scaleBias2 = glm::translate(lensStarMatrix, glm::vec3(0.5, 0.5, 0.0));
@@ -401,68 +406,32 @@ public:
 		glBindVertexArray(0);
 		GLCheckError();
 		//-----------------------------------------
-		//-----------------Pass 8--------------------------------------------
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
+		////-----------------Pass 8--------------------------------------------
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//glClear(GL_COLOR_BUFFER_BIT);
 
-		finalShader.use();
-		glDisable(GL_DEPTH_TEST);
-		glBindVertexArray(screenVao);
+		//finalShader.use();
+		//glDisable(GL_DEPTH_TEST);
+		//glBindVertexArray(screenVao);
 
-		if (!motionblur and !lensflare) {
-			glActiveTexture(GL_TEXTURE11);
-			glBindTexture(GL_TEXTURE_2D, screenTexture);
-			finalShader.setInt("tMotionBlur", 11);
+		//glActiveTexture(GL_TEXTURE11);
+		//glBindTexture(GL_TEXTURE_2D, screenTexture);
+		//finalShader.setInt("tMotionBlur", 11);
 
-			glActiveTexture(GL_TEXTURE12);
-			glBindTexture(GL_TEXTURE_2D, lensFlareShaderTextureBuffer); //lensFlareShaderTextureBuffer
-			finalShader.setInt("tLensFlare", 12);
+		//glActiveTexture(GL_TEXTURE12);
+		//glBindTexture(GL_TEXTURE_2D, lensFlareShaderTextureBuffer); //lensFlareShaderTextureBuffer
+		//finalShader.setInt("tLensFlare", 12);
 
-			finalShader.setFloat("mixRatio", 0.0);
-		}
+		//finalShader.setFloat("mixRatio", 0.4);
 
-		if (motionblur) {
-			glActiveTexture(GL_TEXTURE11);
-			glBindTexture(GL_TEXTURE_2D, motionBlurTextureBuffer);
-			finalShader.setInt("tMotionBlur", 11);
+		//glGenerateMipmap(GL_TEXTURE_2D);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		////glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 4);
 
-			glActiveTexture(GL_TEXTURE12);
-			glBindTexture(GL_TEXTURE_2D, lensFlareShaderTextureBuffer); //lensFlareShaderTextureBuffer
-			finalShader.setInt("tLensFlare", 12);
-
-			finalShader.setFloat("mixRatio", 0.0);
-		}
-		if (lensflare) {
-			glActiveTexture(GL_TEXTURE11);
-			glBindTexture(GL_TEXTURE_2D, screenTexture);
-			finalShader.setInt("tMotionBlur", 11);
-
-			glActiveTexture(GL_TEXTURE12);
-			glBindTexture(GL_TEXTURE_2D, lensFlareShaderTextureBuffer); //lensFlareShaderTextureBuffer
-			finalShader.setInt("tLensFlare", 12);
-
-			finalShader.setFloat("mixRatio", 0.4);
-		}
-
-		if (lensflare and motionblur) {
-			glActiveTexture(GL_TEXTURE11);
-			glBindTexture(GL_TEXTURE_2D, motionBlurTextureBuffer);
-			finalShader.setInt("tMotionBlur", 11);
-
-			glActiveTexture(GL_TEXTURE12);
-			glBindTexture(GL_TEXTURE_2D, lensFlareShaderTextureBuffer); //lensFlareShaderTextureBuffer
-			finalShader.setInt("tLensFlare", 12);
-
-			finalShader.setFloat("mixRatio", 0.4);
-		}
-
-		glGenerateMipmap(GL_TEXTURE_2D);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 4);
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
-		GLCheckError();
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glBindVertexArray(0);
+		//GLCheckError();
+		glEnable(GL_DEPTH_TEST);
 		//-----------------------------------------
 	}
 };

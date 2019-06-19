@@ -18,5 +18,8 @@ void main(){
 	artefactColor += vec4(vec3(artefactScale), 1.0);
 	vec4 texelLensColor = texture2D(tLensColor, vTexCoord)*artefactColor;
 	vec4 texelDiffuse = texture2D(tDiffuse, vTexCoord);
-	color = opacity * mix(texelDiffuse, texelLensColor, mixRatio);
+	vec4 texColor = opacity * mix(texelDiffuse, texelLensColor, mixRatio);
+	if (texColor.r < 0.33 && texColor.g < 0.33 && texColor.b < 0.33)
+		discard;
+	color = vec4(texColor.rgb, 0.5);
 }
