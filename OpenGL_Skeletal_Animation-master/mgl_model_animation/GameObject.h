@@ -38,6 +38,7 @@ public:
     static Camera* camera_ptr;
 
 	GameObject() {}
+
 	GameObject(bool Stuck, glm::vec3 Pos, glm::vec3 Scale, glm::vec3 RotateAxis, 
 		glm::vec3 Velocity, float Radius, float RadiansForward, float RadiansBack) : isStuck(Stuck), 
 		position(Pos), scale(Scale), rotateAxis(RotateAxis), velocity(Velocity), radius(Radius), 
