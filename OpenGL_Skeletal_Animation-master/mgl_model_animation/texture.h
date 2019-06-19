@@ -18,8 +18,6 @@ private:
 	std::string m_fileName;
 	GLenum m_textureTarget;
 	GLuint m_textureObj;
-	//Magick::Image m_image;
-	//Magick::Blob m_blob;
 	unsigned char * m_blob;
 };
 
