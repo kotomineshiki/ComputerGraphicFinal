@@ -111,18 +111,13 @@ public:
 		city("resources/Models/beike/1.obj"),
 		seahorse("resources/Models/seahorse/seahorse.obj"),
 		landscape("resources/Models/landscape/Ocean.obj"),
-		//landscape("resources/Models/newLandScape/1.obj"),
 		tree("resources/Models/Tree/Tree.obj"),
-
 		blueFish("resources/Models/blueFish/blueFish.obj"),
 		brightFish("resources/Models/brightFish/brightFish.obj"),
 		crab("resources/Models/crab/crab.obj"),
 		flower("resources/Models/Flower/Flower.obj"),
 		rock("resources/Models/rock/rock.obj"),
-		//rug("resources/Models/rug/rug.obj"),
-
 		poinsetta("resources/Models/Poinsetta/Poinsetta.obj"),
-
 		turtle("resources/Models/turtle/model.obj"),
 		snake("resources/Models/snake/13108_Eastern_Hognose_Snake_v1_L3.obj"),
 		shader1("1.model_loading.vs", "1.model_loading.fs"),
@@ -158,6 +153,7 @@ public:
 		z[2] = 280.0f;
 		m_startTime = glfwGetTime();
 		cityObj.setObject(true, glm::vec3(-10.0f, -5.0f, -100.0f), glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 200.0f, 0.0f, 180.0f);
+		
 		for (int i = 0; i < 50; i++) {
 			float randomSize = rand() / double(RAND_MAX)*2.0f;
 			randomSize += 1.0f;
@@ -233,7 +229,7 @@ public:
 	}
 	void DrawFish(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 25; i++) {
 			if (fishObj[i].DetectCollision(fishObj[i], cityObj)) {
 				fishObj[i].CollidedIn();
 			}
@@ -247,7 +243,7 @@ public:
 	}
 	void DrawFish2(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 25; i++) {
 			if (fishObj2[i].DetectCollision(fishObj2[i], cityObj)) {
 				fishObj2[i].CollidedIn();
 			}
@@ -260,7 +256,7 @@ public:
 			blueFish.Draw(shader);
 		}
 
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 100; i++) {
 			if (fishObj4[i].DetectCollision(fishObj4[i], cityObj)) {
 				fishObj4[i].CollidedIn();
 			}
@@ -280,7 +276,7 @@ public:
 
 	void DrawFish3(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 25; i++) {
 			if (fishObj3[i].DetectCollision(fishObj3[i], cityObj)) {
 				fishObj3[i].CollidedIn();
 			}
