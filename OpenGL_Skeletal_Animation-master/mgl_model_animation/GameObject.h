@@ -91,6 +91,37 @@ public:
 			return modelMatrix;
 		}
 	}
+	glm::mat4 Move(bool input) {//绕着-300 100 170
+		//if the object can move
+		if (!this->isStuck) {
+			//if the object has collided with other object or reach the boundary of the map
+			if ((isCollided && !lock) || this->position.x - this->radius <= -500.0f || this->position.x + this->radius >= 500.0f || this->position.z - this->radius <= -500.0f || this->position.z + this->radius >= 500.0f)
+			{
+				this->velocity = -this->velocity;
+				this->For_Back = -this->For_Back;
+				isCollided = false;
+				//lock is set to true to avoid detecting multiple collision.
+				lock = true;
+			}
+
+			glm::vec3 r = this->position - glm::vec3(-300, 100, 170);
+			glm::vec3 acce =(glm::dot(this->velocity
+				,this->velocity)*(-r) / 
+				(r.x*r.x+r.y*r.y+r.z*r.z));//圆周运动
+			this->velocity += acce;
+			this->position += this->velocity;
+			modelMatrix = glm::mat4(1.0f);
+			modelMatrix = glm::translate(modelMatrix, this->position);
+			modelMatrix = glm::scale(modelMatrix, this->scale);
+			if (this->For_Back == 1) {
+				modelMatrix = glm::rotate(modelMatrix, glm::radians(this->radiansForward), this->rotateAxis);
+			}
+			else {
+				modelMatrix = glm::rotate(modelMatrix, glm::radians(this->radiansBack), this->rotateAxis);
+			}
+			return modelMatrix;
+		}
+	}
 	void CollidedIn() {
 		//first collision
 		if (lock == false) {

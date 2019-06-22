@@ -20,7 +20,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
 // settings
-const unsigned int SCR_WIDTH = 1024;
+const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 768;
 
 // camera

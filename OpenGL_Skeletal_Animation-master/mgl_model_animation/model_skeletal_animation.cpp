@@ -23,8 +23,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1280;
+const unsigned int SCR_HEIGHT = 768;
 
 // camera
 extern Camera camera;
@@ -89,9 +89,9 @@ int model_skeletal_animation()
 
 		Transform debugTransform;
 		sceneManager.temptation->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f));//����������Ϣ
-		debugTransform.Position = glm::vec3(00.0f, 60.0f, -1300.0f);
-		debugTransform.Velocity = glm::vec3(0, 30, 30);
-		sceneManager.temptation2->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f));
+		debugTransform.Position = glm::vec3(1000.0f, 350, -400.0f);
+		debugTransform.Velocity = glm::vec3(0, 100, 0);
+		sceneManager.temptation2->Update(deltaTime, debugTransform,40, glm::vec3(1.0f, 1.0f, 1.0f));
 
 		sceneManager.temptation3->Update(deltaTime, debugTransform, 8, glm::vec3(1.0f, 1.0f, 1.0f));
 		sceneManager.DrawElements();

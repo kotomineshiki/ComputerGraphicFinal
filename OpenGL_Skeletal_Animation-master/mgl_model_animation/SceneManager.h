@@ -16,6 +16,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include"Wave.h"
+#include"CameraEffect.h"
 class SceneManager{
 public:
 	Model palm;
@@ -74,10 +75,11 @@ public:
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
 	unsigned int depthMap;
-	const unsigned int SCR_WIDTH = 800;
-	const unsigned int SCR_HEIGHT = 600;
+	const unsigned int SCR_WIDTH = 1280;
+	const unsigned int SCR_HEIGHT = 768;
 	float near_plane = -500.0f, far_plane = 500.0f;
 	glm::vec3 lightPos;
+	CameraEffect cameraEffect;
 	Text text;
 	Shader shaderText;
 	Skybox skybox;
@@ -110,7 +112,7 @@ public:
 		fish("resources/Models/fish/fish.obj"),
 		city("resources/Models/beike/1.obj"),
 		seahorse("resources/Models/seahorse/seahorse.obj"),
-		landscape("resources/Models/landscape/Ocean.obj"),
+		landscape("resources/Models/landscape/Ocean1.obj"),
 		tree("resources/Models/Tree/Tree.obj"),
 		blueFish("resources/Models/blueFish/blueFish.obj"),
 		brightFish("resources/Models/brightFish/brightFish.obj"),
@@ -157,7 +159,15 @@ public:
 		for (int i = 0; i < 50; i++) {
 			float randomSize = rand() / double(RAND_MAX)*2.0f;
 			randomSize += 1.0f;
-			fishObj[i].setObject(false, glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i]), glm::vec3(2.5f*randomSize, 2.5f*randomSize, 2.5f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 2.5f*randomSize, 0.0f, 180.0f);
+			fishObj[i].setObject(
+				false,
+				glm::vec3(-300.0f + randomCoorX[i], 100.0f + randomCoorY[i], 170.0f + randomCoorZ[i]),
+				glm::vec3(2.5f*randomSize, 2.5f*randomSize, 2.5f*randomSize),
+				glm::vec3(0.0f, 1.0f, 0.0f),
+				glm::vec3(0.0f, 0.0f, 1.5f),
+				2.5f*randomSize,
+				0.0f,
+				180.0f);
 			fishObj2[i].setObject(false, glm::vec3(280.0f + randomCoorX[i], 30.0f + randomCoorY[i], -250.0f + randomCoorZ[i]), glm::vec3(1.0f*randomSize, 1.0f*randomSize, 1.0f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.5f), 1.0f*randomSize, 180.0f, 0.0f);
 			fishObj3[i].setObject(false, glm::vec3(200.0f + randomCoorX[i], 200.0f + randomCoorY[i], 250.0f + randomCoorZ[i]), glm::vec3(3.5f*randomSize, 3.5f*randomSize, 3.5f*randomSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(-1.5f, 0.0f, 0.0f), 3.5f*randomSize, 0.0f, 180.0f);
 		}
@@ -227,9 +237,12 @@ public:
 			}
 		}
 	}
+
 	void DrawFish(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 25; i++) {
+
+		for (int i = 0; i < 15; i++) {
+
 			if (fishObj[i].DetectCollision(fishObj[i], cityObj)) {
 				fishObj[i].CollidedIn();
 			}
@@ -243,7 +256,9 @@ public:
 	}
 	void DrawFish2(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 25; i++) {
+
+		for (int i = 0; i < 15; i++) {
+
 			if (fishObj2[i].DetectCollision(fishObj2[i], cityObj)) {
 				fishObj2[i].CollidedIn();
 			}
@@ -256,7 +271,7 @@ public:
 			blueFish.Draw(shader);
 		}
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 75; i++) {
 			if (fishObj4[i].DetectCollision(fishObj4[i], cityObj)) {
 				fishObj4[i].CollidedIn();
 			}
@@ -276,7 +291,7 @@ public:
 
 	void DrawFish3(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 25; i++) {
+		for (int i = 0; i < 15; i++) {
 			if (fishObj3[i].DetectCollision(fishObj3[i], cityObj)) {
 				fishObj3[i].CollidedIn();
 			}
@@ -297,8 +312,8 @@ public:
 		//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
 		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(300.0f, 500.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
+		model = glm::translate(model, glm::vec3(250.0f, 600.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	//it's a bit too big for our scene, so scale it down
 		shader.setMat4("model", model);
 		whale.Render();
 	}
@@ -383,7 +398,7 @@ public:
 	void DrawLandscape(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1000.0f, 100.0f, 1000.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::scale(model, glm::vec3(700.0f, 700.0f, 700.0f));	// it's a bit too big for our scene, so scale it down
 		double time = glfwGetTime();
 	//	std::cout << time << endl;
 		shader.setFloat("time", time);
@@ -428,6 +443,7 @@ public:
 		shader.setMat4("model", model);
 		rock.Draw(shader);
 	}
+
 
 	void DrawSeahorse(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
@@ -634,6 +650,7 @@ public:
 		DrawFlower(shadowDepthShader);
 		//DrawRug(shadowDepthShader);
 		DrawRock(shadowDepthShader);
+//		DrawVolcanos(shadowDepthShader);
 		DrawPoinsetta(shadowDepthShader);
 		DrawTurtle(shadowDepthShader);
 
@@ -658,6 +675,7 @@ public:
 		DrawFlower(shadowShader);
 		//DrawRug(shadowShader);
 		DrawRock(shadowShader);
+	//	DrawVolcanos(shadowShader);
 		DrawPoinsetta(shadowShader);
 		DrawTurtle(shadowShader);
 		DrawSnake(shadowShader);
@@ -672,9 +690,9 @@ public:
 		InitShaders3();
 		DrawWhale(dynamicShadowShader);
 		DrawHarpyCat(dynamicShadowShader);
-		//temptation->Draw();
-		//temptation2->Draw();
-		//temptation3->Draw();
+		temptation->Draw();
+		temptation2->Draw();
+		temptation3->Draw();
 		//Eject camera if collide
 		//for (int i = 0; i < 50; i++)
 		//	GameObject::CameraCollision(fishObj[i], fishObj2[i], fishObj3[i], fishObj4[i]);
@@ -699,10 +717,12 @@ public:
 		skybox.Draw(projection, view);
 
 		glDisable(GL_STENCIL_TEST);
+
+		cameraEffect.draw(camera, lightPos);
 		
 		// text effect, should be rendered at last
-		//text.drawLabel(shaderText);
-		//text.drawCommand(shaderText);
+		text.drawLabel(shaderText);
+		text.drawCommand(shaderText);
 		
 
 	}
@@ -722,10 +742,10 @@ public:
 		temptation2 = std::make_shared<ParticleGenerator>(
 			particleShader,
 			particleTexture,
-			300,
+			800,
 			camera,
 			30,
-			7.0f,
+			15.0f,
 			1.0 / 5.0f,
 			2
 			);

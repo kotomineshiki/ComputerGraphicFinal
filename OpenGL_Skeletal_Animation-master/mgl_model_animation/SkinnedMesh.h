@@ -5,9 +5,9 @@
 #include <vector>
 
 #include <GL/glew.h>
-#include <assimp/Importer.hpp>      // C++ importer interface
-#include <assimp/scene.h>       // Output data structure
-#include <assimp/postprocess.h> // Post processing flags
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #include "util.h"
 #include "math_3d.h"
@@ -119,7 +119,7 @@ private:
 	vector<MeshEntry> m_Entries;
 	vector<Texture*> m_Textures;
 
-	map<string, uint> m_BoneMapping; // maps a bone name to its index
+	map<string, uint> m_BoneMapping;
 	uint m_NumBones;
 	vector<BoneInfo> m_BoneInfo;
 	Matrix4f m_GlobalInverseTransform;
@@ -129,5 +129,5 @@ private:
 };
 
 
-#endif	/* OGLDEV_SKINNED_MESH_H */
+#endif
 

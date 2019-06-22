@@ -34,7 +34,7 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 				p.scale = p.initialScale*1*pow(double(23 / (10 * (100.0 + p.Position.y*3))), 0.3333);//压强影响体积的方程，也就是说，气泡越靠近水面就越大
 			}
 			if (type == 2) {
-				acce = -p.Velocity*k*p.scale*p.scale*(0.1f) + glm::vec3(0, -20, 0);
+				acce = -p.Velocity*k*p.scale*p.scale*(0.1f)*0.5f + glm::vec3(0, -15, 0);
 				p.scale = 4*sqrt(p.Life/8);
 			}
 			if (type == 3) {
@@ -208,7 +208,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 	}
 	if (type == 2) {
 		particle.Life = life + randomtime / 5;
-		particle.Velocity = glm::vec3(random1*15, abs(random2 *15), random3 *15 )+object.Velocity;
+		particle.Velocity = glm::vec3(random1*40, abs(random2 *40), random3 *40 )+object.Velocity;
 		particle.Position = object.Position;
 	}
 	if (type == 3) {
