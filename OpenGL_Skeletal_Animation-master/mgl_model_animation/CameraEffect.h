@@ -28,7 +28,7 @@ static void GLClearError() {
 class CameraEffect
 {
 public:
-	const int SCR_WIDTH = 1024;
+	const int SCR_WIDTH = 1280;
 	const int SCR_HEIGHT = 768;
 	unsigned int lenscolor;
 	unsigned int lensdirt;

@@ -75,8 +75,8 @@ public:
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
 	unsigned int depthMap;
-	const unsigned int SCR_WIDTH = 1920;
-	const unsigned int SCR_HEIGHT = 1080;
+	const unsigned int SCR_WIDTH = 1280;
+	const unsigned int SCR_HEIGHT = 768;
 	float near_plane = -500.0f, far_plane = 500.0f;
 	glm::vec3 lightPos;
 	CameraEffect cameraEffect;
@@ -113,18 +113,13 @@ public:
 		city("resources/Models/beike/1.obj"),
 		seahorse("resources/Models/seahorse/seahorse.obj"),
 		landscape("resources/Models/landscape/Ocean1.obj"),
-	//	landscape("resources/Models/newLandScape/1.obj"),
 		tree("resources/Models/Tree/Tree.obj"),
-
 		blueFish("resources/Models/blueFish/blueFish.obj"),
 		brightFish("resources/Models/brightFish/brightFish.obj"),
 		crab("resources/Models/crab/crab.obj"),
 		flower("resources/Models/Flower/Flower.obj"),
 		rock("resources/Models/rock/rock.obj"),
-		//rug("resources/Models/rug/rug.obj"),
-
 		poinsetta("resources/Models/Poinsetta/Poinsetta.obj"),
-
 		turtle("resources/Models/turtle/model.obj"),
 		snake("resources/Models/snake/13108_Eastern_Hognose_Snake_v1_L3.obj"),
 		shader1("1.model_loading.vs", "1.model_loading.fs"),
@@ -160,6 +155,7 @@ public:
 		z[2] = 280.0f;
 		m_startTime = glfwGetTime();
 		cityObj.setObject(true, glm::vec3(-10.0f, -5.0f, -100.0f), glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.5f), 200.0f, 0.0f, 180.0f);
+		
 		for (int i = 0; i < 50; i++) {
 			float randomSize = rand() / double(RAND_MAX)*2.0f;
 			randomSize += 1.0f;
@@ -244,7 +240,9 @@ public:
 
 	void DrawFish(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 50; i++) {
+
+		for (int i = 0; i < 15; i++) {
+
 			if (fishObj[i].DetectCollision(fishObj[i], cityObj)) {
 				fishObj[i].CollidedIn();
 			}
@@ -258,7 +256,9 @@ public:
 	}
 	void DrawFish2(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 50; i++) {
+
+		for (int i = 0; i < 15; i++) {
+
 			if (fishObj2[i].DetectCollision(fishObj2[i], cityObj)) {
 				fishObj2[i].CollidedIn();
 			}
@@ -271,7 +271,7 @@ public:
 			blueFish.Draw(shader);
 		}
 
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 75; i++) {
 			if (fishObj4[i].DetectCollision(fishObj4[i], cityObj)) {
 				fishObj4[i].CollidedIn();
 			}
@@ -291,7 +291,7 @@ public:
 
 	void DrawFish3(const Shader &shader) {
 		glm::mat4 model = glm::mat4(1.0f);
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 15; i++) {
 			if (fishObj3[i].DetectCollision(fishObj3[i], cityObj)) {
 				fishObj3[i].CollidedIn();
 			}
@@ -312,8 +312,8 @@ public:
 		//model = glm::translate(model, glm::vec3(0.0f, 100.0f, 0.0f)); // translate it down so it's at the center of the scene
 		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, 0.1f*(float)glfwGetTime()*glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(300.0f, 700.0f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//it's a bit too big for our scene, so scale it down
+		model = glm::translate(model, glm::vec3(250.0f, 600.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	//it's a bit too big for our scene, so scale it down
 		shader.setMat4("model", model);
 		whale.Render();
 	}
@@ -721,8 +721,8 @@ public:
 		cameraEffect.draw(camera, lightPos);
 		
 		// text effect, should be rendered at last
-		//text.drawLabel(shaderText);
-		//text.drawCommand(shaderText);
+		text.drawLabel(shaderText);
+		text.drawCommand(shaderText);
 		
 
 	}
