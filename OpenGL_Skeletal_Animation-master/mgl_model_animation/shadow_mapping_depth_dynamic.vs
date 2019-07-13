@@ -18,7 +18,6 @@ void main()
     BoneTransform     += gBones[aBoneIDs[2]] * aWeights[2];
     BoneTransform     += gBones[aBoneIDs[3]] * aWeights[3];
 
-
     vec4 position = BoneTransform * vec4(aPos, 1.0);
     gl_Position = lightSpaceMatrix * model * position;
 }

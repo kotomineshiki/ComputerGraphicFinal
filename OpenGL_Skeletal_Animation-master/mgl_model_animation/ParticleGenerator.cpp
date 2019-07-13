@@ -35,8 +35,8 @@ void ParticleGenerator::Update(GLfloat dt, Transform &object, GLuint newParticle
 			}
 			if (type == 2) {
 				acce = -p.Velocity*k*p.scale*p.scale*(0.1f)*0.25f*0.5f + glm::vec3(0, -25, 0);
-				p.scale = 6 * sqrt(p.Life / 15);
-				p.Color = glm::vec4((p.Life / 15)*(p.Life / 15), 0, 0, 1);
+				p.scale = 6*sqrt(p.Life/15);
+				p.Color = glm::vec4((p.Life/15)*(p.Life / 15), 0, 0, 1);
 			}
 			if (type == 3) {
 				acce = glm::vec3(0, 0, 0);
@@ -209,7 +209,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, Transform &object,
 	}
 	if (type == 2) {
 		particle.Life = life + randomtime / 5;
-		particle.Velocity = glm::vec3(random1 * 60, abs(random2 * 60), random3 * 60) + object.Velocity;
+		particle.Velocity = glm::vec3(random1*60, abs(random2 *60), random3 *60 )+object.Velocity;
 		particle.Position = object.Position;
 		particle.Color = glm::vec4(1, 0, 0, 0);
 	}
